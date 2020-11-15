@@ -4,4 +4,5 @@ module sample {
     requires javafx.fxml;
 
     opens ClientSide;
+    opens ServerSide;
 }

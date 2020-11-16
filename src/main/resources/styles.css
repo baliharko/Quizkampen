@@ -4,6 +4,7 @@
 
 .button {
     -fx-background-radius: 9;
+    -fx-focus-traversable: false;
 }
 
 .anchorpane {

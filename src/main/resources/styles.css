@@ -5,6 +5,15 @@
 .button {
     -fx-background-radius: 9;
     -fx-focus-traversable: false;
+    -fx-border-width: 5;
+    -fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, whitesmoke, lightseagreen);
+    -fx-border-style: solid;
+    -fx-border-radius: 8;
+    -fx-border-color: #73e2dc;
+}
+
+.button:hover {
+    -fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #ffffff, #00675e);
 }
 
 .anchorpane {
@@ -12,7 +21,7 @@
 }
 
 #questionArea {
-    -fx-background-color: #69bfb9;
+    -fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 60%, #61c3c0, lightseagreen);
     -fx-background-radius: 20;
 }
 

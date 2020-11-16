@@ -3,6 +3,6 @@ module sample {
     requires javafx.controls;
     requires javafx.fxml;
 
-    opens ClientSide;
-    opens ServerSide;
+    opens Quiz.ClientSide;
+    opens Quiz.ServerSide;
 }

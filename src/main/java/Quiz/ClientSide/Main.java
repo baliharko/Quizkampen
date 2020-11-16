@@ -1,4 +1,4 @@
-package ClientSide;
+package Quiz.ClientSide;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,12 +12,17 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        Constants constants = new Constants();
+        Parent question = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("question.fxml")));
 
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("sample.fxml")));
+        Scene questionScene = new Scene(question, Constants.SCREEN_WIDTH / 4, Constants.SCREEN_HEIGHT / 2);
+        questionScene.getStylesheets().add("styles.css");
+
         primaryStage.setTitle(Constants.TITLE);
-        primaryStage.setScene(new Scene(root, Constants.SCREEN_WIDTH / 4, Constants.SCREEN_HEIGHT / 2));
+        primaryStage.setScene(questionScene);
+
+        primaryStage.setResizable(false);
         primaryStage.show();
+
     }
 
     public static void main(String[] args) {

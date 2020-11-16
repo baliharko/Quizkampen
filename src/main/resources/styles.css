@@ -1,0 +1,22 @@
+.root {
+    -fx-background-color: lightseagreen;
+}
+
+.button {
+    -fx-background-radius: 9;
+}
+
+.anchorpane {
+    -fx-padding: 10;
+}
+
+#questionArea {
+    -fx-background-color: #69bfb9;
+    -fx-background-radius: 20;
+}
+
+#buttonGrid {
+    -fx-padding: 5;
+    -fx-vgap: 5;
+    -fx-hgap: 5;
+}

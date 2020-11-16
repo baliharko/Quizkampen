@@ -1,4 +1,4 @@
-package ClientSide;
+package Quiz.ClientSide;
 
 public class GameInterface {
 

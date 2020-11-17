@@ -32,6 +32,10 @@
     -fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #ffffff, #00675e);
 }
 
+.button:pressed {
+    -fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #ffffff, #57ee3f);
+}
+
 .toggle-button:hover {
     -fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #ffffff, #00675e);
 }

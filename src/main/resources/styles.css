@@ -2,10 +2,9 @@
     -fx-background-color: lightseagreen;
 }
 
-.button {
+.toggle-button {
     -fx-font-family: Courier;
     -fx-background-radius: 9;
-    -fx-focus-traversable: true;
     -fx-border-width: 5;
     -fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, whitesmoke, lightseagreen);
     -fx-border-style: solid;
@@ -16,16 +15,12 @@
     -fx-font-size: 25;
 }
 
-.button:hover {
+.toggle-button:hover {
     -fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #ffffff, #00675e);
 }
 
-.button:pressed{
-    -fx-background-color: red;
-}
-
-.button:focused {
-    -fx-background-color: red;
+.toggle-button:selected {
+    -fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #ffffff, #f1e57e);
 }
 
 .anchorpane {

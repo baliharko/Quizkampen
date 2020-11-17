@@ -3,6 +3,7 @@
 }
 
 .button {
+    -fx-font-family: Courier;
     -fx-background-radius: 9;
     -fx-focus-traversable: false;
     -fx-border-width: 5;
@@ -10,6 +11,9 @@
     -fx-border-style: solid;
     -fx-border-radius: 8;
     -fx-border-color: #73e2dc;
+    -fx-text-fill: gray;
+    -fx-font-weight: bold;
+    -fx-font-size: 25;
 }
 
 .button:hover {
@@ -23,6 +27,11 @@
 #questionArea {
     -fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 60%, #61c3c0, lightseagreen);
     -fx-background-radius: 20;
+}
+
+#questionText {
+    -fx-font-family: Courier;
+    -fx-fill: whitesmoke;
 }
 
 #buttonGrid {

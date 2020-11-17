@@ -14,7 +14,7 @@ public class Main extends Application {
 
         Parent question = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("question.fxml")));
 
-        Scene questionScene = new Scene(question, Constants.SCREEN_WIDTH / 4, Constants.SCREEN_HEIGHT / 2);
+        Scene questionScene = new Scene(question, Constants.SCREEN_WIDTH / 3.3, Constants.SCREEN_HEIGHT / 1.7);
         questionScene.getStylesheets().add("styles.css");
 
         primaryStage.setTitle(Constants.TITLE);

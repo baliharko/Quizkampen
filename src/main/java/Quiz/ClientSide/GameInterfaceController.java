@@ -1,5 +1,6 @@
 package Quiz.ClientSide;
 
+import javafx.fxml.Initializable;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
@@ -9,11 +10,6 @@ import javafx.scene.text.Text;
 public class GameInterfaceController {
 
     public Text questionText;
-
-    public ToggleButton button1; // set text to answers
-    public ToggleButton button2;
-    public ToggleButton button3;
-    public ToggleButton button4;
 
     public Text connectionStatusMessage;
 
@@ -27,7 +23,10 @@ public class GameInterfaceController {
     public ToggleButton toggle3;
     public ToggleButton toggle4;
 
+    public Text connectionStatus;
+
     public void initialize() {
+
         group = new ToggleGroup();
 
         toggle1.setToggleGroup(group);

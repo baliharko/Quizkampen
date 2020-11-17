@@ -1,4 +1,4 @@
-package ClientSide;
+package Quiz.ServerSide;
 
 import java.io.*;
 import java.net.ServerSocket;

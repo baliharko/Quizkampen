@@ -1,7 +1,8 @@
-module sample {
+module quiz {
     requires javafx.graphics;
     requires javafx.controls;
     requires javafx.fxml;
 
-    opens ClientSide;
+    opens Quiz.ClientSide;
+    opens Quiz.ServerSide;
 }

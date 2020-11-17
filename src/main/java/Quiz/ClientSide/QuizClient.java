@@ -1,4 +1,6 @@
-package ClientSide;
+package Quiz.ClientSide;
+
+import Quiz.ServerSide.Question;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

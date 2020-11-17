@@ -7,8 +7,8 @@ import javafx.scene.text.Text;
 
 public class GameInterfaceController {
 
-    String question = "Vad är 1+1?";
-    String[] answer = {"1", "2", "3","4",};
+    //String question = "Vad är 1+1?";
+    //String[] answer = {"1", "2", "3","4",};
 
     public Text questionText;
 
@@ -21,5 +21,7 @@ public class GameInterfaceController {
 
     public StackPane questionArea;
     public GridPane buttonGrid;
+
+
 }
 

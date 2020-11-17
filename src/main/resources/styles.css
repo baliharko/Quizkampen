@@ -5,7 +5,7 @@
 .button {
     -fx-font-family: Courier;
     -fx-background-radius: 9;
-    -fx-focus-traversable: false;
+    -fx-focus-traversable: true;
     -fx-border-width: 5;
     -fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, whitesmoke, lightseagreen);
     -fx-border-style: solid;
@@ -18,6 +18,14 @@
 
 .button:hover {
     -fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #ffffff, #00675e);
+}
+
+.button:pressed{
+    -fx-background-color: red;
+}
+
+.button:focused {
+    -fx-background-color: red;
 }
 
 .anchorpane {

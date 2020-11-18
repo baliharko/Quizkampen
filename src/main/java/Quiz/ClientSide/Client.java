@@ -1,14 +1,19 @@
 package Quiz.ClientSide;
 
+import javafx.scene.Parent;
+
 import java.io.*;
 import java.net.Socket;
 
 public class Client implements Runnable {
 
     private Thread thread;
+    private boolean isConnected;
+    private GameInterfaceController controller;
 
-    public Client() {
+    public Client(GameInterfaceController controller) {
         this.thread = new Thread(this);
+        this.controller = controller;
         this.thread.start();
         System.out.println("Client started");
     }
@@ -24,11 +29,21 @@ public class Client implements Runnable {
 
             String fromServer;
             while ((fromServer = in.readLine()) != null) {
-                System.out.println(fromServer);
+                if (fromServer.equalsIgnoreCase("1")) {
+                    this.isConnected = true;
+                    this.controller.setConnectionStatus("Both players connected!");
+                    this.controller.connectionStatus.setStyle("-fx-fill: green");
+                }
+                else
+                    System.out.println(fromServer);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean isConnected() {
+        return isConnected;
     }
 }

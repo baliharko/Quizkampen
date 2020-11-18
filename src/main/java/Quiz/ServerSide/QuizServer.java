@@ -1,5 +1,7 @@
 package Quiz.ServerSide;
 
+import Quiz.ClientSide.ClientProtocol;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -42,6 +44,10 @@ public class QuizServer {
             try {
                 outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
                 inputStream = new InputStreamReader(clientSocket.getInputStream());
+
+                ClientProtocol cP = new ClientProtocol();
+                cP.ProcessInput(String s);
+
 
                 outputStream.writeObject(new Question("1+1", "2"));
                 outputStream.flush();

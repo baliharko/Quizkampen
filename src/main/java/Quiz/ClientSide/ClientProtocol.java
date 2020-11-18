@@ -23,6 +23,7 @@ public class ClientProtocol {
         if (state == State.WAITING) {
             theOutput = "Waiting for another player";
             state = State.READY;
+            theOutput = "Ready to play!";
         } else if (state == State.READY) {
             theOutput = "Ready to play!";
         }

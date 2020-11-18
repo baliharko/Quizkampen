@@ -29,9 +29,9 @@ public class Client implements Runnable {
 
             String fromServer;
             while ((fromServer = in.readLine()) != null) {
+                this.controller.setConnectionStatus(fromServer);
                 if (fromServer.equalsIgnoreCase("1")) {
                     this.isConnected = true;
-                    this.controller.setConnectionStatus("Both players connected!");
                     this.controller.connectionStatus.setStyle("-fx-fill: green");
                 }
                 else

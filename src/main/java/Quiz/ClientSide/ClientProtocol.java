@@ -7,27 +7,26 @@ package Quiz.ClientSide;
  * Project: Inlämning04
  * Copyright: MIT
  */
+
+enum State {WAITING, READY};
+
+
 public class ClientProtocol {
 
-    private static final int WAITINGFOROPPONENT = 0;
-    private static final int OPPONENTENTERED = 1;
-    private static final int READYTOPLAY = 2;
+    private State state = State.WAITING;
 
-    private int state = WAITINGFOROPPONENT;
-
-    public Object ProcessInput(String input) {
+    public String ProcessInput(String in) {
 
         String theOutput = null;
         Object out = null;
 
-        if (state == WAITINGFOROPPONENT) {
+        if (state == State.WAITING) {
             theOutput = "Waiting for another player";
-            state = OPPONENTENTERED;
-        } else if (state == OPPONENTENTERED) {
-                theOutput = "Another player entered";
-            }
-            state = READYTOPLAY;
-        return out;
+            state = State.READY;
+        } else if (state == State.READY) {
+            theOutput = "Ready to play!";
+        }
+        return theOutput;
     }
 }
 

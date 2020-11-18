@@ -17,7 +17,7 @@ public class Client implements Runnable {
     public void run() {
 
         try (
-                Socket socketToServer = new Socket("127.0.0.1", 50000);
+                Socket socketToServer = new Socket(Constants.SERVER_IP, Constants.SERVER_PORT);
                 PrintWriter out = new PrintWriter(new OutputStreamWriter(socketToServer.getOutputStream()), true);
                 BufferedReader in = new BufferedReader(new InputStreamReader(socketToServer.getInputStream()));
         ) {
@@ -30,9 +30,5 @@ public class Client implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        new Client();
     }
 }

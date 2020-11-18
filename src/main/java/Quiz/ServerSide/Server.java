@@ -14,7 +14,7 @@ public class Server {
         System.out.println("Server started");
 
         try {
-            final ServerSocket serverSocket = new ServerSocket(50000);
+            final ServerSocket serverSocket = new ServerSocket(Constants.SERVER_PORT);
             Socket player1 = null;
             Socket player2 = null;
 

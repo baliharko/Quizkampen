@@ -9,9 +9,10 @@ import java.util.Objects;
 
 public class GameInterface extends Application {
 
+    Client client;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-
         Parent question = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("question.fxml")));
 
         Scene questionScene = new Scene(question, Constants.SCREEN_WIDTH / 3.3, Constants.SCREEN_HEIGHT / 1.7);
@@ -22,6 +23,8 @@ public class GameInterface extends Application {
 
         primaryStage.setResizable(false);
         primaryStage.show();
+
+        this.client = new Client();
     }
 
     public static void main(String[] args) {

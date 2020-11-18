@@ -10,7 +10,7 @@ import java.net.Socket;
 public class QuizClient {
 
     public static void main(String[] args) throws ClassNotFoundException, IOException  {
-        Socket socket = new Socket("localhost", 5000);
+        Socket socket = new Socket(Constants.SERVER_IP, Constants.SERVER_PORT);
         ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
         OutputStreamWriter out = new OutputStreamWriter(socket.getOutputStream());
 

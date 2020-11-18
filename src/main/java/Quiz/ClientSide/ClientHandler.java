@@ -28,6 +28,9 @@ public class ClientHandler implements Runnable {
                 BufferedReader p2In = new BufferedReader(new InputStreamReader(player2.getInputStream()));
         ) {
 
+            p1Out.println("1");
+            p2Out.println("1");
+
             p1Out.println("Welcome player 1!");
             p2Out.println("Welcome player 2!");
 

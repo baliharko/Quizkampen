@@ -10,8 +10,6 @@ public class GameInterfaceController {
 
     public Text questionText;
 
-    public Text connectionStatusMessage;
-
     public StackPane questionArea;
     public GridPane buttonGrid;
 
@@ -32,6 +30,12 @@ public class GameInterfaceController {
         toggle2.setToggleGroup(group);
         toggle3.setToggleGroup(group);
         toggle4.setToggleGroup(group);
+
     }
+
+    public void setConnectionStatus(String s) {
+        this.connectionStatus.setText(s);
+    }
+
 }
 

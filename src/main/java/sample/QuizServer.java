@@ -27,31 +27,23 @@ public class QuizServer {
 
     private class QuizThread implements Runnable {
         private Socket clientSocket;
-        private InputStreamReader inputStream;
-        private ObjectOutputStream outputStream;
 
         private QuizThread(Socket clientSocket) {
             this.clientSocket = clientSocket;
-            this.inputStream = null;
-            this.outputStream = null;
         }
 
         @Override
         public void run() {
             System.out.println("Client connected on port " + clientSocket.getPort());
-            try {
-                outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
-                inputStream = new InputStreamReader(clientSocket.getInputStream());
 
-                outputStream.writeObject(new Question("1+1", "2"));
-                outputStream.flush();
+            try(ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
+                BufferedReader br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            ) {
+                out.writeObject(new Question("1+1", "2"));
+                out.flush();
 
-                BufferedReader br = new BufferedReader(inputStream);
                 String s = br.readLine();
                 System.out.println("client answers " + s);
-
-                outputStream.close();
-                inputStream.close();
 
             } catch (IOException e) {
                 e.printStackTrace();

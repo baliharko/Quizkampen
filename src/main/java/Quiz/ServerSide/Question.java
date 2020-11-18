@@ -5,10 +5,12 @@ import java.io.Serializable;
 public class Question implements Serializable {
     private String question;
     private String answer;
+    private String[] options;
 
-    public Question(String q, String a) {
-        this.question = q;
-        this.answer = a;
+    public Question(String question, String answer, String[] options) {
+        this.question = question;
+        this.answer = answer;
+        this.options = options;
     }
 
     public String getQuestion() {
@@ -17,5 +19,9 @@ public class Question implements Serializable {
 
     public String getAnswer() {
         return answer;
+    }
+
+    public boolean isRightAnswer(String attempt) {
+        return this.answer.equalsIgnoreCase(attempt);
     }
 }

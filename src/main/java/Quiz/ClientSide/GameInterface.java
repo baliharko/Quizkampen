@@ -1,5 +1,33 @@
 package Quiz.ClientSide;
 
-public class GameInterface {
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import java.util.Objects;
 
+public class GameInterface extends Application {
+
+    Client client;
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        Parent question = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("question.fxml")));
+
+        Scene questionScene = new Scene(question, Constants.SCREEN_WIDTH / 3.3, Constants.SCREEN_HEIGHT / 1.7);
+        questionScene.getStylesheets().add("styles.css");
+
+        primaryStage.setTitle(Constants.TITLE);
+        primaryStage.setScene(questionScene);
+
+        primaryStage.setResizable(false);
+        primaryStage.show();
+
+        this.client = new Client();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 }

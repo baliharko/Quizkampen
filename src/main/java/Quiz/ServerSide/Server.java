@@ -1,21 +1,41 @@
 package Quiz.ServerSide;
 
-import java.io.*;
-import java.net.*;
+import Quiz.ClientSide.ClientHandler;
+import Quiz.ClientSide.Constants;
 
-public class Server extends Thread {
-    public static final String SERVER_IP = "127.0.0.1";
-    public static final int SERVER_PORT = 5050;
-    protected ObjectOutputStream output;
-    protected ObjectInputStream input;
-    protected Socket socket;
-    protected Server secondPlayer;
-    protected String playerName;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 
-    public Server(Socket socket) throws IOException {
-        this.socket = socket;
-        output = new ObjectOutputStream(socket.getOutputStream());
-        input = new ObjectInputStream(socket.getInputStream());
+public class Server {
+
+    public static void main(String[] args) {
+
+        System.out.println("Server started");
+
+        try {
+            final ServerSocket serverSocket = new ServerSocket(Constants.SERVER_PORT);
+            Socket player1 = null;
+            Socket player2 = null;
+
+            while (true) {
+                if (player1 == null) {
+                    player1 = serverSocket.accept();
+                    System.out.println("Player 1 connected");
+                }
+                else {
+                    player2 = serverSocket.accept();
+                    System.out.println("Player 2 connected");
+                }
+
+                if (player1 != null && player2 != null) {
+                    new ClientHandler(player1, player2);
+                    player1 = null;
+                    player2 = null;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-
 }

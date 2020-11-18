@@ -1,6 +1,5 @@
 package Quiz.ClientSide;
 
-import javafx.fxml.Initializable;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
@@ -33,7 +32,6 @@ public class GameInterfaceController {
         toggle2.setToggleGroup(group);
         toggle3.setToggleGroup(group);
         toggle4.setToggleGroup(group);
-
     }
 }
 

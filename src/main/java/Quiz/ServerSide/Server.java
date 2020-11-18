@@ -1,5 +1,6 @@
 package Quiz.ServerSide;
 
+import Quiz.ClientSide.ClientHandler;
 import Quiz.ClientSide.Constants;
 
 import java.io.IOException;
@@ -23,7 +24,9 @@ public class Server {
                     player2 = serverSocket.accept();
                 }
 
-//                new ClientHandler(player1, player2);
+                new ClientHandler(player1, player2);
+                player1 = null;
+                player2 = null;
             }
         } catch (IOException e) {
             e.printStackTrace();

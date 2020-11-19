@@ -16,6 +16,10 @@ public class QuizHandler extends Thread {
     private BufferedReader in;
     private PrintWriter out;
 
+    public void Button1Clicked(){
+        System.out.println("Clicked on button one!");
+    }
+
     public QuizHandler (Socket socket) {
         this.socket = socket;
 

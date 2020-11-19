@@ -7,9 +7,23 @@ package Quiz.ClientSide;
  * Project: Inlämning04
  * Copyright: MIT
  */
+
+enum QuizState {WAITINGFORTURN, SENTQUESTION, SELECTEDANSWER, TOTALAMOUNTOFQUESTIONS, ROUND};
+
 public class QuizProtocol {
-   /* private static final int WAITING = 0;
-    private static final int SENTRIDDLE = 1;
+
+    private QuizState state = QuizState.WAITINGFORTURN;
+    //private int currentQuestion = 0;
+
+   /* public String quizProcessInput(String in){
+
+    }
+
+    */
+
+
+   /* private static final int WAITINGINGFORTURN = 0;
+    private static final int SENTQUESTION = 1;
     private static final int SENTANSWER = 2;
 
     private static final int NUMRIDDLES = 3;

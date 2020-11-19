@@ -30,6 +30,8 @@ public class ClientHandler implements Runnable {
         ) {
 
             ClientProtocol cP = new ClientProtocol();
+            QuizProtocol qPC = new QuizProtocol();
+
             p1Out.println(cP.ProcessInput("1"));
             p2Out.println(cP.ProcessInput("1"));
 

@@ -22,6 +22,10 @@ public class GameInterfaceController {
 
     public Text connectionStatus;
 
+    public void buttonClicked(){
+        System.out.println("You've chosen alternative one");
+    }
+
     public void initialize() {
 
         group = new ToggleGroup();
@@ -32,6 +36,7 @@ public class GameInterfaceController {
         toggle4.setToggleGroup(group);
 
     }
+
 
     public void setConnectionStatus(String s) {
         this.connectionStatus.setText(s);

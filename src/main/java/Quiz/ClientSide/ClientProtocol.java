@@ -10,8 +10,9 @@ package Quiz.ClientSide;
 
 enum State {WAITING, READY};
 
-
 public class ClientProtocol {
+
+    //Lägga till funktion för namn?
 
     private State state = State.WAITING;
 
@@ -25,7 +26,8 @@ public class ClientProtocol {
             state = State.READY;
             theOutput = "Ready to play!";
         } else if (state == State.READY) {
-            theOutput = "Ready to play!";
+            //theOutput = "Ready to play!";
+            theOutput = "Playername joined the game!";
         }
         return theOutput;
     }

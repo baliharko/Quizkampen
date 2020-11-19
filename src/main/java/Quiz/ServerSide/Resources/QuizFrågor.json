@@ -1,0 +1,130 @@
+{
+  "quiz": {
+    "filmer": {
+      "q1": {
+        "fråga": "Under vilket år släpptes The Godfather först?",
+        "options": [
+          "1993",
+          "1972",
+          "1984",
+          "1970"
+        ],
+        "svar": "1972"
+      },
+      "q2": {
+        "fråga": "Vilken skådespelare gav rösten för karaktären Nemo i 2003-filmen Finding Nemo?",
+        "options": [
+          "Jane Campion",
+          "Christofer Nolan",
+          "Alexander Gould",
+          "Charles Bronson"
+        ],
+        "svar": "Alexander Gould"
+      },
+      "q3": {
+        "fråga": "Vilken skådespelare vann den bästa skådespelaren Oscar för filmerna Philadelphia (1993) och Forrest Gump (1994)?",
+        "options": [
+          "Julie Andrews",
+          "Jane Campion",
+          "Tom Morris",
+          "Tom Hanks"
+        ],
+        "svar": "Tom Hanks"
+      },
+      "q4": {
+        "fråga": "Vilken brittisk actionaktör spelade delen av Lee Christmas tillsammans med Sylvester Stallone i filmen The Expendables?",
+        "options": [
+          "Jason Statham",
+          "Mel Gibson",
+          "Arnold Schwarzenegger",
+          "Ellen Page"
+        ],
+        "svar": "Jason Statham"
+      }
+    },
+    "music": {
+      "q1": {
+        "fråga": "Under vilket år åkte Beatles först till USA?",
+        "options": [
+          "1964",
+          "1973",
+          "1970",
+          "1963"
+        ],
+        "svar": "1964"
+      },
+      "q2": {
+        "fråga": "Vad hette Adeles första skiva?",
+        "options": [
+          "Hometown glory",
+          "SKyfall",
+          "When We Were Young",
+          "Hello"
+        ],
+        "svar": "4"
+      },
+      "q3": {
+        "fråga": "\"Förlora min religion\" var en hit för vilket alternativt rockband 1991?",
+        "options": [
+          "DEM",
+          "REM",
+          "TEM",
+          "SEM"
+        ],
+        "svar": "REM"
+      },
+      "q4": {
+        "fråga": "Vilken sångare var bland annat känd som 'The King of Pop' och 'The Gloved One'?",
+        "options": [
+          "Michael Jackson",
+          "Prince Rogers Nelson",
+          "David Bowie",
+          "Madonna"
+        ],
+        "svar": "Michael Jackson"
+      }
+    },
+    "landmärken": {
+      "q1": {
+        "fråga": "I vilket land Giza-pyramiden och den stora sfinxen ligger?",
+        "options": [
+          "Egypten",
+          "Iraq",
+          "Iran",
+          "Morocco"
+        ],
+        "svar": "REM"
+      },
+      "q2": {
+        "fråga": "I vilket land Colosseumen ligger?",
+        "options": [
+          "Saudi Arabia",
+          "London",
+          "Frankrike",
+          "Italien"
+        ],
+        "svar": "Italien"
+      },
+      "q3": {
+        "fråga": "I vilket land Statue of Liberty ligger?",
+        "options": [
+          "UK",
+          "USA",
+          "UAE",
+          "USSR"
+        ],
+        "svar": "REM"
+      },
+      "q4": {
+        "fråga": "I vilket land Taj Mahal ligger?",
+        "options": [
+          "Indien",
+          "Pakistan",
+          "Thailand",
+          "Bangladesh"
+        ],
+        "svar": "REM"
+      }
+    }
+  }
+}

@@ -2,6 +2,7 @@ package Quiz.ClientSide;
 
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.effect.Glow;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
@@ -30,7 +31,6 @@ public class GameInterfaceController {
         toggle2.setToggleGroup(group);
         toggle3.setToggleGroup(group);
         toggle4.setToggleGroup(group);
-
     }
 
     public void setConnectionStatus(String s) {

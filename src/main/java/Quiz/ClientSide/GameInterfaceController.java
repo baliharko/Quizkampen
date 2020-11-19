@@ -1,5 +1,7 @@
 package Quiz.ClientSide;
 
+import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
@@ -22,9 +24,14 @@ public class GameInterfaceController {
 
     public Text connectionStatus;
 
-    public void buttonClicked(){
-        System.out.println("You've chosen alternative one");
-    }
+    public String answer = null;
+
+    /*public void buttonClicked(ActionEvent e) {
+//      System.out.println("You've chosen alternative one");
+//        answer = toggle1.getText();
+//        System.out.println(answer);
+        System.out.println("You pressed button: " + e.getSource());
+    }*/
 
     public void initialize() {
 

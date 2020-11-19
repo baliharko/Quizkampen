@@ -24,9 +24,12 @@ public class ClientProtocol {
         if (state == State.WAITING) {
             theOutput = "Waiting for another player";
             state = State.READY;
-            theOutput = "Ready to play!";
+
+            //Istället för "ready to play" kan man ange namnet på playern som anslutit
+//            theOutput = "Ready to play!";
+            theOutput = "Playername joined the game!";
         } else if (state == State.READY) {
-            //theOutput = "Ready to play!";
+//            theOutput = "Ready to play!";
             theOutput = "Playername joined the game!";
         }
         return theOutput;

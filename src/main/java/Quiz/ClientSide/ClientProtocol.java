@@ -1,5 +1,7 @@
 package Quiz.ClientSide;
 
+import Quiz.ServerSide.Question;
+
 /**
  * Created by Robin Martinsson
  * Date:    2020-11-17
@@ -10,7 +12,9 @@ package Quiz.ClientSide;
 
 public class ClientProtocol {
 
-    enum State { WAITING, READY };
+    Question testQuestion = new Question("En fråga", "Rätt svar", new String[] {"svar1", "Rätt svar", "svar3", "svar4"});
+
+    enum State { WAITING, READY, QUESTION_SENT, ANSWER_RECEIVED };
 
     //Lägga till funktion för namn?
 
@@ -27,7 +31,9 @@ public class ClientProtocol {
 
             //Istället för "ready to play" kan man ange namnet på playern som anslutit
 //            theOutput = "Ready to play!";
+
             theOutput = "Playername joined the game!";
+
         } else if (state == State.READY) {
 //            theOutput = "Ready to play!";
             theOutput = "Playername joined the game!";

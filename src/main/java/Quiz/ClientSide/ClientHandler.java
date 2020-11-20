@@ -31,8 +31,11 @@ public class ClientHandler implements Runnable {
 
             ClientProtocol cP = new ClientProtocol();
 
-            p1Out.println(cP.ProcessInput("1"));
-            p2Out.println(cP.ProcessInput("1"));
+            p1Out.println("1");
+            p2Out.println("1");
+
+            p1Out.println(cP.ProcessInput(null));
+            p2Out.println(cP.ProcessInput(null));
 
         } catch (Exception e) {
             e.printStackTrace();

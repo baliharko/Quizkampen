@@ -1,5 +1,6 @@
 package Quiz.ClientSide;
 
+import Quiz.ServerSide.Initializer;
 import Quiz.ServerSide.Question;
 
 /**
@@ -12,33 +13,22 @@ import Quiz.ServerSide.Question;
 
 public class ClientProtocol {
 
-    Question testQuestion = new Question("En fråga", "Rätt svar", new String[] {"svar1", "Rätt svar", "svar3", "svar4"});
+    // ENDAST TEST
+    Question testQuestion = new Question("HEJHEJEHEJ VAD HETER JAG", "Rätt svar", new String[] {"svar1", "Rätt svar", "svar3", "svar4"});
 
     enum State { WAITING, READY, QUESTION_SENT, ANSWER_RECEIVED };
-
-    //Lägga till funktion för namn?
-
     private State state = State.WAITING;
 
-    public String ProcessInput(String in) {
-
-        String theOutput = null;
+    public Object ProcessInput(String in) {
         Object out = null;
 
         if (state == State.WAITING) {
-            theOutput = "Waiting for another player";
+            out = new Initializer("player", "opponent", testQuestion); // Namn som vi har tagit emot från client
             state = State.READY;
-
-            //Istället för "ready to play" kan man ange namnet på playern som anslutit
-//            theOutput = "Ready to play!";
-
-            theOutput = "Playername joined the game!";
-
         } else if (state == State.READY) {
-//            theOutput = "Ready to play!";
-            theOutput = "Playername joined the game!";
+            out = "Playername joined the game!";
         }
-        return theOutput;
+        return out;
     }
 }
 

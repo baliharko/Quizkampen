@@ -1,12 +1,13 @@
 package Quiz.ClientSide;
 
+import Quiz.ServerSide.Initializer;
+
 import java.io.*;
 import java.net.Socket;
 
 public class Client implements Runnable {
 
     private Thread thread;
-    private boolean isConnected;
     private GameInterfaceController controller;
 
     public Client(GameInterfaceController controller) {
@@ -21,27 +22,25 @@ public class Client implements Runnable {
 
         try (
                 Socket socketToServer = new Socket(Constants.SERVER_IP, Constants.SERVER_PORT);
-                PrintWriter out = new PrintWriter(new OutputStreamWriter(socketToServer.getOutputStream()), true);
-                BufferedReader in = new BufferedReader(new InputStreamReader(socketToServer.getInputStream()));
+                ObjectOutputStream out = new ObjectOutputStream(socketToServer.getOutputStream());
+                ObjectInputStream in = new ObjectInputStream(socketToServer.getInputStream());
         ) {
 
-            String fromServer;
-            while ((fromServer = in.readLine()) != null) {
-                this.controller.setConnectionStatus(fromServer);
-                if (fromServer.equalsIgnoreCase("1")) {
-                    this.isConnected = true;
+            Object fromServer;
+
+            while ((fromServer = in.readObject()) != null) {
+                if (fromServer instanceof Initializer) {
+                    this.controller.setConnectionStatus(((Initializer) fromServer).getOpponent());
                     this.controller.connectionStatus.setStyle("-fx-fill: green");
+                    this.controller.setQuestionText(((Initializer) fromServer).getFirstQuestion().getQuestion());
+//                    this.controller.setToggleButtons(((Initializer) fromServer).getFirstQuestion().getOptions());
                 }
-                else
-                    System.out.println(fromServer);
+//                else
+//                    System.out.println(fromServer);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public boolean isConnected() {
-        return isConnected;
     }
 }

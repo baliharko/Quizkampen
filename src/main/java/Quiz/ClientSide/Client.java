@@ -1,7 +1,5 @@
 package Quiz.ClientSide;
 
-import javafx.scene.Parent;
-
 import java.io.*;
 import java.net.Socket;
 

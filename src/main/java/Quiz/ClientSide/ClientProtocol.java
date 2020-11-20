@@ -8,9 +8,9 @@ package Quiz.ClientSide;
  * Copyright: MIT
  */
 
-enum State {WAITING, READY};
-
 public class ClientProtocol {
+
+    enum State { WAITING, READY };
 
     //Lägga till funktion för namn?
 

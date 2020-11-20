@@ -30,13 +30,9 @@ public class ClientHandler implements Runnable {
         ) {
 
             ClientProtocol cP = new ClientProtocol();
-            QuizProtocol qPC = new QuizProtocol();
 
             p1Out.println(cP.ProcessInput("1"));
             p2Out.println(cP.ProcessInput("1"));
-
-           // p1Out.println("Welcome player 1!");
-           // p2Out.println("Welcome player 2!");
 
         } catch (Exception e) {
             e.printStackTrace();

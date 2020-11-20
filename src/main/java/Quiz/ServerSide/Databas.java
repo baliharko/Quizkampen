@@ -15,12 +15,15 @@ public class Databas {
 
     private static String readQuestionfromFile() throws FileNotFoundException {
         String path = "src/main/java/Quiz/ServerSide/Resources/Questions.txt";
-        Scanner scanner = new Scanner(new File(path));
-        String line = null;
-        while (scanner.hasNextLine()) {
-            line = scanner.nextLine();
+        StringBuilder sb = new StringBuilder();
+        try (Scanner scan = new Scanner(new File(path))) {
+            while (scan.hasNext()) {
+                sb.append(scan.nextLine()+  "\n");
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
-        return line;
+        return sb.toString();
     }
 
 
@@ -38,10 +41,10 @@ public class Databas {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
+
         String test = readQuestionfromFile();
 
         System.out.println(test);
-
     }
 
 }

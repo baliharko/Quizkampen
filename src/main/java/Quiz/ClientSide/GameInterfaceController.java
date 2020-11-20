@@ -1,16 +1,16 @@
 package Quiz.ClientSide;
 
-import javafx.event.ActionEvent;
-import javafx.event.Event;
+import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.effect.Glow;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
 public class GameInterfaceController {
+
+    Thread thread;
 
     public Text questionText;
 
@@ -39,6 +39,17 @@ public class GameInterfaceController {
 
     public void setConnectionStatus(String s) {
         this.connectionStatus.setText(s);
+    }
+
+    public void setQuestionText(String questionText) {
+        this.questionText.setText(questionText);
+    }
+
+    public void setToggleButtonsText(String[] answers) {
+        toggle1.setText(answers[0]);
+        toggle2.setText(answers[1]);
+        toggle3.setText(answers[2]);
+        toggle4.setText(answers[3]);
     }
 }
 

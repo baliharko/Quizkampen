@@ -24,4 +24,8 @@ public class Question implements Serializable {
     public boolean isRightAnswer(String attempt) {
         return this.answer.equalsIgnoreCase(attempt);
     }
+
+    public String[] getOptions() {
+        return this.options;
+    }
 }

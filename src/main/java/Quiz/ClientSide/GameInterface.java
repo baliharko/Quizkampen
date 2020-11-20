@@ -1,6 +1,7 @@
 package Quiz.ClientSide;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,6 +22,7 @@ public class GameInterface extends Application {
         GameInterfaceController questionController = questionLoader.getController();
 
         Scene questionScene = new Scene(question, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
+
         this.client = new Client(questionController);
 
         questionScene.getStylesheets().add("styles.css");

@@ -13,20 +13,21 @@ import Quiz.ServerSide.Question;
 
 public class ClientProtocol {
 
-    // ENDAST TEST
-    Question testQuestion = new Question("HEJHEJEHEJ VAD HETER JAG", "Rätt svar", new String[] {"svar1", "Rätt svar", "svar3", "svar4"});
-
-    enum State { WAITING, READY, QUESTION_SENT, ANSWER_RECEIVED };
+    enum State { WAITING, READY, QUESTION_SENT, ANSWER_RECEIVED }
     private State state = State.WAITING;
+
+    // ENDAST TEST
+    Question testQuestion = new Question("HEJHEJEHEJ VAD HETER JAG", "Rätt svar", new String[] {"Åsna", "Rätt svar", "Orm", "Cykel"});
 
     public Object ProcessInput(String in) {
         Object out = null;
 
         if (state == State.WAITING) {
-            out = new Initializer("player", "opponent", testQuestion); // Namn som vi har tagit emot från client
+            out = new Initializer("Player", "Opponent", testQuestion); // Namn som vi har tagit emot från client
             state = State.READY;
         } else if (state == State.READY) {
-            out = "Playername joined the game!";
+            out = testQuestion;
+            state = State.QUESTION_SENT;
         }
         return out;
     }

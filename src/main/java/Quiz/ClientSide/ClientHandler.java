@@ -37,7 +37,9 @@ public class ClientHandler implements Runnable {
             ClientProtocol player2Protocol = new ClientProtocol();
 
             p1Out.writeObject(player1Protocol.ProcessInput(null));
+            System.out.println("init sent to player 1");
             p2Out.writeObject(player2Protocol.ProcessInput(null));
+            System.out.println("init sent to player 2");
 
         } catch (Exception e) {
             e.printStackTrace();

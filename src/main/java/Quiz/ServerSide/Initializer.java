@@ -15,11 +15,11 @@ public class Initializer implements Serializable {
         this.firstQuestion = firstQuestion;
     }
 
-    public String getOpponent() {
+    public synchronized String getOpponent() {
         return this.opponentName;
     }
 
-    public Question getFirstQuestion() {
+    public synchronized Question getFirstQuestion() {
         return this.firstQuestion;
     }
 }

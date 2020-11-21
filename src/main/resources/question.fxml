@@ -83,7 +83,7 @@
                <children>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                      <children>
-                        <Button fx:id="acceptButton" layoutX="94.0" layoutY="22.0" mnemonicParsing="false" onAction="#getSelectedToggleText" prefHeight="70.0" prefWidth="247.0" text="Svara" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <Button fx:id="acceptButton" layoutX="94.0" layoutY="22.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="247.0" text="Button" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />

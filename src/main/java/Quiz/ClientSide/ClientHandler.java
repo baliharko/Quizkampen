@@ -8,6 +8,9 @@ public class ClientHandler implements Runnable {
     private Thread thread;
     private final Socket player1;
     private final Socket player2;
+    private String player1Name;
+    private String player2Name;
+
 
     public ClientHandler(Socket player1, Socket player2) {
         this.thread = new Thread(this);
@@ -22,14 +25,21 @@ public class ClientHandler implements Runnable {
         System.out.println("Two players connected!");
 
         try (
-                PrintWriter p1Out = new PrintWriter(new OutputStreamWriter(player1.getOutputStream()), true);
-                PrintWriter p2Out = new PrintWriter(new OutputStreamWriter(player2.getOutputStream()), true);
-                BufferedReader p1In = new BufferedReader(new InputStreamReader(player1.getInputStream()));
-                BufferedReader p2In = new BufferedReader(new InputStreamReader(player2.getInputStream()));
+                ObjectOutputStream p1Out = new ObjectOutputStream(player1.getOutputStream());
+                ObjectOutputStream p2Out = new ObjectOutputStream(player2.getOutputStream());
+                ObjectInputStream p1In = new ObjectInputStream(player1.getInputStream());
+                ObjectInputStream p2In = new ObjectInputStream(player2.getInputStream());
         ) {
 
-            p1Out.println("Welcome player 1!");
-            p2Out.println("Welcome player 2!");
+
+
+            ClientProtocol player1Protocol = new ClientProtocol();
+            ClientProtocol player2Protocol = new ClientProtocol();
+
+            p1Out.writeObject(player1Protocol.ProcessInput(null));
+            System.out.println("init sent to player 1");
+            p2Out.writeObject(player2Protocol.ProcessInput(null));
+            System.out.println("init sent to player 2");
 
         } catch (Exception e) {
             e.printStackTrace();

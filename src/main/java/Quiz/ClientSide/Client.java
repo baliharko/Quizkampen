@@ -37,8 +37,7 @@ public class Client implements Runnable {
                         this.controller.setQuestionText(((Initializer) temp).getFirstQuestion().getQuestion());
                         this.controller.setToggleButtonsText(((Initializer) temp).getFirstQuestion().getOptions());
                     });
-                } else
-                    System.out.println("Något annat");
+                }
             }
         } catch (EOFException e) {
             System.out.println("End of file reached.");

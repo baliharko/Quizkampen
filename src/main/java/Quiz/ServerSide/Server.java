@@ -30,6 +30,8 @@ public class Server {
                 }
 
                 if (player1 != null && player2 != null) {
+
+                    // Två ClientHandlers(spelare) delar på ett protokoll
                     ClientProtocol protocol = new ClientProtocol();
                     new ClientHandler(player1, protocol);
                     new ClientHandler(player2, protocol);

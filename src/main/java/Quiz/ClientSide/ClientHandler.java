@@ -30,7 +30,6 @@ public class ClientHandler implements Runnable {
         ) {
 
             out.writeObject(this.protocol.ProcessInput("init"));
-            System.out.println("init sent to player");
 
             String fromClient;
             while ((fromClient = in.readLine()) != null) {

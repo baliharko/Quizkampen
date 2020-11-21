@@ -19,7 +19,7 @@ public class ClientProtocol {
 
     private State currentState = State.WAITING;
 
-    // ENDAST TEST
+    // Tillfällig fråga avsedd för test
     Question testQuestion = new Question("HEJHEJEHEJ VAD HETER JAG", "Rätt svar", new String[] {"Åsna", "Rätt svar", "Orm", "Cykel"});
 
     public synchronized Object ProcessInput(String in) {
@@ -28,19 +28,19 @@ public class ClientProtocol {
         switch (this.currentState) {
             case WAITING -> {
                 if (in.equalsIgnoreCase("init")) {
-                    out = new Initializer("Player 1", "Player 2", testQuestion); // Namn som vi har tagit emot från client
+                    out = new Initializer("Player 1", "Player 2", testQuestion); //Player 1 och Player 2 strängar ska ersättas med namn man får av Client
                     currentState = State.PLAYER_1_CONNECTED;
                 }
             }
             case PLAYER_1_CONNECTED -> {
                 if (in.equalsIgnoreCase("init")) {
-                    out = new Initializer("Player 2", "Player 1", testQuestion); // Namn som vi har tagit emot från client
+                    out = new Initializer("Player 2", "Player 1", testQuestion);
                     currentState = State.PLAYER_2_CONNECTED;
                 }
             }
             case PLAYER_2_CONNECTED -> {
                 out = testQuestion.isRightAnswer(in) ? "Correct" : "False";
-//                currentState = State.ANSWER_RECEIVED;
+                // Ändrar inte state p.g.a test för tilfället
             }
         }
         return out;

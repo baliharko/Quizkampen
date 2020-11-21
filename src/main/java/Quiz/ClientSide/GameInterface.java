@@ -26,6 +26,7 @@ public class GameInterface extends Application {
         primaryStage.setTitle(Constants.TITLE);
         primaryStage.setScene(questionScene);
 
+        // Ger Client tillgång till kontrollern för GUI
         this.client = new Client(questionController);
 
         primaryStage.setResizable(false);

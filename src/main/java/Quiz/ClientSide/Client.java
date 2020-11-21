@@ -12,7 +12,7 @@ public class Client implements Runnable {
     private Thread thread;
     private GameInterfaceController controller;
 
-    public Client(GameInterfaceController controller) throws IOException {
+    public Client(GameInterfaceController controller) {
         this.controller = controller;
         this.thread = new Thread(this);
         this.thread.start();
@@ -27,13 +27,15 @@ public class Client implements Runnable {
                 ObjectInputStream in = new ObjectInputStream(socketToServer.getInputStream());
         ) {
 
+            // Skickar texten på markerad knapp till ClientHandler och hanteras av ClientProtocol
             controller.acceptButton.setOnAction(event -> {
                 out.println(controller.getSelectedToggleText());
             });
 
             Object fromServer;
-
             while ((fromServer = in.readObject()) != null) {
+
+                // Tar emot Initializer-objekt när två spelare kopplats upp, innehåller första frågan.
                 if (fromServer instanceof Initializer) {
                     System.out.println("received initializer from server");
                     Object temp = fromServer;
@@ -45,9 +47,7 @@ public class Client implements Runnable {
                     });
                 }
                 else if (fromServer instanceof String) {
-                    System.out.println("Received String from server");
                     String temp = (String)fromServer;
-                    System.out.println(temp);
                     Platform.runLater(() -> {
                         this.controller.setQuestionText(temp);
                     });

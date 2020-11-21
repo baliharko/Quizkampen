@@ -68,3 +68,12 @@
     -fx-fill: #db5d5d;
     -fx-font-weight: bold;
 }
+
+#welcomeText {
+    -fx-font-family: Courier;
+    -fx-fill: whitesmoke;
+}
+
+#mainPane {
+    -fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 60%, lightseagreen, #61c3c0);
+}

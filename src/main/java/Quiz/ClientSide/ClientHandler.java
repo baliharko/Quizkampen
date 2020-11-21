@@ -8,13 +8,10 @@ public class ClientHandler implements Runnable {
     private Thread thread;
     private final Socket playerSocket;
     ClientProtocol protocol;
-    private String player1Name;
-    private String player2Name;
 
-
-    public ClientHandler(Socket player1, ClientProtocol protocol) {
+    public ClientHandler(Socket player, ClientProtocol protocol) {
         this.thread = new Thread(this);
-        this.playerSocket = player1;
+        this.playerSocket = player;
         this.protocol = protocol;
         this.thread.start();
     }

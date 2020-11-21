@@ -1,8 +1,8 @@
 package Quiz.ClientSide;
 
+import Quiz.ClientSide.controllers.QuestionInterfaceController;
 import Quiz.ServerSide.Initializer;
 import javafx.application.Platform;
-import javafx.scene.control.ToggleButton;
 
 import java.io.*;
 import java.net.Socket;
@@ -10,10 +10,12 @@ import java.net.Socket;
 public class Client implements Runnable {
 
     private Thread thread;
-    private GameInterfaceController controller;
+    private QuestionInterfaceController controller;
+    public String playerName;
 
-    public Client(GameInterfaceController controller) {
+    public Client(QuestionInterfaceController controller, String playerName) {
         this.controller = controller;
+        this.playerName = playerName;
         this.thread = new Thread(this);
         this.thread.start();
         System.out.println("Client started");
@@ -34,9 +36,7 @@ public class Client implements Runnable {
 
             Object fromServer;
             while ((fromServer = in.readObject()) != null) {
-
-                // Tar emot Initializer-objekt när två spelare kopplats upp, innehåller första frågan.
-                if (fromServer instanceof Initializer) {
+                if (fromServer instanceof Initializer) { // Tar emot Initializer-objekt när två spelare kopplats upp, innehåller första frågan.
                     System.out.println("received initializer from server");
                     Object temp = fromServer;
                     Platform.runLater(() -> {

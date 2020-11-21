@@ -12,7 +12,7 @@ public class EnterNameInterfaceController {
     public AnchorPane mainPane;
 
     @FXML
-    public String getEnterNameFieldText() {
+    public synchronized String getEnterNameFieldText() {
         return enterNameField.getText();
     }
 }

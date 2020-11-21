@@ -6,6 +6,7 @@ import java.net.Socket;
 public class ClientHandler implements Runnable {
 
     private Thread thread;
+    String playerName;
     private final Socket playerSocket;
     ClientProtocol protocol;
 
@@ -18,15 +19,19 @@ public class ClientHandler implements Runnable {
 
     @Override
     public void run() {
-
-        System.out.println("Two players connected!");
-
         try (
                 ObjectOutputStream out = new ObjectOutputStream(playerSocket.getOutputStream());
                 BufferedReader in = new BufferedReader(new InputStreamReader(playerSocket.getInputStream()));
         ) {
 
-            out.writeObject(this.protocol.ProcessInput("init"));
+            while (this.playerName == null) {
+                this.playerName = in.readLine();
+                this.protocol.setPlayer(this.playerName);
+            }
+
+            synchronized (this) {
+                out.writeObject(this.protocol.ProcessInput("init"));
+            }
 
             String fromClient;
             while ((fromClient = in.readLine()) != null) {

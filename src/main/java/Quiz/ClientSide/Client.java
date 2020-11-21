@@ -29,10 +29,12 @@ public class Client implements Runnable {
                 ObjectInputStream in = new ObjectInputStream(socketToServer.getInputStream());
         ) {
 
-            // Skickar texten på markerad knapp till ClientHandler och hanteras av ClientProtocol
+            // Skickar texten på markerad knapp i frågerutan till ClientHandler och hanteras av ClientProtocol
             controller.acceptButton.setOnAction(event -> {
                 out.println(controller.getSelectedToggleText());
             });
+
+            out.println(this.playerName);
 
             Object fromServer;
             while ((fromServer = in.readObject()) != null) {

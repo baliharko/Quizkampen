@@ -6,7 +6,6 @@ public class Initializer implements Serializable {
 
     private String playerName;
     private String opponentName;
-
     private Question firstQuestion;
 
     public Initializer(String playerName, String opponentName, Question firstQuestion) {

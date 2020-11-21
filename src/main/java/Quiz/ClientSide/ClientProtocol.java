@@ -13,28 +13,34 @@ import Quiz.ServerSide.Question;
 
 public class ClientProtocol {
 
+    private String player1Name;
+    private String player2Name;
+
     private enum State {
         WAITING, PLAYER_1_CONNECTED, PLAYER_2_CONNECTED, ANSWER_RECEIVED, QUESTION_SENT,
     }
 
-    private State currentState = State.WAITING;
+    private State currentState;
+
+    public ClientProtocol() {
+        this.currentState = State.WAITING;
+    }
 
     // Tillfällig fråga avsedd för test
     Question testQuestion = new Question("HEJHEJEHEJ VAD HETER JAG", "Rätt svar", new String[] {"Åsna", "Rätt svar", "Orm", "Cykel"});
 
     public synchronized Object ProcessInput(String in) {
         Object out = null;
-
         switch (this.currentState) {
             case WAITING -> {
                 if (in.equalsIgnoreCase("init")) {
-                    out = new Initializer("Player 1", "Player 2", testQuestion); //Player 1 och Player 2 strängar ska ersättas med namn man får av Client
+                    out = new Initializer(this.player1Name, this.player2Name, testQuestion); //Player 1 och Player 2 strängar ska ersättas med namn man får av Client
                     currentState = State.PLAYER_1_CONNECTED;
                 }
             }
             case PLAYER_1_CONNECTED -> {
                 if (in.equalsIgnoreCase("init")) {
-                    out = new Initializer("Player 2", "Player 1", testQuestion);
+                    out = new Initializer(this.player2Name, this.player1Name, testQuestion);
                     currentState = State.PLAYER_2_CONNECTED;
                 }
             }
@@ -44,6 +50,14 @@ public class ClientProtocol {
             }
         }
         return out;
+    }
+
+    public synchronized void setPlayer(String playerName) {
+        if (this.player1Name != null) {
+            this.player2Name = playerName;
+        } else {
+            this.player1Name = playerName;
+        }
     }
 }
 

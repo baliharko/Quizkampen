@@ -26,11 +26,16 @@ public class ClientHandler implements Runnable {
 
         try (
                 ObjectOutputStream out = new ObjectOutputStream(playerSocket.getOutputStream());
-                ObjectInputStream in = new ObjectInputStream(playerSocket.getInputStream());
+                BufferedReader in = new BufferedReader(new InputStreamReader(playerSocket.getInputStream()));
         ) {
 
             out.writeObject(this.protocol.ProcessInput("init"));
             System.out.println("init sent to player");
+
+            String fromClient;
+            while ((fromClient = in.readLine()) != null) {
+                out.writeObject(this.protocol.ProcessInput(fromClient));
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

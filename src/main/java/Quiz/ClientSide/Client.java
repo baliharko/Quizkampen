@@ -2,15 +2,17 @@ package Quiz.ClientSide;
 
 import Quiz.ServerSide.Initializer;
 import javafx.application.Platform;
+import javafx.scene.control.ToggleButton;
+
 import java.io.*;
 import java.net.Socket;
 
 public class Client implements Runnable {
 
-    Thread thread;
+    private Thread thread;
     private GameInterfaceController controller;
 
-    public Client(GameInterfaceController controller) {
+    public Client(GameInterfaceController controller) throws IOException {
         this.controller = controller;
         this.thread = new Thread(this);
         this.thread.start();
@@ -21,9 +23,13 @@ public class Client implements Runnable {
     public void run() {
         try (
                 Socket socketToServer = new Socket(Constants.SERVER_IP, Constants.SERVER_PORT);
-                ObjectOutputStream out = new ObjectOutputStream(socketToServer.getOutputStream());
+                PrintWriter out = new PrintWriter(new OutputStreamWriter(socketToServer.getOutputStream()), true);
                 ObjectInputStream in = new ObjectInputStream(socketToServer.getInputStream());
         ) {
+
+            controller.acceptButton.setOnAction(event -> {
+                out.println(controller.getSelectedToggleText());
+            });
 
             Object fromServer;
 
@@ -36,6 +42,14 @@ public class Client implements Runnable {
                         this.controller.connectionStatus.setStyle("-fx-fill: green");
                         this.controller.setQuestionText(((Initializer) temp).getFirstQuestion().getQuestion());
                         this.controller.setToggleButtonsText(((Initializer) temp).getFirstQuestion().getOptions());
+                    });
+                }
+                else if (fromServer instanceof String) {
+                    System.out.println("Received String from server");
+                    String temp = (String)fromServer;
+                    System.out.println(temp);
+                    Platform.runLater(() -> {
+                        this.controller.setQuestionText(temp);
                     });
                 }
             }

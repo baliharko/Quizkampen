@@ -4,7 +4,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.util.Objects;
@@ -31,11 +30,6 @@ public class GameInterface extends Application {
 
         primaryStage.setResizable(false);
         primaryStage.show();
-
-        questionController.acceptButton.setOnAction(event -> {
-            String answer = ((ToggleButton) questionController.group.getSelectedToggle()).getText();
-            System.out.println(answer);
-        });
     }
 
     public static void main(String[] args) {

@@ -12,7 +12,7 @@ public class Databas {
     // method som ska läsa från text filen
     // trim för att hitta end of file
 
-    private static ArrayList<Question> questions;
+    private static ArrayList<Question> databas;
 
     private static String readQuestionfromFile() throws FileNotFoundException {
         String path = "src/main/java/Quiz/ServerSide/Resources/Questions.txt";
@@ -28,25 +28,30 @@ public class Databas {
     }
 
 
-    private static void addQuestionsToList(String q) {
-        questions = new ArrayList<>();
-        String[] question = q.split(",");//array[5] är rätt svar
+    private static void addQuestionsTodatabas(String q) {
+        databas = new ArrayList<>();
+        String[] questionsToArray = q.split("\n");//array[5] är rätt svar
 
-        ArrayList<String> val = new ArrayList<>();
+        for (int i = 0; i < questionsToArray.length; i++) {
+            String[] line = questionsToArray[i].split(",");
+            Question qs = new Question();
+        }
 
-        val.add(question[1]);
-        val.add(question[2]);
-        val.add(question[3]);
-        val.add(question[4]);
-        Question question1 = new Question(question[0], question[5], val);
-        questions.add(question1);
+        //ArrayList<String> options = new ArrayList<>();
+
+        options.add(question[1]);
+        options.add(question[2]);
+        options.add(question[3]);
+        options.add(question[4]);
+        Question question1 = new Question(question[0], question[5], options);
+        databas.add(question1);
     }
 
     public static void main(String[] args) throws FileNotFoundException {
 
         String test = readQuestionfromFile();
-        addQuestionsToList(test);
-        Question q = questions.get(0);
+        addQuestionsTodatabas(test);
+        Question q = databas.get(0);
 
         System.out.println(q.getQuestion());
         System.out.println(q.getAnswer());

@@ -1,2 +1,2 @@
-Under vilket år släpptes The Godfather först?,1993,1972,1984,1970,1972
-Vilken skådespelare gav rösten för karaktären Nemo i 2003-filmen Finding Nemo?,Jane Campion,Christofer Nolan,Alexander Gould,Charles Bronson,Alexander Gould
+Under vilket år släpptes The Godfather först?,1993,1972,1984,1970,1972,
+Vilken skådespelare gav rösten för karaktären Nemo i 2003-filmen Finding Nemo?,Jane Campion,Christofer Nolan,Alexander Gould,Charles Bronson,Alexander Gould,

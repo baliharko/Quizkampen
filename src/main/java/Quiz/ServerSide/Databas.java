@@ -10,6 +10,7 @@ public class Databas {
     //TODO:
     // Arralist databastyp
     // method som ska läsa från text filen
+    // trim för att hitta end of file
 
     private static ArrayList<Question> questions;
 
@@ -32,6 +33,7 @@ public class Databas {
         String[] question = q.split(",");//array[5] är rätt svar
 
         ArrayList<String> val = new ArrayList<>();
+
         val.add(question[1]);
         val.add(question[2]);
         val.add(question[3]);
@@ -43,8 +45,11 @@ public class Databas {
     public static void main(String[] args) throws FileNotFoundException {
 
         String test = readQuestionfromFile();
+        addQuestionsToList(test);
+        Question q = questions.get(0);
 
-        System.out.println(test);
+        System.out.println(q.getQuestion());
+        System.out.println(q.getAnswer());
     }
 
 }

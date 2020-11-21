@@ -19,7 +19,7 @@ public class Databas {
         StringBuilder sb = new StringBuilder();
         try (Scanner scan = new Scanner(new File(path))) {
             while (scan.hasNext()) {
-                sb.append(scan.nextLine()+  "\n");
+                sb.append(scan.nextLine() + "\n");
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -30,31 +30,31 @@ public class Databas {
 
     private static void addQuestionsTodatabas(String q) {
         databas = new ArrayList<>();
+
         String[] questionsToArray = q.split("\n");//array[5] är rätt svar
 
         for (int i = 0; i < questionsToArray.length; i++) {
             String[] line = questionsToArray[i].split(",");
-            Question qs = new Question();
+            String[] val = {line[2], line[3], line[4], line[5]};
+            Question qs = new Question(line[0], line[1], line[6].trim(), val);//line0=catagory,line1=frågor,linr6=svar
+            databas.add(qs);
         }
 
-        //ArrayList<String> options = new ArrayList<>();
-
-        options.add(question[1]);
-        options.add(question[2]);
-        options.add(question[3]);
-        options.add(question[4]);
-        Question question1 = new Question(question[0], question[5], options);
-        databas.add(question1);
     }
 
     public static void main(String[] args) throws FileNotFoundException {
 
         String test = readQuestionfromFile();
         addQuestionsTodatabas(test);
-        Question q = databas.get(0);
+        Question q = databas.get(11);
 
-        System.out.println(q.getQuestion());
-        System.out.println(q.getAnswer());
+        System.out.println("Ämne: " + q.getQuizCatagory());
+        System.out.println("Question: " + q.getQuestion());
+        System.out.println("Valet är:");
+        q.printVal();
+        System.out.println("Svar: " + q.getAnswer());
+
+
     }
 
 }

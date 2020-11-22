@@ -1,11 +1,9 @@
 package Quiz.ClientSide;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.util.Objects;
@@ -23,20 +21,16 @@ public class GameInterface extends Application {
 
         Scene questionScene = new Scene(question, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
 
-        this.client = new Client(questionController);
-
         questionScene.getStylesheets().add("styles.css");
 
         primaryStage.setTitle(Constants.TITLE);
         primaryStage.setScene(questionScene);
 
+        // Ger Client tillgång till kontrollern för GUI
+        this.client = new Client(questionController);
+
         primaryStage.setResizable(false);
         primaryStage.show();
-
-        questionController.acceptButton.setOnAction(event -> {
-            String answer = ((ToggleButton) questionController.group.getSelectedToggle()).getText();
-            System.out.println(answer);
-        });
     }
 
     public static void main(String[] args) {

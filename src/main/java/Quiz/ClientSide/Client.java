@@ -2,12 +2,14 @@ package Quiz.ClientSide;
 
 import Quiz.ServerSide.Initializer;
 import javafx.application.Platform;
+import javafx.scene.control.ToggleButton;
+
 import java.io.*;
 import java.net.Socket;
 
 public class Client implements Runnable {
 
-    Thread thread;
+    private Thread thread;
     private GameInterfaceController controller;
 
     public Client(GameInterfaceController controller) {
@@ -21,13 +23,19 @@ public class Client implements Runnable {
     public void run() {
         try (
                 Socket socketToServer = new Socket(Constants.SERVER_IP, Constants.SERVER_PORT);
-                ObjectOutputStream out = new ObjectOutputStream(socketToServer.getOutputStream());
+                PrintWriter out = new PrintWriter(new OutputStreamWriter(socketToServer.getOutputStream()), true);
                 ObjectInputStream in = new ObjectInputStream(socketToServer.getInputStream());
         ) {
 
-            Object fromServer;
+            // Skickar texten på markerad knapp till ClientHandler och hanteras av ClientProtocol
+            controller.acceptButton.setOnAction(event -> {
+                out.println(controller.getSelectedToggleText());
+            });
 
+            Object fromServer;
             while ((fromServer = in.readObject()) != null) {
+
+                // Tar emot Initializer-objekt när två spelare kopplats upp, innehåller första frågan.
                 if (fromServer instanceof Initializer) {
                     System.out.println("received initializer from server");
                     Object temp = fromServer;
@@ -37,8 +45,13 @@ public class Client implements Runnable {
                         this.controller.setQuestionText(((Initializer) temp).getFirstQuestion().getQuestion());
                         this.controller.setToggleButtonsText(((Initializer) temp).getFirstQuestion().getOptions());
                     });
-                } else
-                    System.out.println("Något annat");
+                }
+                else if (fromServer instanceof String) {
+                    String temp = (String)fromServer;
+                    Platform.runLater(() -> {
+                        this.controller.setQuestionText(temp);
+                    });
+                }
             }
         } catch (EOFException e) {
             System.out.println("End of file reached.");

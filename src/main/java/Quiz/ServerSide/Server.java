@@ -1,6 +1,7 @@
 package Quiz.ServerSide;
 
 import Quiz.ClientSide.ClientHandler;
+import Quiz.ClientSide.ClientProtocol;
 import Quiz.ClientSide.Constants;
 
 import java.io.IOException;
@@ -29,7 +30,11 @@ public class Server {
                 }
 
                 if (player1 != null && player2 != null) {
-                    new ClientHandler(player1, player2);
+
+                    // Två ClientHandlers(spelare) delar på ett protokoll
+                    ClientProtocol protocol = new ClientProtocol();
+                    new ClientHandler(player1, protocol);
+                    new ClientHandler(player2, protocol);
                     player1 = null;
                     player2 = null;
                 }

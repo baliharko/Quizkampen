@@ -35,13 +35,9 @@ public class ClientHandler implements Runnable {
 
             out.writeObject(this.protocol.ProcessInput("init"));
 
-            // Uppdaterar den väntande spelarens (player 1) interface när spelare 2 kopplats upp
-//            if (this.protocol.areBothConnected() && this.playerName.equalsIgnoreCase(protocol.getPlayer1Name()))
-//                out.writeObject(new Initializer(protocol.getPlayer1Name(), protocol.getPlayer2Name(), protocol.getCurrentQuestion()));
-
-
             String fromClient;
             while ((fromClient = in.readLine()) != null) {
+                System.out.println("received answer " + fromClient);
                 out.writeObject(this.protocol.ProcessInput(fromClient));
             }
 

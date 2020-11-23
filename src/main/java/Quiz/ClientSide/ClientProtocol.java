@@ -34,20 +34,28 @@ public class ClientProtocol {
     }
 
     // Tillfällig fråga avsedd för test
-    Question testQuestion = new Question("HEJHEJEHEJ VAD HETER JAG", "Rätt svar", new String[]{"Åsna", "Rätt svar", "Orm", "Cykel"});
+    Question testQuestion = new Question("Nu kom en fråga från servern!", "Rätt svar", new String[] { "Åsna", "Rätt svar", "Orm", "Cykel" });
 
     public synchronized Object ProcessInput(String in) {
         Object out = null;
+
+        if (this.areBothConnected())
+            this.currentState = State.BOTH_CONNECTED;
+
         switch (this.currentState) {
             case WAITING -> {
+                System.out.println("protocol - WAITING");
                 if (in.equalsIgnoreCase("init")) {
+                    System.out.println("protocol - WAITING (init)");
                     out = new Initializer();
                     currentState = State.PLAYER_1_CONNECTED;
                     System.out.println("Player 1 connected - waiting");
                 }
             }
             case PLAYER_1_CONNECTED -> {
+                System.out.println("protocol - PLAYER_1_CONNECTED");
                 if (in.equalsIgnoreCase("init")) {
+                    System.out.println("protocol - PLAYER_1_CONNECTED (init)");
 //                    out = new Initializer(this.player2Name, this.player1Name, testQuestion);
                     try {
                         player1out.writeObject(new Initializer(this.player1Name, this.player2Name, this.testQuestion));
@@ -60,6 +68,7 @@ public class ClientProtocol {
                 }
             }
             case BOTH_CONNECTED -> {
+                System.out.println("protocol - BOTH_CONNECTED");
                 out = testQuestion.isRightAnswer(in) ? "Correct" : "False";
                 // Ändrar inte state p.g.a test för tilfället
             }

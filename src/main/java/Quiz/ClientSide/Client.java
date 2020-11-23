@@ -31,6 +31,7 @@ public class Client implements Runnable {
 
             // Skickar texten på markerad knapp i frågerutan till ClientHandler och hanteras av ClientProtocol
             controller.acceptButton.setOnAction(event -> {
+                System.out.println("sent " + controller.getSelectedToggleText());
                 out.println(controller.getSelectedToggleText());
             });
 

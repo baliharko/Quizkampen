@@ -24,7 +24,7 @@ public class Server {
                 if (player1 == null) {
                     player1 = serverSocket.accept();
                     System.out.println("Player 1 connected");
-                } else if (player2 == null) {
+                } else {
                     player2 = serverSocket.accept();
                     System.out.println("Player 2 connected");
                 }

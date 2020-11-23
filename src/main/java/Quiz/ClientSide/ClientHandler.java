@@ -1,5 +1,7 @@
 package Quiz.ClientSide;
 
+import Quiz.ServerSide.Initializer;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -29,9 +31,14 @@ public class ClientHandler implements Runnable {
                 this.protocol.setPlayer(this.playerName);
             }
 
-            synchronized (this) {
-                out.writeObject(this.protocol.ProcessInput("init"));
-            }
+            this.protocol.setPlayerOut(out);
+
+            out.writeObject(this.protocol.ProcessInput("init"));
+
+            // Uppdaterar den väntande spelarens (player 1) interface när spelare 2 kopplats upp
+//            if (this.protocol.areBothConnected() && this.playerName.equalsIgnoreCase(protocol.getPlayer1Name()))
+//                out.writeObject(new Initializer(protocol.getPlayer1Name(), protocol.getPlayer2Name(), protocol.getCurrentQuestion()));
+
 
             String fromClient;
             while ((fromClient = in.readLine()) != null) {

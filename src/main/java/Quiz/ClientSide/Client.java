@@ -42,14 +42,16 @@ public class Client implements Runnable {
                     System.out.println("received initializer from server");
                     Object temp = fromServer;
                     Platform.runLater(() -> {
-                        this.controller.setConnectionStatus(((Initializer) temp).getOpponent() + " joined the game!");
-                        this.controller.connectionStatus.setStyle("-fx-fill: green");
-                        this.controller.setQuestionText(((Initializer) temp).getFirstQuestion().getQuestion());
-                        this.controller.setToggleButtonsText(((Initializer) temp).getFirstQuestion().getOptions());
+                        if (((Initializer) temp).areBothConnected()) {
+                            System.out.println("Received initializer opponent = " + ((Initializer) temp).getOpponent());
+                            this.controller.setConnectionStatus(((Initializer) temp).getOpponent() + " joined the game!");
+                            this.controller.connectionStatus.setStyle("-fx-fill: green");
+                            this.controller.setQuestionText(((Initializer) temp).getFirstQuestion().getQuestion());
+                            this.controller.setToggleButtonsText(((Initializer) temp).getFirstQuestion().getOptions());
+                        }
                     });
-                }
-                else if (fromServer instanceof String) {
-                    String temp = (String)fromServer;
+                } else if (fromServer instanceof String) {
+                    String temp = (String) fromServer;
                     Platform.runLater(() -> {
                         this.controller.setQuestionText(temp);
                     });

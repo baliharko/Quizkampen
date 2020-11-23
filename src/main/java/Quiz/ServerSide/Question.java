@@ -12,8 +12,8 @@ public class Question implements Serializable {
     private String[] val;
     private String quizCatagory;
 
-    public Question(String quizCatagory, String question, String answer, String[] val) {
-        this.quizCatagory=quizCatagory;
+    public Question(String category, String question, String answer, String[] val) {
+        this.quizCatagory=category;
         this.question = question;
         this.answer = answer;
         this.val = val;

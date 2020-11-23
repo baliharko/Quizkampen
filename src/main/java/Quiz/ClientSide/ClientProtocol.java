@@ -20,7 +20,7 @@ public class ClientProtocol {
     private State currentState = State.WAITING;
 
     // Tillfällig fråga avsedd för test
-    Question testQuestion = new Question("HEJHEJEHEJ VAD HETER JAG", "Rätt svar", new String[] {"Åsna", "Rätt svar", "Orm", "Cykel"});
+    Question testQuestion = new Question("HEJHEJEHEJ VAD HETER JAG", "Rätt svar", "", new String[] {"Åsna", "Rätt svar", "Orm", "Cykel"});
 
     public synchronized Object ProcessInput(String in) {
         Object out = null;

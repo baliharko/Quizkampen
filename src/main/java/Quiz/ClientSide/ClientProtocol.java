@@ -21,6 +21,7 @@ public class ClientProtocol {
     private boolean bothConnected;
     private ObjectOutputStream player1out;
     private ObjectOutputStream player2out;
+    GameSetup gameSetup = new GameSetup();
 
 
     public enum State {

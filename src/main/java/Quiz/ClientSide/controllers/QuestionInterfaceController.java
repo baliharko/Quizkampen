@@ -8,6 +8,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
+import java.util.Objects;
+
 public class QuestionInterfaceController {
 
     public Text questionText;
@@ -51,7 +53,7 @@ public class QuestionInterfaceController {
 
     @FXML
     public String getSelectedToggleText() {
-        return ((ToggleButton) this.group.getSelectedToggle()).getText();
+        return Objects.requireNonNull(((ToggleButton) this.group.getSelectedToggle()).getText());
     }
 }
 

@@ -31,7 +31,7 @@
                      <children>
                         <Text fx:id="questionText" strokeType="OUTSIDE" strokeWidth="0.0" text="Frågor här">
                            <font>
-                              <Font size="35.0" />
+                              <Font size="30.0" />
                            </font>
                         </Text>
                         <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />

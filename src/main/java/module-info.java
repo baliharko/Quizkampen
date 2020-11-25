@@ -1,4 +1,4 @@
-module quiz {
+module Quiz {
     requires javafx.graphics;
     requires javafx.controls;
     requires javafx.fxml;
@@ -6,4 +6,5 @@ module quiz {
 
     opens Quiz.ClientSide;
     opens Quiz.ServerSide;
+    opens Quiz.ClientSide.controllers;
 }

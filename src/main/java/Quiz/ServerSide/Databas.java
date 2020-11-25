@@ -36,23 +36,23 @@ public class Databas {
         for (int i = 0; i < questionsToArray.length; i++) {
             String[] line = questionsToArray[i].split(",");
             String[] val = {line[2], line[3], line[4], line[5]};
-            Question qs = new Question(line[0], line[1], line[6].trim(), val);//line0=catagory,line1=frågor,linr6=svar
-            databas.add(qs);
+//            Question qs = new Question(line[0], line[1], line[6].trim(), val);//line0=catagory,line1=frågor,linr6=svar
+//            databas.add(qs);
         }
 
     }
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        String test = readQuestionfromFile();
-        addQuestionsTodatabas(test);
-        Question q = databas.get(11);
-
-        System.out.println("Ämne: " + q.getQuizCatagory());
-        System.out.println("Question: " + q.getQuestion());
-        System.out.println("Valet är:");
-        q.printVal();
-        System.out.println("Svar: " + q.getAnswer());
+//        String test = readQuestionfromFile();
+//        addQuestionsTodatabas(test);
+//        Question q = databas.get(11);
+//
+//        System.out.println("Ämne: " + q.getQuizCatagory());
+//        System.out.println("Question: " + q.getQuestion());
+//        System.out.println("Valet är:");
+//        q.printVal();
+//        System.out.println("Svar: " + q.getAnswer());
 
 
     }

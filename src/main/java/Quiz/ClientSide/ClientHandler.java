@@ -10,8 +10,6 @@ public class ClientHandler implements Runnable {
     ClientProtocol protocol;
     private String player1Name;
     private String player2Name;
-    private String player1Score;
-    private String player2Score;
 
 
     public ClientHandler(Socket player1, ClientProtocol protocol) {

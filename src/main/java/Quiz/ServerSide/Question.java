@@ -17,11 +17,7 @@ public class Question implements Serializable {
         return question;
     }
 
-    public String getAnswer() {
-        return answer;
-    }
-
-    public boolean isRightAnswer(String attempt) {
+    public synchronized boolean isRightAnswer(String attempt) {
         return this.answer.equalsIgnoreCase(attempt);
     }
 

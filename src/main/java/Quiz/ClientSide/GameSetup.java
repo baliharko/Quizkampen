@@ -22,5 +22,19 @@ public class GameSetup {
         categories = Integer.parseInt(gameSetup.getProperty("Categories", "4"));
         questions = Integer.parseInt(gameSetup.getProperty("Questions", "2"));
         rounds = Integer.parseInt(gameSetup.getProperty("Rounds", "2"));
+
+
+    }
+
+    public static int getCategories() {
+        return categories;
+    }
+
+    public static int getQuestions() {
+        return questions;
+    }
+
+    public static int getRounds() {
+        return rounds;
     }
 }

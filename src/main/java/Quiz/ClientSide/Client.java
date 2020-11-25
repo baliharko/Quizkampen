@@ -6,6 +6,7 @@ import javafx.application.Platform;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Objects;
 
 public class Client implements Runnable {
 
@@ -31,8 +32,8 @@ public class Client implements Runnable {
 
             // Skickar texten på markerad knapp i frågerutan till ClientHandler och hanteras av ClientProtocol
             controller.acceptButton.setOnAction(event -> {
-                System.out.println("sent " + controller.getSelectedToggleText());
-                out.println(controller.getSelectedToggleText());
+                System.out.println("sent " + Objects.requireNonNull(controller.getSelectedToggleText()));
+                out.println(Objects.requireNonNull(controller.getSelectedToggleText()));
             });
 
             out.println(this.playerName);

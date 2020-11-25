@@ -44,20 +44,16 @@ public class ClientProtocol {
 
         switch (this.currentState) {
             case WAITING -> {
-                System.out.println("protocol - WAITING");
                 if (in.equalsIgnoreCase("init")) {
-                    System.out.println("protocol - WAITING (init)");
                     out = new Initializer();
                     currentState = State.PLAYER_1_CONNECTED;
-                    System.out.println("Player 1 connected - waiting");
                 }
             }
             case PLAYER_1_CONNECTED -> {
-                System.out.println("protocol - PLAYER_1_CONNECTED");
                 if (in.equalsIgnoreCase("init")) {
-                    System.out.println("protocol - PLAYER_1_CONNECTED (init)");
-//                    out = new Initializer(this.player2Name, this.player1Name, testQuestion);
                     try {
+                        out = new Initializer(); // skicka init till player2
+
                         player1out.writeObject(new Initializer(this.player1Name, this.player2Name, this.testQuestion));
                         player2out.writeObject(new Initializer(this.player2Name, this.player1Name, this.testQuestion));
                     } catch (IOException e) {
@@ -70,6 +66,11 @@ public class ClientProtocol {
             case BOTH_CONNECTED -> {
                 System.out.println("protocol - BOTH_CONNECTED");
                 out = testQuestion.isRightAnswer(in) ? "Correct" : "False";
+
+                // Spara poäng
+
+                // Vilken rond
+
                 // Ändrar inte state p.g.a test för tilfället
             }
         }
@@ -104,11 +105,11 @@ public class ClientProtocol {
         return bothConnected;
     }
 
-    public void setPlayerOut(ObjectOutputStream playerOut) {
-        if (player1out != null) {
-            player2out = playerOut;
-        } else
-            player1out = playerOut;
+    public synchronized void setPlayerOut(ObjectOutputStream playerOut) {
+            if (player1out != null) {
+                player2out = playerOut;
+            } else
+                player1out = playerOut;
     }
 }
 

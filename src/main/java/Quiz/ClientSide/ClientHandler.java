@@ -36,6 +36,7 @@ public class ClientHandler implements Runnable {
                 out.writeObject(this.protocol.ProcessInput(fromClient));
             }
 
+            this.playerSocket.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

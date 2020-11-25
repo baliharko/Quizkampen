@@ -15,6 +15,12 @@ public class Server {
 
     public static void main(String[] args) {
 
+        try {
+            new ServerSocket(Constants.SERVER_PORT).close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         System.out.println("Server started");
 
         try (ServerSocket serverSocket = new ServerSocket(Constants.SERVER_PORT)) {

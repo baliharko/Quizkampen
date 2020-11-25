@@ -1,6 +1,5 @@
-package Quiz.ClientSide;
+package Quiz.ClientSide.controllers;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
@@ -9,7 +8,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
-public class GameInterfaceController {
+import java.util.Objects;
+
+public class QuestionInterfaceController {
 
     public Text questionText;
 
@@ -52,7 +53,7 @@ public class GameInterfaceController {
 
     @FXML
     public String getSelectedToggleText() {
-        return ((ToggleButton) this.group.getSelectedToggle()).getText();
+        return Objects.requireNonNull(((ToggleButton) this.group.getSelectedToggle()).getText());
     }
 }
 

@@ -29,6 +29,7 @@ public class ServerProtocol {
             currentState = State.SENT_QUESTION_TO_PLAYERS;
         }
         else if(currentState == State.SENT_QUESTION_TO_PLAYERS){
+            if(demoQuestion.)
 
         }
     }

@@ -1,7 +1,5 @@
 package Quiz.ServerSide;
 
-import Quiz.ClientSide.QuizProtocol;
-
 /**
  * Created by Robin Martinsson
  * Date:    2020-11-20
@@ -13,26 +11,45 @@ import Quiz.ClientSide.QuizProtocol;
 public class ServerProtocol {
 
     private enum State {
-        BEFORE_INIT, SENT_QUESTION_TO_PLAYERS, PLAYERS_ANSWERED,
-        VALIDATE_ANSWERS, VALIDATION_SENT
+        WAITING, SEND_CATEGORIES, RECEIVE_CATEGORIES, SEND_QUESTION, RECIEVE_ANSWER,
+        VALIDATE_ANSWERS
     }
 
-    private State currentState = State.BEFORE_INIT;
+    private State currentState = State.WAITING;
     //    Database dao = new Database();
     Question demoQuestion = new Question("Vad blir summan av 1+1?", "Correct", new String[]{"1", "2", "3", "4"});
 
-    public Object ProcessInput(String input){
-        Object output = null;
+    public Object ProcessInput(String input) {
+        Object p1output = null;
+        Object p2output = null;
 
-        if(currentState == State.BEFORE_INIT){
-            output = demoQuestion;
-            currentState = State.SENT_QUESTION_TO_PLAYERS;
+        if (currentState == State.WAITING) {
+            p1output = "Skicka kategorier";
+            p2output = "Wait";
+            currentState = State.SEND_CATEGORIES;
+        } else if (currentState == State.SEND_CATEGORIES) {
+            p1output = "Ta emot kategorival";
+            currentState = State.RECEIVE_CATEGORIES;
+        } else if (currentState == State.RECEIVE_CATEGORIES) {
+            p1output = "Skicka frågor till p1";
+            p2output = "Wait";
+            currentState = State.SEND_QUESTION;
+        } else if (currentState == State.SEND_QUESTION) {
+            p1output = "Ta emot svar från p1";
+            p2output = "Skicka frågor till p2";
+            currentState = State.RECIEVE_ANSWER;
+        } else if (currentState == State.RECIEVE_ANSWER) {
+            p1output = "Wait";
+            p2output = "Ta emot svar p2";
         }
-        else if(currentState == State.SENT_QUESTION_TO_PLAYERS){
-            if(demoQuestion.)
 
-        }
+        //Repetera,
+        // skicka ut resultat till p1
+        // skicka ut resultat till p2
+        return p1output;
     }
 
-
 }
+
+
+

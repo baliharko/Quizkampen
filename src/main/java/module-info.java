@@ -6,4 +6,5 @@ module quiz {
 
     opens Quiz.ClientSide;
     opens Quiz.ServerSide;
+    opens Quiz.ClientSide.controllers;
 }

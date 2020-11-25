@@ -14,17 +14,17 @@ public class Server {
 
         System.out.println("Server started");
 
-        try {
-            final ServerSocket serverSocket = new ServerSocket(Constants.SERVER_PORT);
+        try (ServerSocket serverSocket = new ServerSocket(Constants.SERVER_PORT)) {
             Socket player1 = null;
             Socket player2 = null;
+            ClientProtocol protocol = new ClientProtocol();
 
             while (true) {
+
                 if (player1 == null) {
                     player1 = serverSocket.accept();
                     System.out.println("Player 1 connected");
-                }
-                else {
+                } else {
                     player2 = serverSocket.accept();
                     System.out.println("Player 2 connected");
                 }
@@ -32,11 +32,11 @@ public class Server {
                 if (player1 != null && player2 != null) {
 
                     // Två ClientHandlers(spelare) delar på ett protokoll
-                    ClientProtocol protocol = new ClientProtocol();
                     new ClientHandler(player1, protocol);
                     new ClientHandler(player2, protocol);
                     player1 = null;
                     player2 = null;
+                    protocol = new ClientProtocol();
                 }
             }
         } catch (IOException e) {

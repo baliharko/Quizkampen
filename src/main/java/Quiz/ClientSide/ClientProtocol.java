@@ -29,6 +29,7 @@ public class ClientProtocol {
     int player1Score = 12;
     int player2Score = 16;
 
+    GameSetup gameSetup = new GameSetup();
 
 
     public enum State {

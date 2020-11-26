@@ -35,6 +35,7 @@ public class ServerProtocol {
             p2output = "Wait";
             currentState = State.SEND_QUESTION;
         } else if (currentState == State.SEND_QUESTION) {
+//            p1output = "Ta emot svar från p1";
             p1output = "Ta emot svar från p1";
             p2output = "Skicka frågor till p2";
             currentState = State.RECIEVE_ANSWER;

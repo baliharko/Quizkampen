@@ -25,16 +25,16 @@ public class SelectCategoryInterfaceController implements Serializable {
     public void selectedCategory(ActionEvent event) throws IOException {
 
         if  ((event.getSource()).equals(c1Btn)) {
-            System.out.println(c1Btn.getText());
+//            System.out.println(c1Btn.getText());
             String sendCategory = c1Btn.getText();
             out.writeObject("Category " + sendCategory);
         }
                 else if  ((event.getSource()).equals(c2Btn)) {
-            System.out.println(c2Btn.getText());
+//            System.out.println(c2Btn.getText());
             out.writeObject("Category " + c2Btn.getText());
         }
         else if  ((event.getSource()).equals(c3Btn)) {
-            System.out.println(c3Btn.getText());
+//            System.out.println(c3Btn.getText());
             out.writeObject("Category " + c3Btn.getText());
         }
     }

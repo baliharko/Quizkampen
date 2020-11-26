@@ -5,42 +5,38 @@ import java.net.Socket;
 
 public class ClientHandler implements Runnable {
 
-    private Thread thread;
-    private final Socket player1;
-    private final Socket player2;
-    private String player1Name;
-    private String player2Name;
+    String playerName;
+    private final Socket playerSocket;
+    ClientProtocol protocol;
+    ObjectOutputStream out;
+    BufferedReader in;
 
-
-    public ClientHandler(Socket player1, Socket player2) {
-        this.thread = new Thread(this);
-        this.player1 = player1;
-        this.player2 = player2;
-        this.thread.start();
+    public ClientHandler(Socket player, ClientProtocol protocol, ObjectOutputStream out, BufferedReader in) {
+        this.playerSocket = player;
+        this.protocol = protocol;
+        this.out = out;
+        this.in = in;
     }
 
     @Override
     public void run() {
+        try {
+            while (this.playerName == null) {
+                this.playerName = in.readLine();
+                this.protocol.setPlayer(this.playerName);
+            }
 
-        System.out.println("Two players connected!");
+            this.protocol.setPlayerOut(out);
 
-        try (
-                ObjectOutputStream p1Out = new ObjectOutputStream(player1.getOutputStream());
-                ObjectOutputStream p2Out = new ObjectOutputStream(player2.getOutputStream());
-                ObjectInputStream p1In = new ObjectInputStream(player1.getInputStream());
-                ObjectInputStream p2In = new ObjectInputStream(player2.getInputStream());
-        ) {
+            out.writeObject(this.protocol.ProcessInput("init"));
 
+            String fromClient;
+            while ((fromClient = in.readLine()) != null) {
+                System.out.println("received answer " + fromClient);
+                out.writeObject(this.protocol.ProcessInput(fromClient));
+            }
 
-
-            ClientProtocol player1Protocol = new ClientProtocol();
-            ClientProtocol player2Protocol = new ClientProtocol();
-
-            p1Out.writeObject(player1Protocol.ProcessInput(null));
-            System.out.println("init sent to player 1");
-            p2Out.writeObject(player2Protocol.ProcessInput(null));
-            System.out.println("init sent to player 2");
-
+            this.playerSocket.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

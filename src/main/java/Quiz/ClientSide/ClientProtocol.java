@@ -1,5 +1,6 @@
 package Quiz.ClientSide;
 
+import Quiz.ServerSide.Databas;
 import Quiz.ServerSide.Initializer;
 import Quiz.ServerSide.Question;
 
@@ -16,6 +17,7 @@ import java.io.ObjectOutputStream;
 
 public class ClientProtocol {
 
+    Databas databas;
     private String player1Name;
     private String player2Name;
     private boolean bothConnected;
@@ -29,12 +31,13 @@ public class ClientProtocol {
 
     private State currentState;
 
-    public ClientProtocol() {
+    public ClientProtocol(Databas databas) {
         this.currentState = State.WAITING;
+        this.databas = databas;
     }
 
     // Tillfällig fråga avsedd för test
-    Question testQuestion = new Question("Nu kom en fråga från servern!", "Rätt svar", new String[] { "Åsna", "Rätt svar", "Orm", "Cykel" });
+//    Question testQuestion = new Question("Nu kom en fråga från servern!", "Rätt svar", new String[] { "Åsna", "Rätt svar", "Orm", "Cykel" });
 
     public synchronized Object ProcessInput(String in) {
         Object out = null;
@@ -54,8 +57,8 @@ public class ClientProtocol {
                     try {
                         out = new Initializer(); // skicka init till player2
 
-                        player1out.writeObject(new Initializer(this.player1Name, this.player2Name, this.testQuestion));
-                        player2out.writeObject(new Initializer(this.player2Name, this.player1Name, this.testQuestion));
+                        player1out.writeObject(new Initializer(this.player1Name, this.player2Name, this.databas.getQuestion()));
+                        player2out.writeObject(new Initializer(this.player2Name, this.player1Name, this.databas.getQuestion()));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -65,7 +68,7 @@ public class ClientProtocol {
             }
             case BOTH_CONNECTED -> {
                 System.out.println("protocol - BOTH_CONNECTED");
-                out = testQuestion.isRightAnswer(in) ? "Correct" : "False";
+                out = this.databas.getQuestion().isRightAnswer(in) ? "Correct" : "False";
 
                 // Spara poäng
 
@@ -87,18 +90,6 @@ public class ClientProtocol {
         } else {
             System.out.println("both names already set.");
         }
-    }
-
-    public String getPlayer1Name() {
-        return this.player1Name;
-    }
-
-    public String getPlayer2Name() {
-        return this.player2Name;
-    }
-
-    public Question getCurrentQuestion() {
-        return this.testQuestion; // Test
     }
 
     public boolean areBothConnected() {

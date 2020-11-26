@@ -48,8 +48,8 @@ public class Databas {
         }
     }
 
-    public Question getQuestion() {
-        Question out = databas.get(this.questionNo);
+    public Question getQuestion(int index) {
+        Question out = databas.get(index);
         this.questionNo++;
         return out;
     }

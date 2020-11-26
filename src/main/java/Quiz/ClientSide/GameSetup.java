@@ -12,7 +12,6 @@ public class GameSetup {
     public static int questions;
     public static int rounds;
 
-
     public GameSetup() {
         try {
             gameSetup.load(new FileInputStream("src/main/java/Quiz/ClientSide/GameSetup.properties"));
@@ -24,6 +23,18 @@ public class GameSetup {
         rounds = Integer.parseInt(gameSetup.getProperty("Rounds", "2"));
 
 
+    }
+
+    public static int getCategories() {
+        return categories;
+    }
+
+    public static int getQuestions() {
+        return questions;
+    }
+
+    public static int getRounds() {
+        return rounds;
     }
 
     public static int getCategories() {

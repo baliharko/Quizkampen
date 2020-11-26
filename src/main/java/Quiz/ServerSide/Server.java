@@ -29,6 +29,15 @@ public class Server {
 
             while (true) {
 
+                Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                    try {
+                        serverSocket.close();
+                        System.out.println("SERVER - Closed serverSocket");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }));
+
                 ClientProtocol protocol = new ClientProtocol(databas);
                 Socket player1 = serverSocket.accept();
                 System.out.println("SERVER - player1 connected");

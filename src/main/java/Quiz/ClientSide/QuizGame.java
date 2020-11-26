@@ -12,8 +12,8 @@ import Quiz.ServerSide.Initializer;
 public class QuizGame {
     //private final databas
 
-    protected Initializer initializer = new Initializer();
-    protected GameSetup gameSetup = new GameSetup;
+    protected Initializer initializer;
+    protected GameSetup gameSetup;
 
     public QuizGame(GameSetup gameSetup){
         this.gameSetup = gameSetup;
@@ -22,7 +22,7 @@ public class QuizGame {
     public void run(){
         int player1Score=0;
         int player2Score=0;
-        int gameRound=0;
+        int gameRound=1;
 //        int question=0;
         while(gameRound<=GameSetup.getRounds());
 

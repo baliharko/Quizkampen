@@ -16,8 +16,8 @@ public class ServerProtocol {
     }
 
     private State currentState = State.WAITING;
-    //    Database dao = new Database();
-    Question demoQuestion = new Question("Vad blir summan av 1+1?", "Correct", new String[]{"1", "2", "3", "4"});
+    //    Database blabla = new Database();
+    //Question demoQuestion = new Question("Vad blir summan av 1+1?", "Correct", new String[]{"1", "2", "3", "4"});
 
     public Object ProcessInput(String input) {
         Object p1output = null;

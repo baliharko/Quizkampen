@@ -22,8 +22,8 @@ public class GameInterface extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         //Fönstret där man väljer kategori
-        FXMLLoader SelectCategoryLoader = new FXMLLoader(Objects.requireNonNull(getClass().getClassLoader().getResource("selectCategory.fxml")));
-        Parent selectCategory = selectCategoryLoader.load();
+//        FXMLLoader SelectCategoryLoader = new FXMLLoader(Objects.requireNonNull(getClass().getClassLoader().getResource("selectCategory.fxml")));
+//        Parent selectCategory = selectCategoryLoader.load();
 
         // Fönstret innehållande frågan och de 4 svarsalternativen
         FXMLLoader questionLoader = new FXMLLoader(Objects.requireNonNull(getClass().getClassLoader().getResource("question.fxml")));
@@ -51,7 +51,6 @@ public class GameInterface extends Application {
                     primaryStage.setScene(questionScene);
                 }
                 /**********/
-                if()
 
                 /**********/
             });

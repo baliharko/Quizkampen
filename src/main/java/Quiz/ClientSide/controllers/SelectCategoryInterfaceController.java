@@ -34,7 +34,7 @@ public class SelectCategoryInterfaceController implements Serializable {
         category4Btn.setToggleGroup(categoriesBtnGroup);
     }
 
-    public void setCategoriesToButtons(){
+    public void setCategoriesToButtons() {
         category1Btn.setText("Vetenskap");
         category2Btn.setText("Musik");
         category3Btn.setText("Historia");
@@ -57,6 +57,4 @@ public class SelectCategoryInterfaceController implements Serializable {
             out.writeObject("Category " + category3Btn.getText());
         }
     }
-
-
 }

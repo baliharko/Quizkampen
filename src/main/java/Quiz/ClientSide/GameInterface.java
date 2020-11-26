@@ -2,6 +2,8 @@ package Quiz.ClientSide;
 
 import Quiz.ClientSide.controllers.EnterNameInterfaceController;
 import Quiz.ClientSide.controllers.QuestionInterfaceController;
+import Quiz.ClientSide.controllers.SelectCategoryInterfaceController;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +20,10 @@ public class GameInterface extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+        //Fönstret där man väljer kategori
+        FXMLLoader SelectCategoryLoader = new FXMLLoader(Objects.requireNonNull(getClass().getClassLoader().getResource("selectCategory.fxml")));
+        Parent selectCategory = selectCategoryLoader.load();
 
         // Fönstret innehållande frågan och de 4 svarsalternativen
         FXMLLoader questionLoader = new FXMLLoader(Objects.requireNonNull(getClass().getClassLoader().getResource("question.fxml")));
@@ -44,6 +50,10 @@ public class GameInterface extends Application {
                     this.client = new Client(questionController, this.playerName);
                     primaryStage.setScene(questionScene);
                 }
+                /**********/
+                if()
+
+                /**********/
             });
         });
 

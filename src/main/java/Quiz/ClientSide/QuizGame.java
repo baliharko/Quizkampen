@@ -1,5 +1,6 @@
 package Quiz.ClientSide;
 
+import Quiz.ServerSide.Databas;
 import Quiz.ServerSide.Initializer;
 
 /**
@@ -11,6 +12,7 @@ import Quiz.ServerSide.Initializer;
  */
 public class QuizGame {
     //private final databas
+    Databas db = new Databas();
 
     protected Initializer initializer;
     protected GameSetup gameSetup;
@@ -18,6 +20,7 @@ public class QuizGame {
     public QuizGame(GameSetup gameSetup){
         this.gameSetup = gameSetup;
         //svar från databas?
+
     }
     public void run(){
         int player1Score=0;

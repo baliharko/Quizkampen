@@ -1,7 +1,8 @@
 package Quiz.ClientSide;
 
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Properties;
 
 public class GameSetup {
@@ -13,6 +14,30 @@ public class GameSetup {
     public static int rounds;
 
     public GameSetup() {
+
+        if (!new File("src/main/java/Quiz/ClientSide/GameSetup.properties").exists()) {
+            try {
+                Files.createFile(Path.of("src/main/java/Quiz/ClientSide/GameSetup.properties"));
+
+                try (FileWriter fw = new FileWriter("src/main/java/Quiz/ClientSide/GameSetup.properties")) {
+                    fw.append("Categories=4\n");
+                    fw.append("Questions=2\n");
+                    fw.append("Rounds=2");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                gameSetup.load(new FileInputStream("src/main/java/Quiz/ClientSide/GameSetup.properties"));
+                gameSetup.setProperty("Categories", "4");
+                gameSetup.setProperty("Questions", "2");
+                gameSetup.setProperty("Rounds", "2");
+                System.out.println("File created.");
+            } catch (IOException e) {
+                System.out.println("Failed to create file.");
+                e.printStackTrace();
+            }
+        }
+
         try {
             gameSetup.load(new FileInputStream("src/main/java/Quiz/ClientSide/GameSetup.properties"));
         } catch (IOException e) {

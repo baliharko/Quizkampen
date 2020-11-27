@@ -3,6 +3,7 @@ package Quiz.ClientSide;
 import Quiz.ServerSide.Databas;
 import Quiz.ServerSide.Initializer;
 import Quiz.ServerSide.Question;
+
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
@@ -25,8 +26,9 @@ public class ClientProtocol {
     private int questionNo;
     private Question currentQuestion;
     int currentRound = 1;
-    int player1Score = 12;
-    int player2Score = 16;
+    int player1Score = 0;
+    int player2Score = 0;
+    Object out = null;
 
     public enum State {
         WAITING, PLAYER_1_CONNECTED, BOTH_CONNECTED, ANSWER_RECEIVED, QUESTION_SENT,
@@ -40,8 +42,8 @@ public class ClientProtocol {
         this.questionNo = 0;
     }
 
-    // Tillfällig fråga avsedd för test
-//    Question testQuestion = new Question("Nu kom en fråga från servern!", "Rätt svar", new String[] { "Åsna", "Rätt svar", "Orm", "Cykel" });
+    //Tillfällig fråga avsedd för test
+    //Question testQuestion = new Question("Nu kom en fråga från servern!", "Rätt svar", new String[] { "Åsna", "Rätt svar", "Orm", "Cykel" });
 
     public synchronized Object ProcessInput(String in) {
         Object out = null;
@@ -81,12 +83,31 @@ public class ClientProtocol {
             case BOTH_CONNECTED -> {
 
                 System.out.println("protocol - BOTH_CONNECTED");
-                out = this.currentQuestion.isRightAnswer(in) ? "Correct" : "False";
+                //out = this.currentQuestion.isRightAnswer(in) ? "Correct" : "False";
+
+                String inAns = in.split(",")[1];
+                String plAns = in.split(",")[0];
+
+                out = this.currentQuestion.isRightAnswer(inAns) ? "Correct" : "False";
 
 //                this.currentQuestion = currentQuestion.isRightAnswer(in) ? databas.getQuestion(++questionNo) : currentQuestion;
 //                out = new Initializer("", "", currentQuestion);
+                if (out.equals("Correct") && plAns.equalsIgnoreCase(player1Name)) {
+                    System.out.println("Poäng ++ " + plAns);
+                    player1Score ++;
+                    System.out.println(player1Score);
+                }
+                else if (out.equals("Correct") && plAns.equalsIgnoreCase(player2Name)) {
+                    System.out.println("Poäng ++ " + plAns);
+                    player2Score ++;
+                    System.out.println(player2Score);
+                }
+
+//this.currentQuestion = currentQuestion.isRightAnswer(in) ? databas.getQuestion(++questionNo) : currentQuestion;
+//out = new Initializer("", "", currentQuestion);
 
                 // Spara poäng
+
 
                 // Vilken rond
 
@@ -94,6 +115,11 @@ public class ClientProtocol {
             }
         }
         return out;
+    }
+
+    public static int getPoint() {
+
+        return 0;
     }
 
     public synchronized void setPlayer(String playerName) {
@@ -113,10 +139,10 @@ public class ClientProtocol {
     }
 
     public synchronized void setPlayerOut(ObjectOutputStream playerOut) {
-            if (player1out != null) {
-                player2out = playerOut;
-            } else
-                player1out = playerOut;
+        if (player1out != null) {
+            player2out = playerOut;
+        } else
+            player1out = playerOut;
     }
 }
 

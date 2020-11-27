@@ -29,12 +29,15 @@ public class Server {
 
             while (true) {
 
-                Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                    try {
-                        serverSocket.close();
-                        System.out.println("SERVER - Closed serverSocket");
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            serverSocket.close();
+                            System.out.println("SERVER - Closed serverSocket");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }));
 

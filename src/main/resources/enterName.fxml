@@ -45,7 +45,7 @@
                         </StackPane>
                         <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.rowIndex="1">
                            <children>
-                              <TextField fx:id="enterNameField" alignment="CENTER" focusTraversable="false" onAction="#getEnterNameFieldText" prefHeight="27.0" prefWidth="331.0" promptText="Ange ditt namn:">
+                              <TextField fx:id="enterNameField" alignment="CENTER" focusTraversable="true" onAction="#getEnterNameFieldText" prefHeight="27.0" prefWidth="331.0" promptText="Ange ditt namn:">
                                  <font>
                                     <Font size="24.0" />
                                  </font>

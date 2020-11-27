@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.util.Objects;
@@ -39,6 +40,19 @@ public class GameInterface extends Application {
         EnterNameInterfaceController enterNameController = enterNameLoader.getController();
         Scene enterNameScene = new Scene(enterName, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
 
+
+//        new Game(this);
+
+        /**
+         * Game innehåller:
+         * Client, alla controllers, GameInterface
+         *
+         * Vid start läser Game in från .properties-fil
+         *
+         *
+         */
+
+
         // Ange namn - fönstret
         primaryStage.setScene(enterNameScene);
         enterNameController.enterNameField.setOnAction(event -> {
@@ -52,15 +66,25 @@ public class GameInterface extends Application {
                     this.client = new Client(questionController, this.playerName);
                     primaryStage.setScene(categoryScene);
                 }
-                /**********/
-
-                /**********/
             });
         });
+
+        // Välj kategori
+        for (Button b : selectCategoryController.categoryButtons) {
+            b.setOnAction(event -> {
+                System.out.println(b.getText()); // Skickas till databasen och får tillbaka frågor i vald kategori.
+            });
+        }
 
         categoryScene.getStylesheets().add("styles.css");
         questionScene.getStylesheets().add("styles.css");
         enterNameScene.getStylesheets().add("styles.css");
+
+        primaryStage.setOnCloseRequest(event -> {
+            System.out.println("Closing game interface.");
+            System.exit(0);
+        });
+
         primaryStage.setTitle(Constants.TITLE);
         primaryStage.setResizable(false);
         primaryStage.show();

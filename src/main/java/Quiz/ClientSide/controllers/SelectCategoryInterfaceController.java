@@ -1,41 +1,48 @@
 package Quiz.ClientSide.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.text.Text;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-public class SelectCategoryInterfaceController implements Serializable {
+public class SelectCategoryInterfaceController {
+
+    public Text categoryHeader;
+
+    public Button categoryButton1;
+    public Button categoryButton2;
+    public Button categoryButton3;
+
+    public List<Button> categoryButtons;
 
     ObjectOutputStream out;
 
-    public ToggleButton category1Btn;
-    public ToggleButton category2Btn;
-    public ToggleButton category3Btn;
-    public ToggleButton category4Btn;
-
-    public ToggleGroup categoriesBtnGroup;
-
     public void initialize() {
-        categoriesBtnGroup = new ToggleGroup();
-        category1Btn.setToggleGroup(categoriesBtnGroup);
-        category2Btn.setToggleGroup(categoriesBtnGroup);
-        category3Btn.setToggleGroup(categoriesBtnGroup);
-        category4Btn.setToggleGroup(categoriesBtnGroup);
+
+        this.categoryButtons = new ArrayList<>();
+        this.categoryButtons.add(this.categoryButton1);
+        this.categoryButtons.add(this.categoryButton2);
+        this.categoryButtons.add(this.categoryButton3);
     }
 
     public void setCategoriesToButtons() {
-        category1Btn.setText("Vetenskap");
-        category2Btn.setText("Musik");
-        category3Btn.setText("Historia");
-        category4Btn.setText("Film");
+//        category1Btn.setText("Vetenskap");
+//        category2Btn.setText("Musik");
+//        category3Btn.setText("Historia");
+//        category4Btn.setText("Film");
     }
 
+    /*
     public void selectedCategory(ActionEvent event) throws IOException {
 
         if ((event.getSource()).equals(category1Btn)) {
@@ -50,6 +57,8 @@ public class SelectCategoryInterfaceController implements Serializable {
             out.writeObject("Category" + category3Btn.getText());
         }
     }
+
+     */
 
  //   @FXML
 /*    public String getSelectedCategory(){

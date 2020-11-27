@@ -44,7 +44,6 @@ public class Server {
                 Socket player2 = serverSocket.accept();
                 System.out.println("SERVER - player2 connected");
 
-
                 if (player1 != null && player2 != null) {
 
                     // Två ClientHandlers(spelare) delar på ett protokoll

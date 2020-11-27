@@ -3,7 +3,6 @@ package Quiz.ClientSide;
 import Quiz.ServerSide.Databas;
 import Quiz.ServerSide.Initializer;
 import Quiz.ServerSide.Question;
-
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 

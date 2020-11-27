@@ -30,7 +30,6 @@ public class ClientProtocol {
 
     GameSetup gameSetup = new GameSetup();
 
-
     public enum State {
         WAITING, PLAYER_1_CONNECTED, BOTH_CONNECTED, ANSWER_RECEIVED, QUESTION_SENT,
     }

@@ -34,13 +34,13 @@ public class GameInterface extends Application {
 
         // Ange namn - fönstret
         primaryStage.setScene(enterNameScene);
+
         enterNameController.enterNameField.setOnAction(event -> {
             Platform.runLater(() -> {
                 this.playerName = enterNameController.getEnterNameFieldText();
                 enterNameController.enterNameField.setText("");
 
                 if (!playerName.isBlank() && playerName != null) {
-
                     // Ger Client tillgång till kontrollern för GUI
                     this.client = new Client(questionController, this.playerName);
                     primaryStage.setScene(questionScene);

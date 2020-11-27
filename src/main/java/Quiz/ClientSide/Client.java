@@ -13,12 +13,11 @@ public class Client implements Runnable {
 
 
     private Thread thread;
-    private QuestionInterfaceController questionInterfaceController;
-    public SelectCategoryInterfaceController categoryInterfaceController;
+    public GameSetup game;
     public String playerName;
 
-    public Client(QuestionInterfaceController controller, String playerName) {
-        this.questionInterfaceController = controller;
+    public Client(GameSetup game, String playerName) {
+        this.game = game;
         this.playerName = playerName;
         this.thread = new Thread(this);
         this.thread.start();
@@ -34,9 +33,9 @@ public class Client implements Runnable {
         ) {
 
             // Skickar texten på markerad knapp i frågerutan till ClientHandler och hanteras av ClientProtocol
-            questionInterfaceController.acceptButton.setOnAction(event -> {
-                System.out.println("sent " + Objects.requireNonNull(questionInterfaceController.getSelectedToggleText()));
-                out.println(Objects.requireNonNull(questionInterfaceController.getSelectedToggleText()));
+            this.game.getQuestionInterfaceController().acceptButton.setOnAction(event -> {
+                System.out.println("sent " + Objects.requireNonNull(game.getQuestionInterfaceController().getSelectedToggleText()));
+                out.println(Objects.requireNonNull(game.getQuestionInterfaceController().getSelectedToggleText()));
             });
 
             out.println(this.playerName);
@@ -49,16 +48,16 @@ public class Client implements Runnable {
                     Platform.runLater(() -> {
                         if (((Initializer) temp).areBothConnected()) {
                             System.out.println("Received initializer opponent = " + ((Initializer) temp).getOpponent());
-                            this.questionInterfaceController.setConnectionStatus(((Initializer) temp).getOpponent() + " joined the game!");
-                            this.questionInterfaceController.connectionStatus.setStyle("-fx-fill: green");
-                            this.questionInterfaceController.setQuestionText(((Initializer) temp).getFirstQuestion().getQuestion());
-                            this.questionInterfaceController.setToggleButtonsText(((Initializer) temp).getFirstQuestion().getOptions());
+                            game.getQuestionInterfaceController().setConnectionStatus(((Initializer) temp).getOpponent() + " joined the game!");
+                            game.getQuestionInterfaceController().connectionStatus.setStyle("-fx-fill: green");
+                            game.getQuestionInterfaceController().setQuestionText(((Initializer) temp).getFirstQuestion().getQuestion());
+                            game.getQuestionInterfaceController().setToggleButtonsText(((Initializer) temp).getFirstQuestion().getOptions());
                         }
                     });
                 } else if (fromServer instanceof String) {
                     String temp = (String) fromServer;
                     Platform.runLater(() -> {
-                        this.questionInterfaceController.setQuestionText(temp);
+                        game.getQuestionInterfaceController().setQuestionText(temp);
                     });
                 }
             }

@@ -1,11 +1,10 @@
 .root {
-    // -fx-background-color: #20b2aa;
-    -fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 60%, #61c3c0, lightseagreen);
+    -fx-background-color: #20b2aa;
 }
 
 .toggle-button {
     -fx-font-family: Courier;
-    -fx-background-radius: 10;
+    -fx-background-radius: 20;
     -fx-border-width: 5;
     -fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, whitesmoke, lightseagreen);
     -fx-border-style: solid;
@@ -95,4 +94,8 @@
     -fx-font-family: Courier;
     -fx-fill: whitesmoke;
     -fx-font-size: 60;
+}
+
+#waitBackground {
+    -fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 60%, #61c3c0, lightseagreen);
 }

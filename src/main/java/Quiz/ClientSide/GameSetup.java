@@ -1,19 +1,50 @@
 package Quiz.ClientSide;
 
+import Quiz.ClientSide.controllers.EnterNameInterfaceController;
+import Quiz.ClientSide.controllers.QuestionInterfaceController;
+import Quiz.ClientSide.controllers.SelectCategoryInterfaceController;
+import Quiz.ClientSide.controllers.WaitController;
+import javafx.application.Platform;
+import javafx.scene.control.Button;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Properties;
 
-public class GameSetup {
+public class GameSetup implements Runnable {
 
-    private static final Properties gameSetup = new Properties();
+    private final Properties gameProperties = new Properties();
 
-    public static int categories;
-    public static int questions;
-    public static int rounds;
+    public int categories;
+    public int questions;
+    public int rounds;
 
-    public GameSetup() {
+    private String playerName;
+    private GameInterface gameInterface;
+
+    private Thread thread;
+    private Client client;
+
+    //Controllers
+    private EnterNameInterfaceController enterNameInterfaceController;
+    private QuestionInterfaceController questionInterfaceController;
+    private SelectCategoryInterfaceController selectCategoryInterfaceController;
+    private WaitController waitController;
+
+    public GameSetup(GameInterface gameInterface) {
+
+        this.thread = new Thread(this);
+        this.loadPropertiesFromFile();
+        this.gameInterface = gameInterface;
+        this.enterNameInterfaceController = this.gameInterface.enterNameController;
+        this.questionInterfaceController = this.gameInterface.questionController;
+        this.selectCategoryInterfaceController = this.gameInterface.selectCategoryController;
+        this.waitController = this.gameInterface.waitController;
+        this.thread.start();
+    }
+
+    private void loadPropertiesFromFile() {
 
         if (!new File("src/main/java/Quiz/ClientSide/GameSetup.properties").exists()) {
             try {
@@ -27,10 +58,10 @@ public class GameSetup {
                     e.printStackTrace();
                 }
 
-                gameSetup.load(new FileInputStream("src/main/java/Quiz/ClientSide/GameSetup.properties"));
-                gameSetup.setProperty("Categories", "4");
-                gameSetup.setProperty("Questions", "2");
-                gameSetup.setProperty("Rounds", "2");
+                gameProperties.load(new FileInputStream("src/main/java/Quiz/ClientSide/GameSetup.properties"));
+                gameProperties.setProperty("Categories", "4");
+                gameProperties.setProperty("Questions", "2");
+                gameProperties.setProperty("Rounds", "2");
                 System.out.println("File created.");
             } catch (IOException e) {
                 System.out.println("Failed to create file.");
@@ -39,24 +70,62 @@ public class GameSetup {
         }
 
         try {
-            gameSetup.load(new FileInputStream("src/main/java/Quiz/ClientSide/GameSetup.properties"));
+            gameProperties.load(new FileInputStream("src/main/java/Quiz/ClientSide/GameSetup.properties"));
         } catch (IOException e) {
             System.out.println("File could not be found");
         }
-        categories = Integer.parseInt(gameSetup.getProperty("Categories", "4"));
-        questions = Integer.parseInt(gameSetup.getProperty("Questions", "2"));
-        rounds = Integer.parseInt(gameSetup.getProperty("Rounds", "2"));
+        categories = Integer.parseInt(gameProperties.getProperty("Categories", "4"));
+        questions = Integer.parseInt(gameProperties.getProperty("Questions", "2"));
+        rounds = Integer.parseInt(gameProperties.getProperty("Rounds", "2"));
     }
 
-    public static int getCategories() {
+    public int getCategories() {
         return categories;
     }
 
-    public static int getQuestions() {
+    public int getQuestions() {
         return questions;
     }
 
-    public static int getRounds() {
+    public int getRounds() {
         return rounds;
+    }
+
+    public EnterNameInterfaceController getEnterNameInterfaceController() {
+        return enterNameInterfaceController;
+    }
+
+    public QuestionInterfaceController getQuestionInterfaceController() {
+        return questionInterfaceController;
+    }
+
+    public SelectCategoryInterfaceController getSelectCategoryInterfaceController() {
+        return selectCategoryInterfaceController;
+    }
+
+    public WaitController getWaitController() {
+        return waitController;
+    }
+
+    @Override
+    public void run() {
+        this.enterNameInterfaceController.enterNameField.setOnAction(event -> {
+            Platform.runLater(() -> {
+                this.playerName = this.enterNameInterfaceController.getEnterNameFieldText();
+                this.enterNameInterfaceController.enterNameField.setText("");
+
+                if (!this.playerName.isBlank() && this.playerName != null) {
+                    // Ger Client tillgång till kontrollern för GUI
+                    this.client = new Client(this, this.playerName);
+                    this.gameInterface.primaryStage.setScene(this.gameInterface.questionScene);
+                }
+            });
+        });
+
+        for (Button b : selectCategoryInterfaceController.categoryButtons) {
+            b.setOnAction(event -> {
+                System.out.println(b.getText()); // Skickas till databasen och får tillbaka frågor i vald kategori.
+            });
+        }
     }
 }

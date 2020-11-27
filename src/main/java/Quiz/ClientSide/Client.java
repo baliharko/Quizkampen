@@ -1,6 +1,7 @@
 package Quiz.ClientSide;
 
 import Quiz.ClientSide.controllers.QuestionInterfaceController;
+import Quiz.ClientSide.controllers.SelectCategoryInterfaceController;
 import Quiz.ServerSide.Initializer;
 import javafx.application.Platform;
 
@@ -9,6 +10,8 @@ import java.net.Socket;
 import java.util.Objects;
 
 public class Client implements Runnable {
+
+    private SelectCategoryInterfaceController categoryController;
 
     private Thread thread;
     private QuestionInterfaceController controller;

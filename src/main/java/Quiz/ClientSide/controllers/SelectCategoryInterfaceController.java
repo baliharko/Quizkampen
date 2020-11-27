@@ -1,5 +1,6 @@
 package Quiz.ClientSide.controllers;
 
+import javafx.fxml.FXML;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 
@@ -7,14 +8,8 @@ import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Objects;
 
-/**
- * Created by Robin Martinsson
- * Date:    2020-11-26
- * Time:    10:18
- * Project: Inlämning04
- * Copyright: MIT
- */
 public class SelectCategoryInterfaceController implements Serializable {
 
     ObjectOutputStream out;
@@ -43,18 +38,24 @@ public class SelectCategoryInterfaceController implements Serializable {
 
     public void selectedCategory(ActionEvent event) throws IOException {
 
-        if  ((event.getSource()).equals(category1Btn)) {
+        if ((event.getSource()).equals(category1Btn)) {
 //            System.out.println(c1Btn.getText());
             String sendCategory = category1Btn.getText();
-            out.writeObject("Category " + category1Btn);
-        }
-                else if  ((event.getSource()).equals(category2Btn)) {
+            out.writeObject("Category" + category1Btn);
+        } else if ((event.getSource()).equals(category2Btn)) {
 //            System.out.println(c2Btn.getText());
-            out.writeObject("Category " + category2Btn.getText());
-        }
-        else if  ((event.getSource()).equals(category3Btn)) {
+            out.writeObject("Category" + category2Btn.getText());
+        } else if ((event.getSource()).equals(category3Btn)) {
 //            System.out.println(c3Btn.getText());
-            out.writeObject("Category " + category3Btn.getText());
+            out.writeObject("Category" + category3Btn.getText());
         }
     }
+
+    @FXML
+/*    public String getSelectedCategory(){
+        return Objects.requireNonNull(((ToggleButton) this.categoriesBtnGroup.getSelectedToggle()).getText());
+    }
+
+ */
+
 }

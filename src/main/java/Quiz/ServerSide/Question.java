@@ -3,11 +3,13 @@ package Quiz.ServerSide;
 import java.io.Serializable;
 
 public class Question implements Serializable {
+    private String category;
     private String question;
     private String answer;
     private String[] options;
 
-    public Question(String question, String answer, String[] options) {
+    public Question(String category, String question, String answer, String[] options) {
+        this.category = category;
         this.question = question;
         this.answer = answer;
         this.options = options;

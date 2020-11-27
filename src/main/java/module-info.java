@@ -1,4 +1,4 @@
-module quiz {
+module Quiz {
     requires javafx.graphics;
     requires javafx.controls;
     requires javafx.fxml;

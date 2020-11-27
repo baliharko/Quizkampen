@@ -1,8 +1,8 @@
 package Quiz.ClientSide;
 
+import Quiz.ServerSide.Databas;
 import Quiz.ServerSide.Initializer;
 import Quiz.ServerSide.Question;
-
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
@@ -16,12 +16,19 @@ import java.io.ObjectOutputStream;
 
 public class ClientProtocol {
 
+    Databas databas;
     private String player1Name;
     private String player2Name;
     private boolean bothConnected;
     private ObjectOutputStream player1out;
     private ObjectOutputStream player2out;
+    private int questionNo;
+    private Question currentQuestion;
+    int currentRound = 1;
+    int player1Score = 12;
+    int player2Score = 16;
 
+    GameSetup gameSetup = new GameSetup();
 
     public enum State {
         WAITING, PLAYER_1_CONNECTED, BOTH_CONNECTED, ANSWER_RECEIVED, QUESTION_SENT,
@@ -29,12 +36,14 @@ public class ClientProtocol {
 
     private State currentState;
 
-    public ClientProtocol() {
+    public ClientProtocol(Databas databas) {
         this.currentState = State.WAITING;
+        this.databas = databas;
+        this.questionNo = 0;
     }
 
     // Tillfällig fråga avsedd för test
-    Question testQuestion = new Question("Nu kom en fråga från servern!", "Rätt svar", new String[] { "Åsna", "Rätt svar", "Orm", "Cykel" });
+//    Question testQuestion = new Question("Nu kom en fråga från servern!", "Rätt svar", new String[] { "Åsna", "Rätt svar", "Orm", "Cykel" });
 
     public synchronized Object ProcessInput(String in) {
         Object out = null;
@@ -51,11 +60,19 @@ public class ClientProtocol {
             }
             case PLAYER_1_CONNECTED -> {
                 if (in.equalsIgnoreCase("init")) {
+
+                    this.currentQuestion = databas.getQuestion(this.questionNo);
+
                     try {
                         out = new Initializer(); // skicka init till player2
 
-                        player1out.writeObject(new Initializer(this.player1Name, this.player2Name, this.testQuestion));
-                        player2out.writeObject(new Initializer(this.player2Name, this.player1Name, this.testQuestion));
+                        synchronized (this) {
+                            this.player1out.writeObject(new Initializer(this.player1Name, this.player2Name, this.currentQuestion));
+                        }
+
+                        synchronized (this) {
+                            this.player2out.writeObject(new Initializer(this.player2Name, this.player1Name, this.currentQuestion));
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -64,8 +81,12 @@ public class ClientProtocol {
                 }
             }
             case BOTH_CONNECTED -> {
+
                 System.out.println("protocol - BOTH_CONNECTED");
-                out = testQuestion.isRightAnswer(in) ? "Correct" : "False";
+                out = this.currentQuestion.isRightAnswer(in) ? "Correct" : "False";
+
+//                this.currentQuestion = currentQuestion.isRightAnswer(in) ? databas.getQuestion(++questionNo) : currentQuestion;
+//                out = new Initializer("", "", currentQuestion);
 
                 // Spara poäng
 
@@ -87,18 +108,6 @@ public class ClientProtocol {
         } else {
             System.out.println("both names already set.");
         }
-    }
-
-    public String getPlayer1Name() {
-        return this.player1Name;
-    }
-
-    public String getPlayer2Name() {
-        return this.player2Name;
-    }
-
-    public Question getCurrentQuestion() {
-        return this.testQuestion; // Test
     }
 
     public boolean areBothConnected() {

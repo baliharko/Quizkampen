@@ -9,7 +9,7 @@ public class Constants {
     public static final double WINDOW_HEIGHT = SCREEN_HEIGHT / 1.7;
 
     public static final String SERVER_IP = "127.0.0.1";
-    public static final int SERVER_PORT = 55554;
+    public static final int SERVER_PORT = 50504;
 
     public static final String TITLE = "QUIZ-FAJTEN GRUPP 11";
 }

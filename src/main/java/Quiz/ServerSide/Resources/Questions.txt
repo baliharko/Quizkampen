@@ -1,0 +1,12 @@
+Film,Under vilket år släpptes The Godfather först?,1993,1972,1984,1970,1972
+Film,Vilken brittisk actionaktör spelade delen av Lee Christmas tillsammans med Sylvester Stallone i filmen The Expendables?,Jason Statham,Mel Gibson,Arnold Schwarzenegger,Ellen Page,Jason Statham
+Film,Vilken skådespelare vann den bästa skådespelaren Oscar för filmerna Philadelphia (1993) och Forrest Gump (1994)?,Julie Andrews,Jane Campion,Tom Morris,Tom Hanks,Tom Hanks
+Film,Vilken skådespelare gav rösten för karaktären Nemo i 2003-filmen Finding Nemo?,Jane Campion,Christofer Nolan,Alexander Gould,Charles Bronson,Alexander Gould
+Landmärken,I vilket land Giza-pyramiden och den stora sfinxen ligger?,Egypten,Iraq,Iran,Morocco,Egypten
+Landmärken,I vilket land Colosseumen ligger?,Saudi Arabia,London,Frankrike,Italien,Italien
+Landmärken,I vilket land Statue of Liberty ligger?,UK,USA,UAE,USSR,USA
+Landmärken,I vilket land Taj Mahal ligger?,Indien,Pakistan,Thailand,Bangladesh,Indien
+Music,Vilken sångare var bland annat känd som 'The King of Pop' och 'The Gloved One'?,Michael Jackson,Prince Rogers Nelson,David Bowie,Madonna,Michael Jackson
+Music,Under vilket år åkte Beatles först till USA?,1964,1973,1970,1963,1964
+Music,Vad hette Adeles första skiva?,Hometown glory,SKyfall,When We Were Young,Hello,Hometown glory
+Music,"Förlora min religion" var en hit för vilket alternativt rockband 1991?,DEM,REM,TEM,SEM,REM

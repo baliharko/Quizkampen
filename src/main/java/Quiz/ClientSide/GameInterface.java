@@ -33,8 +33,9 @@ public class GameInterface extends Application {
         Parent question = questionLoader.load();
         QuestionInterfaceController questionController = questionLoader.getController();
         Scene questionScene = new Scene(question, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
+        questionController.questionText.setWrappingWidth(Constants.WINDOW_WIDTH - 20);
 
-        // Fönstret där man anger sitt namn - visas först?
+        // Fönstret där man anger sitt namn
         FXMLLoader enterNameLoader = new FXMLLoader(Objects.requireNonNull(getClass().getClassLoader().getResource("enterName.fxml")));
         Parent enterName = enterNameLoader.load();
         EnterNameInterfaceController enterNameController = enterNameLoader.getController();
@@ -55,13 +56,13 @@ public class GameInterface extends Application {
 
         // Ange namn - fönstret
         primaryStage.setScene(enterNameScene);
+
         enterNameController.enterNameField.setOnAction(event -> {
             Platform.runLater(() -> {
                 this.playerName = enterNameController.getEnterNameFieldText();
                 enterNameController.enterNameField.setText("");
 
                 if (!playerName.isBlank() && playerName != null) {
-
                     // Ger Client tillgång till kontrollern för GUI
                     this.client = new Client(questionController, this.playerName);
                     primaryStage.setScene(categoryScene);
@@ -86,6 +87,12 @@ public class GameInterface extends Application {
         });
 
         primaryStage.setTitle(Constants.TITLE);
+
+        primaryStage.setOnCloseRequest(event -> {
+            System.out.println("Closing game interface.");
+            System.exit(0);
+        });
+
         primaryStage.setResizable(false);
         primaryStage.show();
     }

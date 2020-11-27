@@ -50,7 +50,7 @@ public class GameInterface extends Application {
 
                     // Ger Client tillgång till kontrollern för GUI
                     this.client = new Client(questionController, this.playerName);
-                    primaryStage.setScene(questionScene);
+                    primaryStage.setScene(categoryScene);
                 }
                 /**********/
 

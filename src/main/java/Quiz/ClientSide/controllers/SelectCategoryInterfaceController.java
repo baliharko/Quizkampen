@@ -51,7 +51,7 @@ public class SelectCategoryInterfaceController implements Serializable {
         }
     }
 
-    @FXML
+ //   @FXML
 /*    public String getSelectedCategory(){
         return Objects.requireNonNull(((ToggleButton) this.categoriesBtnGroup.getSelectedToggle()).getText());
     }

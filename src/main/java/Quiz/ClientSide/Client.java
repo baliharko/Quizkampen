@@ -1,6 +1,7 @@
 package Quiz.ClientSide;
 
 import Quiz.ClientSide.controllers.QuestionInterfaceController;
+import Quiz.ClientSide.controllers.SelectCategoryInterfaceController;
 import Quiz.ServerSide.Initializer;
 import javafx.application.Platform;
 
@@ -10,12 +11,13 @@ import java.util.Objects;
 
 public class Client implements Runnable {
 
+
     private Thread thread;
-    private QuestionInterfaceController controller;
+    public GameSetup game;
     public String playerName;
 
-    public Client(QuestionInterfaceController controller, String playerName) {
-        this.controller = controller;
+    public Client(GameSetup game, String playerName) {
+        this.game = game;
         this.playerName = playerName;
         this.thread = new Thread(this);
         this.thread.start();
@@ -31,9 +33,9 @@ public class Client implements Runnable {
         ) {
 
             // Skickar texten på markerad knapp i frågerutan till ClientHandler och hanteras av ClientProtocol
-            controller.acceptButton.setOnAction(event -> {
-                System.out.println("sent " + Objects.requireNonNull(controller.getSelectedToggleText()));
-                out.println(Objects.requireNonNull(controller.getSelectedToggleText()));
+            this.game.getQuestionInterfaceController().acceptButton.setOnAction(event -> {
+                System.out.println("sent " + Objects.requireNonNull(game.getQuestionInterfaceController().getSelectedToggleText()));
+                out.println(Objects.requireNonNull(game.getQuestionInterfaceController().getSelectedToggleText()));
             });
 
             out.println(this.playerName);
@@ -46,16 +48,16 @@ public class Client implements Runnable {
                     Platform.runLater(() -> {
                         if (((Initializer) temp).areBothConnected()) {
                             System.out.println("Received initializer opponent = " + ((Initializer) temp).getOpponent());
-                            this.controller.setConnectionStatus(((Initializer) temp).getOpponent() + " joined the game!");
-                            this.controller.connectionStatus.setStyle("-fx-fill: green");
-                            this.controller.setQuestionText(((Initializer) temp).getFirstQuestion().getQuestion());
-                            this.controller.setToggleButtonsText(((Initializer) temp).getFirstQuestion().getOptions());
+                            game.getQuestionInterfaceController().setConnectionStatus(((Initializer) temp).getOpponent() + " joined the game!");
+                            game.getQuestionInterfaceController().connectionStatus.setStyle("-fx-fill: green");
+                            game.getQuestionInterfaceController().setQuestionText(((Initializer) temp).getFirstQuestion().getQuestion());
+                            game.getQuestionInterfaceController().setToggleButtonsText(((Initializer) temp).getFirstQuestion().getOptions());
                         }
                     });
                 } else if (fromServer instanceof String) {
                     String temp = (String) fromServer;
                     Platform.runLater(() -> {
-                        this.controller.setQuestionText(temp);
+                        game.getQuestionInterfaceController().setQuestionText(temp);
                     });
                 }
             }
@@ -65,4 +67,5 @@ public class Client implements Runnable {
             e.printStackTrace();
         }
     }
+
 }

@@ -24,6 +24,7 @@ public class GameInterface extends Application {
         Parent question = questionLoader.load();
         QuestionInterfaceController questionController = questionLoader.getController();
         Scene questionScene = new Scene(question, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
+        questionController.questionText.setWrappingWidth(Constants.WINDOW_WIDTH - 20);
 
         // Fönstret där man anger sitt namn
         FXMLLoader enterNameLoader = new FXMLLoader(Objects.requireNonNull(getClass().getClassLoader().getResource("enterName.fxml")));
@@ -50,6 +51,12 @@ public class GameInterface extends Application {
         questionScene.getStylesheets().add("styles.css");
         enterNameScene.getStylesheets().add("styles.css");
         primaryStage.setTitle(Constants.TITLE);
+
+        primaryStage.setOnCloseRequest(event -> {
+            System.out.println("Closing game interface.");
+            System.exit(0);
+        });
+
         primaryStage.setResizable(false);
         primaryStage.show();
     }

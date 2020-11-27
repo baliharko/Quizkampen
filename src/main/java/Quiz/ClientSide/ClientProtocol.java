@@ -23,6 +23,13 @@ public class ClientProtocol {
     private boolean bothConnected;
     private ObjectOutputStream player1out;
     private ObjectOutputStream player2out;
+    private int questionNo;
+    private Question currentQuestion;
+    int currentRound = 1;
+    int player1Score = 12;
+    int player2Score = 16;
+
+    GameSetup gameSetup = new GameSetup();
 
 
     public enum State {
@@ -34,6 +41,7 @@ public class ClientProtocol {
     public ClientProtocol(Databas databas) {
         this.currentState = State.WAITING;
         this.databas = databas;
+        this.questionNo = 0;
     }
 
     // Tillfällig fråga avsedd för test
@@ -54,11 +62,19 @@ public class ClientProtocol {
             }
             case PLAYER_1_CONNECTED -> {
                 if (in.equalsIgnoreCase("init")) {
+
+                    this.currentQuestion = databas.getQuestion(this.questionNo);
+
                     try {
                         out = new Initializer(); // skicka init till player2
 
-                        player1out.writeObject(new Initializer(this.player1Name, this.player2Name, this.databas.getQuestion()));
-                        player2out.writeObject(new Initializer(this.player2Name, this.player1Name, this.databas.getQuestion()));
+                        synchronized (this) {
+                            this.player1out.writeObject(new Initializer(this.player1Name, this.player2Name, this.currentQuestion));
+                        }
+
+                        synchronized (this) {
+                            this.player2out.writeObject(new Initializer(this.player2Name, this.player1Name, this.currentQuestion));
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -67,8 +83,12 @@ public class ClientProtocol {
                 }
             }
             case BOTH_CONNECTED -> {
+
                 System.out.println("protocol - BOTH_CONNECTED");
-                out = this.databas.getQuestion().isRightAnswer(in) ? "Correct" : "False";
+                out = this.currentQuestion.isRightAnswer(in) ? "Correct" : "False";
+
+//                this.currentQuestion = currentQuestion.isRightAnswer(in) ? databas.getQuestion(++questionNo) : currentQuestion;
+//                out = new Initializer("", "", currentQuestion);
 
                 // Spara poäng
 

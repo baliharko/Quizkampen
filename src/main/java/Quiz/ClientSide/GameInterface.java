@@ -25,7 +25,7 @@ public class GameInterface extends Application {
         QuestionInterfaceController questionController = questionLoader.getController();
         Scene questionScene = new Scene(question, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
 
-        // Fönstret där man anger sitt namn - visas först?
+        // Fönstret där man anger sitt namn
         FXMLLoader enterNameLoader = new FXMLLoader(Objects.requireNonNull(getClass().getClassLoader().getResource("enterName.fxml")));
         Parent enterName = enterNameLoader.load();
         EnterNameInterfaceController enterNameController = enterNameLoader.getController();

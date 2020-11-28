@@ -87,5 +87,13 @@ public class QuestionInterfaceController {
     public String getSelectedToggleText() {
         return Objects.requireNonNull(((ToggleButton) this.group.getSelectedToggle()).getText());
     }
+
+    public void setAcceptButtonText(String acceptButtonText) {
+        this.acceptButton.setText(acceptButtonText);
+    }
+
+    public String getAcceptButtonText() {
+        return this.acceptButton.getText();
+    }
 }
 

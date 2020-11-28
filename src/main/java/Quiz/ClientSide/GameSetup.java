@@ -128,22 +128,22 @@ public class GameSetup implements Runnable {
 
         // Skickar texten på markerad knapp i frågerutan till ClientHandler och hanteras av ClientProtocol
         this.getQuestionInterfaceController().acceptButton.setOnAction(event -> {
+            if (this.getQuestionInterfaceController().getAcceptButtonText().equalsIgnoreCase("Svara")) {
+                Request newRequest = new Request(RequestStatus.ANSWER);
+                // Ger texten på knappen till Request - objektet
+                newRequest.setAnswerText(Objects.requireNonNull(getQuestionInterfaceController().getSelectedToggleText()));
+                // Ger den valda knappens index till Request - objektet
+                newRequest.setAnswerButtonIndex(getQuestionInterfaceController().group.getToggles().indexOf(
+                        getQuestionInterfaceController().group.getSelectedToggle()));
 
-            // Skapa ny Request
-            Request newRequest = new Request(RequestStatus.ANSWER);
-            // Ger texten på knappen till Request - objektet
-            newRequest.setAnswerText(Objects.requireNonNull(getQuestionInterfaceController().getSelectedToggleText()));
-            // Ger den valda knappens index till Request - objektet
-            newRequest.setAnswerButtonIndex(getQuestionInterfaceController().group.getToggles().indexOf(
-                    getQuestionInterfaceController().group.getSelectedToggle()));
-
-            try {
-                // Skicka request till ClientHandler för processering av ClientProtocol
-                this.client.getClientOutStream().writeObject(newRequest);
-            } catch (IOException e) {
-                e.printStackTrace();
+                try {
+                    // Skicka request till ClientHandler för processering av ClientProtocol
+                    this.client.getClientOutStream().writeObject(newRequest);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("sent " + Objects.requireNonNull(getQuestionInterfaceController().getSelectedToggleText()));
             }
-            System.out.println("sent " + Objects.requireNonNull(getQuestionInterfaceController().getSelectedToggleText()));
         });
 
         for (Button b : selectCategoryInterfaceController.categoryButtons) {

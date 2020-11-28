@@ -12,13 +12,7 @@ public class Server {
 
     public static void main(String[] args) {
 
-        Databas databas = new Databas();
-
-//        try {
-//            new ServerSocket(Constants.SERVER_PORT).close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        Database database = new Database();
 
         System.out.println("Server started");
 
@@ -35,7 +29,7 @@ public class Server {
 
             while (true) {
 
-                ClientProtocol protocol = new ClientProtocol(databas);
+                ClientProtocol protocol = new ClientProtocol(database);
                 Socket player1 = serverSocket.accept();
                 System.out.println("SERVER - player1 connected");
                 Socket player2 = serverSocket.accept();

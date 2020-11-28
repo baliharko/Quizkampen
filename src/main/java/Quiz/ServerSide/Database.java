@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Databas {
+public class Database {
 
     private ArrayList<Question> databas;
     private int questionNo;
@@ -39,7 +39,7 @@ public class Databas {
 
     }
 
-    public Databas() {
+    public Database() {
         this.questionNo = 0;
         try {
             addQuestionsTodatabas(readQuestionfromFile());

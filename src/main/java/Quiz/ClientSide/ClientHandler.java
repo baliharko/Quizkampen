@@ -40,7 +40,7 @@ public class ClientHandler implements Runnable {
                         this.protocol.setPlayerOut(out);
                         out.writeObject(this.protocol.ProcessInput("init"));
                     }
-                    else if (((Request)fromClient).getStatus() == RequestStatus.ANSWER) {
+                    else {
                         System.out.println("received answer " + fromClient);
                         out.writeObject(this.protocol.ProcessInput(fromClient));
                     }

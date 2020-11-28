@@ -144,6 +144,13 @@ public class GameSetup implements Runnable {
                 }
                 System.out.println("sent " + Objects.requireNonNull(getQuestionInterfaceController().getSelectedToggleText()));
             }
+            else if (this.getQuestionInterfaceController().getAcceptButtonText().equalsIgnoreCase("Nästa fråga")) {
+                try {
+                    this.client.getClientOutStream().writeObject(new Request(RequestStatus.NEXT_QUESTION));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         });
 
         for (Button b : selectCategoryInterfaceController.categoryButtons) {
@@ -153,3 +160,8 @@ public class GameSetup implements Runnable {
         }
     }
 }
+
+// TODO - Knapparna måste refreshas när nästa fråga laddas in (ta bort fokus)
+// TODO - Få in kategorierna och x antal frågor per rond
+// TODO - Poäng
+// TODO - efter x antal frågor måste spelare x vänta på spelare y

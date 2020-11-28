@@ -39,4 +39,8 @@ public class Response implements Serializable {
     public ResponseStatus getResponseStatus() {
         return this.status;
     }
+
+    public Question getQuestion() {
+        return this.question;
+    }
 }

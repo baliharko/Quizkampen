@@ -57,13 +57,15 @@ public class Client implements Runnable {
                             game.getQuestionInterfaceController().setToggleButtonColor(temp.isRightAnswer(), temp.getAnswerButtonIndex());
                             game.getQuestionInterfaceController().setAcceptButtonText("Nästa fråga");
                         });
-//                        try {
-//                            out.writeObject(new Request(RequestStatus.NEXT_QUESTION));
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
                     }
-
+                    else if (temp.getResponseStatus() == Response.ResponseStatus.NEW_QUESTION) {
+                        Platform.runLater(() -> {
+                            game.getQuestionInterfaceController().setAcceptButtonText("Svara");
+                            game.getQuestionInterfaceController().setQuestionText(temp.getQuestion().getQuestion());
+                            game.getQuestionInterfaceController().refreshButtons();
+                            game.getQuestionInterfaceController().setToggleButtonsText(temp.getQuestion().getOptions());
+                        });
+                    }
                 }
             }
         } catch (EOFException e) {

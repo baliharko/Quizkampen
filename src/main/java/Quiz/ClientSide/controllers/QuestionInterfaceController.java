@@ -45,11 +45,6 @@ public class QuestionInterfaceController {
             tb.setToggleGroup(group);
         }
 
-//
-//        toggle1.setToggleGroup(group);
-//        toggle2.setToggleGroup(group);
-//        toggle3.setToggleGroup(group);
-//        toggle4.setToggleGroup(group);
     }
 
     public void setConnectionStatus(String s) {
@@ -73,6 +68,13 @@ public class QuestionInterfaceController {
 
         for (ToggleButton tb : toggleButtonList) {
             tb.setMouseTransparent(true);
+        }
+    }
+
+    public void refreshButtons() {
+        for (ToggleButton tb : toggleButtonList) {
+            tb.setMouseTransparent(false);
+            tb.getStylesheets().add("styles.css");
         }
     }
 

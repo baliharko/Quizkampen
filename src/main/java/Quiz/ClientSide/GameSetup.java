@@ -139,7 +139,7 @@ public class GameSetup implements Runnable {
 
             try {
                 // Skicka request till ClientHandler för processering av ClientProtocol
-                this.client.getClientOutStream().writeObject(newRequest); //TODO - byt PrintWriter till ObjectOutputStream
+                this.client.getClientOutStream().writeObject(newRequest);
             } catch (IOException e) {
                 e.printStackTrace();
             }

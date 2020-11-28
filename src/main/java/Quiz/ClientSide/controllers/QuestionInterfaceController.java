@@ -60,9 +60,7 @@ public class QuestionInterfaceController {
             this.questionText.setText(questionText);
     }
 
-    // TODO - metod för att byta färg på knapp
     public void setToggleButtonColor(boolean isRightAnswer, int buttonIndex) {
-
         String style = isRightAnswer ? "-fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #b5f5be, #1ee700);"
                 : "-fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #f8cdcd, #f60c0c);";
 
@@ -76,7 +74,6 @@ public class QuestionInterfaceController {
         for (ToggleButton tb : toggleButtonList) {
             tb.setMouseTransparent(true);
         }
-
     }
 
     public void setToggleButtonsText(String[] answers) {

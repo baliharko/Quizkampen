@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Objects;
 import java.util.Properties;
 
 public class GameSetup implements Runnable {
@@ -109,6 +110,9 @@ public class GameSetup implements Runnable {
 
     @Override
     public void run() {
+
+        /* Sätter playername från enterName - fönstret och skapar sedan upp en Client.
+            Byter sedan scen i GameInterface. */
         this.enterNameInterfaceController.enterNameField.setOnAction(event -> {
             Platform.runLater(() -> {
                 this.playerName = this.enterNameInterfaceController.getEnterNameFieldText();
@@ -120,6 +124,26 @@ public class GameSetup implements Runnable {
                     this.gameInterface.primaryStage.setScene(this.gameInterface.questionScene);
                 }
             });
+        });
+
+        // Skickar texten på markerad knapp i frågerutan till ClientHandler och hanteras av ClientProtocol
+        this.getQuestionInterfaceController().acceptButton.setOnAction(event -> {
+
+            // Skapa ny Request
+            Request newRequest = new Request(RequestStatus.ANSWER);
+            // Ger texten på knappen till Request - objektet
+            newRequest.setAnswerText(Objects.requireNonNull(getQuestionInterfaceController().getSelectedToggleText()));
+            // Ger den valda knappens index till Request - objektet
+            newRequest.setAnswerButtonIndex(getQuestionInterfaceController().group.getToggles().indexOf(
+                    getQuestionInterfaceController().group.getSelectedToggle()));
+
+            try {
+                // Skicka request till ClientHandler för processering av ClientProtocol
+                this.client.getClientOutStream().writeObject(newRequest);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.out.println("sent " + Objects.requireNonNull(getQuestionInterfaceController().getSelectedToggleText()));
         });
 
         for (Button b : selectCategoryInterfaceController.categoryButtons) {

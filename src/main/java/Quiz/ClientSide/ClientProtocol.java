@@ -3,6 +3,8 @@ package Quiz.ClientSide;
 import Quiz.ServerSide.Databas;
 import Quiz.ServerSide.Initializer;
 import Quiz.ServerSide.Question;
+import Quiz.ServerSide.Response;
+
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
@@ -43,7 +45,7 @@ public class ClientProtocol {
     // Tillfällig fråga avsedd för test
 //    Question testQuestion = new Question("Nu kom en fråga från servern!", "Rätt svar", new String[] { "Åsna", "Rätt svar", "Orm", "Cykel" });
 
-    public synchronized Object ProcessInput(String in) {
+    public synchronized Object ProcessInput(Object in) {
         Object out = null;
 
         if (this.areBothConnected())
@@ -51,19 +53,17 @@ public class ClientProtocol {
 
         switch (this.currentState) {
             case WAITING -> {
-                if (in.equalsIgnoreCase("init")) {
+                if (in instanceof String && ((String)in).equalsIgnoreCase("init")) {
                     out = new Initializer();
                     currentState = State.PLAYER_1_CONNECTED;
                 }
             }
             case PLAYER_1_CONNECTED -> {
-                if (in.equalsIgnoreCase("init")) {
+                if (in instanceof String && ((String)in).equalsIgnoreCase("init")) {
 
                     this.currentQuestion = databas.getQuestion(this.questionNo);
-
                     try {
                         out = new Initializer(); // skicka init till player2
-
                         synchronized (this) {
                             this.player1out.writeObject(new Initializer(this.player1Name, this.player2Name, this.currentQuestion));
                         }
@@ -76,12 +76,15 @@ public class ClientProtocol {
                     }
                     this.bothConnected = true;
                     currentState = State.BOTH_CONNECTED;
+                    System.out.println("protocol - BOTH_CONNECTED");
                 }
             }
             case BOTH_CONNECTED -> {
-
-                System.out.println("protocol - BOTH_CONNECTED");
-                out = this.currentQuestion.isRightAnswer(in) ? "Correct" : "False";
+                if (in instanceof Request) {
+                    // Skickar true eller false för rätt eller fel svar
+                    out = new Response(this.currentQuestion.isRightAnswer(((Request) in).getAnswerText()),
+                            ((Request)in).getAnswerButtonIndex()); // Skickar tillbaka index på knappen
+                }
 
 //                this.currentQuestion = currentQuestion.isRightAnswer(in) ? databas.getQuestion(++questionNo) : currentQuestion;
 //                out = new Initializer("", "", currentQuestion);
@@ -113,10 +116,10 @@ public class ClientProtocol {
     }
 
     public synchronized void setPlayerOut(ObjectOutputStream playerOut) {
-            if (player1out != null) {
-                player2out = playerOut;
-            } else
-                player1out = playerOut;
+        if (player1out != null) {
+            player2out = playerOut;
+        } else
+            player1out = playerOut;
     }
 }
 

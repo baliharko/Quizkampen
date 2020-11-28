@@ -1,10 +1,7 @@
 package Quiz.ClientSide;
 
-import Quiz.ClientSide.controllers.EnterNameInterfaceController;
-import Quiz.ClientSide.controllers.QuestionInterfaceController;
-import Quiz.ClientSide.controllers.SelectCategoryInterfaceController;
+import Quiz.ClientSide.controllers.*;
 
-import Quiz.ClientSide.controllers.WaitController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +17,12 @@ public class GameInterface extends Application {
     Client client;
     String playerName;
     Stage primaryStage;
+
+    //Fönster med resultat för avslutad rond
+    FXMLLoader resultFromRoundLoader;
+    Parent resultRond;
+    ResultFromRoundInterfaceController resultFromRoundController;
+    Scene resultRoundScene;
 
     // Kategorifönstret
     FXMLLoader selectCategoryLoader;

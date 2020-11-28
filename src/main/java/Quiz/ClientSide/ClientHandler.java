@@ -35,7 +35,6 @@ public class ClientHandler implements Runnable {
                 System.out.println("received answer " + fromClient);
                 out.writeObject(this.protocol.ProcessInput(this.playerName + "," + fromClient));
             }
-
             this.playerSocket.close();
         } catch (Exception e) {
             e.printStackTrace();

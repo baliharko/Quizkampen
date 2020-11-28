@@ -11,25 +11,21 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Server {
+public class Server{
+    protected static Databas databas = new Databas();
 
     public static void main(String[] args) {
-
-        Databas databas = new Databas();
-
-        try {
+/*        try {
             new ServerSocket(Constants.SERVER_PORT).close();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-
+        }*/
         System.out.println("Server started");
 
         try (ServerSocket serverSocket = new ServerSocket(Constants.SERVER_PORT)) {
 
             while (true) {
-
-                Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+/*                Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
                     @Override
                     public void run() {
                         try {
@@ -39,8 +35,7 @@ public class Server {
                             e.printStackTrace();
                         }
                     }
-                }));
-
+                }));*/
                 ClientProtocol protocol = new ClientProtocol(databas);
                 Socket player1 = serverSocket.accept();
                 System.out.println("SERVER - player1 connected");
@@ -61,6 +56,7 @@ public class Server {
                     ClientHandler p2Handler = new ClientHandler(player2, protocol, p2Out, p2In);
                     Thread p2 = new Thread(p2Handler);
                     p2.start();
+
                 }
             }
         } catch (IOException e) {

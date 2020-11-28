@@ -3,11 +3,9 @@ package Quiz.ClientSide;
 import Quiz.ClientSide.controllers.*;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.util.Objects;
@@ -20,7 +18,7 @@ public class GameInterface extends Application {
 
     //Fönster med resultat för avslutad rond
     FXMLLoader resultFromRoundLoader;
-    Parent resultRond;
+    Parent resultRound;
     ResultFromRoundInterfaceController resultFromRoundController;
     Scene resultRoundScene;
 
@@ -51,6 +49,12 @@ public class GameInterface extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         this.primaryStage = primaryStage;
+
+        // Resultatfönster för avslutad rond
+        this.resultFromRoundLoader = new FXMLLoader((Objects.requireNonNull(getClass().getClassLoader().getResource("resultFromRound.fxml"))));
+        this.resultRound = resultFromRoundLoader.load();
+        this.resultFromRoundController = resultFromRoundLoader.getController();
+        this.resultRoundScene = new Scene(resultRound, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
 
         // Fönstret där man väljer kategori
         this.selectCategoryLoader = new FXMLLoader(Objects.requireNonNull(getClass().getClassLoader().getResource("selectCategory.fxml")));
@@ -85,6 +89,7 @@ public class GameInterface extends Application {
         categoryScene.getStylesheets().add("styles.css");
         questionScene.getStylesheets().add("styles.css");
         enterNameScene.getStylesheets().add("styles.css");
+        resultRoundScene.getStylesheets().add("styles.css");
 
         primaryStage.setOnCloseRequest(event -> {
             System.out.println("Closing game interface.");

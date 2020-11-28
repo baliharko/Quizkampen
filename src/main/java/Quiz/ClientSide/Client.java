@@ -55,9 +55,9 @@ public class Client implements Runnable {
                 } else if (fromServer instanceof Response) {
                     Response temp = (Response) fromServer;
                     Platform.runLater(() -> {
-                        game.getQuestionInterfaceController().setQuestionText("" + temp.isRightAnswer()); // test
+//                        game.getQuestionInterfaceController().setQuestionText("" + temp.isRightAnswer()); // test
                         // TODO - Sätt färg på knappen här
-                        game.getQuestionInterfaceController().setToggleButtonColor(temp.isRightAnswer());
+                        game.getQuestionInterfaceController().setToggleButtonColor(temp.isRightAnswer(), temp.getAnswerButtonIndex());
 
                     });
                 }

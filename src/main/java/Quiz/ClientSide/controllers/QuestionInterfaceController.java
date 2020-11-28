@@ -45,6 +45,11 @@ public class QuestionInterfaceController {
             this.questionText.setText(questionText);
     }
 
+    // TODO - metod för att byta färg på knapp
+    public void setToggleButtonColor(boolean isRightAnswer) {
+//        tButton.setStyle("-fx-background-color: green");
+    }
+
     public void setToggleButtonsText(String[] answers) {
         toggle1.setText(answers[0]);
         toggle2.setText(answers[1]);

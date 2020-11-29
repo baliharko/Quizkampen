@@ -20,11 +20,14 @@ public class ResultFromRoundInterfaceController {
     public Text currentScore;
     public Text p1Name;
     public Text p2Name;
+    public Button continueButton;
+
+// = player, round, question
     public Button p1_r1q1;
     public Button p1_r1q2;
     public Button p1_r1q3;
-    public Button continueButton;
     public Button p2_r1q1;
     public Button p2_r1q2;
     public Button p2_r1q3;
+
 }

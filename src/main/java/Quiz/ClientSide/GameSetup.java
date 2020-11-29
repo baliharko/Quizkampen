@@ -121,7 +121,8 @@ public class GameSetup implements Runnable {
                 if (!this.playerName.isBlank() && this.playerName != null) {
                     // Ger Client tillgång till kontrollern för GUI
                     this.client = new Client(this, this.playerName);
-                    this.gameInterface.primaryStage.setScene(this.gameInterface.questionScene);
+ //                   this.gameInterface.primaryStage.setScene(this.gameInterface.questionScene);
+                    this.gameInterface.primaryStage.setScene(this.gameInterface.resultRoundScene);
                 }
             });
         });

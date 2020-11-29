@@ -54,7 +54,7 @@ public class Databas {
     }
 
     public List<String> getCategoryList() {
-        List<String>categoryList=new ArrayList<>();
+        List<String> categoryList = new ArrayList<>();
         for (int i = 0; i < databas.size(); i++) {
             String category = databas.get(i).getCategory();
             if (!categoryList.contains(category)) {
@@ -64,15 +64,31 @@ public class Databas {
         return categoryList;
     }
 
-    public List<Question> getQustionByCategory(String inputCategory) {
-        List<Question> questions = new ArrayList<>();
+    public List<String> getQustionByCategory(String inputCategory) {
+        List<String> questionsByCategory = new ArrayList<>();
+        String cat;
+        String ques;
         for (int i = 0; i < databas.size(); i++) {
-            Question q = databas.get(i);
-            if (q.getCategory().equals(inputCategory)) {
-                questions.add(q);
+            cat = databas.get(i).getCategory();
+            if (cat.equals(inputCategory)) {
+                ques = databas.get(i).getQuestion();
+                questionsByCategory.add(ques);
             }
         }
-        Collections.shuffle(questions);
-        return questions;
+        Collections.shuffle(questionsByCategory);
+        return questionsByCategory;
+    }
+
+    //Test
+    public static void main(String[] args) {
+        Databas ds = new Databas();
+        ds.addQuestionsTodatabas(readQuestionfromFile());
+        List<String> catagories = ds.getCategoryList();
+        System.out.println(catagories);
+
+        ListIterator<String> listIterator = ds.getQustionByCategory(catagories.get(0)).listIterator();
+        while (listIterator.hasNext()) {
+            System.out.println(listIterator.next());
+        }
     }
 }

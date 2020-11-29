@@ -2,10 +2,8 @@ package Quiz.ServerSide;
 
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.security.PublicKey;
+import java.util.*;
 
 public class Databas {
 
@@ -64,5 +62,17 @@ public class Databas {
             }
         }
         return categoryList;
+    }
+
+    public List<Question> getQustionByCategory(String inputCategory) {
+        List<Question> questions = new ArrayList<>();
+        for (int i = 0; i < databas.size(); i++) {
+            Question q = databas.get(i);
+            if (q.getCategory().equals(inputCategory)) {
+                questions.add(q);
+            }
+        }
+        Collections.shuffle(questions);
+        return questions;
     }
 }

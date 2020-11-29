@@ -1,9 +1,6 @@
 package Quiz.ClientSide;
 
-import Quiz.ClientSide.controllers.EnterNameInterfaceController;
-import Quiz.ClientSide.controllers.QuestionInterfaceController;
-import Quiz.ClientSide.controllers.SelectCategoryInterfaceController;
-import Quiz.ClientSide.controllers.WaitController;
+import Quiz.ClientSide.controllers.*;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 
@@ -32,6 +29,7 @@ public class GameSetup implements Runnable {
     private QuestionInterfaceController questionInterfaceController;
     private SelectCategoryInterfaceController selectCategoryInterfaceController;
     private WaitController waitController;
+    private ResultFromRoundInterfaceController resultFromRoundInterfaceController;
 
     public GameSetup(GameInterface gameInterface) {
 
@@ -42,6 +40,7 @@ public class GameSetup implements Runnable {
         this.questionInterfaceController = this.gameInterface.questionController;
         this.selectCategoryInterfaceController = this.gameInterface.selectCategoryController;
         this.waitController = this.gameInterface.waitController;
+        this.resultFromRoundInterfaceController = this.gameInterface.resultFromRoundController;
         this.thread.start();
     }
 
@@ -102,6 +101,9 @@ public class GameSetup implements Runnable {
 
     public SelectCategoryInterfaceController getSelectCategoryInterfaceController() {
         return selectCategoryInterfaceController;
+    }
+    public ResultFromRoundInterfaceController getResultFromRoundController(){
+        return resultFromRoundInterfaceController;
     }
 
     public WaitController getWaitController() {

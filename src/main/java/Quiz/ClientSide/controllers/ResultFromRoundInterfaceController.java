@@ -30,4 +30,11 @@ public class ResultFromRoundInterfaceController {
     public Button p2_r1q2;
     public Button p2_r1q3;
 
+    public void setP1Name(Text p1Name) {
+        this.p1Name = p1Name;
+    }
+
+    public void setP2Name(Text p2Name) {
+        this.p2Name = p2Name;
+    }
 }

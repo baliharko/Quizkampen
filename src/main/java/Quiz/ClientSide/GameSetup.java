@@ -1,12 +1,16 @@
 package Quiz.ClientSide;
 
-import Quiz.ClientSide.controllers.*;
+import Quiz.ClientSide.controllers.EnterNameInterfaceController;
+import Quiz.ClientSide.controllers.QuestionInterfaceController;
+import Quiz.ClientSide.controllers.SelectCategoryInterfaceController;
+import Quiz.ClientSide.controllers.WaitController;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Objects;
 import java.util.Properties;
 
 public class GameSetup implements Runnable {
@@ -28,7 +32,6 @@ public class GameSetup implements Runnable {
     private QuestionInterfaceController questionInterfaceController;
     private SelectCategoryInterfaceController selectCategoryInterfaceController;
     private WaitController waitController;
-    private ResultFromRoundInterfaceController resultFromRoundInterfaceController;
 
     public GameSetup(GameInterface gameInterface) {
 
@@ -39,7 +42,6 @@ public class GameSetup implements Runnable {
         this.questionInterfaceController = this.gameInterface.questionController;
         this.selectCategoryInterfaceController = this.gameInterface.selectCategoryController;
         this.waitController = this.gameInterface.waitController;
-        this.resultFromRoundInterfaceController = this.gameInterface.resultFromRoundController;
         this.thread.start();
     }
 
@@ -106,12 +108,11 @@ public class GameSetup implements Runnable {
         return waitController;
     }
 
-    public ResultFromRoundInterfaceController getResultFromRoundInterfaceController(){
-        return resultFromRoundInterfaceController;
-    }
-
     @Override
     public void run() {
+
+        /* Sätter playername från enterName - fönstret och skapar sedan upp en Client.
+            Byter sedan scen i GameInterface. */
         this.enterNameInterfaceController.enterNameField.setOnAction(event -> {
             Platform.runLater(() -> {
                 this.playerName = this.enterNameInterfaceController.getEnterNameFieldText();
@@ -120,11 +121,31 @@ public class GameSetup implements Runnable {
                 if (!this.playerName.isBlank() && this.playerName != null) {
                     // Ger Client tillgång till kontrollern för GUI
                     this.client = new Client(this, this.playerName);
-                    this.gameInterface.primaryStage.setScene(this.gameInterface.resultRoundScene);
+                    this.gameInterface.primaryStage.setScene(this.gameInterface.questionScene);
                 }
             });
         });
- //       this.gameInterface.resultFromRoundController.p1Name.setText();
+
+        // Skickar texten på markerad knapp i frågerutan till ClientHandler och hanteras av ClientProtocol
+        this.getQuestionInterfaceController().acceptButton.setOnAction(event -> {
+
+            // Skapa ny Request
+            Request newRequest = new Request(RequestStatus.ANSWER);
+            // Ger texten på knappen till Request - objektet
+            newRequest.setAnswerText(Objects.requireNonNull(getQuestionInterfaceController().getSelectedToggleText()));
+            // Ger den valda knappens index till Request - objektet
+            newRequest.setAnswerButtonIndex(getQuestionInterfaceController().group.getToggles().indexOf(
+                    getQuestionInterfaceController().group.getSelectedToggle()));
+
+            try {
+                // Skicka request till ClientHandler för processering av ClientProtocol
+                this.client.getClientOutStream().writeObject(newRequest);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.out.println("sent " + Objects.requireNonNull(getQuestionInterfaceController().getSelectedToggleText()));
+        });
+
         for (Button b : selectCategoryInterfaceController.categoryButtons) {
             b.setOnAction(event -> {
                 System.out.println(b.getText()); // Skickas till databasen och får tillbaka frågor i vald kategori.

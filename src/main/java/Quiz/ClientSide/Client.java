@@ -3,6 +3,7 @@ package Quiz.ClientSide;
 import Quiz.ClientSide.controllers.QuestionInterfaceController;
 import Quiz.ClientSide.controllers.SelectCategoryInterfaceController;
 import Quiz.ServerSide.Initializer;
+import Quiz.ServerSide.Response;
 import javafx.application.Platform;
 
 import java.io.*;
@@ -11,10 +12,10 @@ import java.util.Objects;
 
 public class Client implements Runnable {
 
-
     private Thread thread;
     public GameSetup game;
     public String playerName;
+    private ObjectOutputStream out;
 
     public Client(GameSetup game, String playerName) {
         this.game = game;
@@ -28,17 +29,14 @@ public class Client implements Runnable {
     public void run() {
         try (
                 Socket socketToServer = new Socket(Constants.SERVER_IP, Constants.SERVER_PORT);
-                PrintWriter out = new PrintWriter(new OutputStreamWriter(socketToServer.getOutputStream()), true);
+                ObjectOutputStream out = new ObjectOutputStream(socketToServer.getOutputStream());
                 ObjectInputStream in = new ObjectInputStream(socketToServer.getInputStream());
         ) {
+            // Ger tillgång till printwriter utanför run - metoden
+            this.setClientOutStream(out);
 
-            // Skickar texten på markerad knapp i frågerutan till ClientHandler och hanteras av ClientProtocol
-            this.game.getQuestionInterfaceController().acceptButton.setOnAction(event -> {
-                System.out.println("sent " + Objects.requireNonNull(game.getQuestionInterfaceController().getSelectedToggleText()));
-                out.println(Objects.requireNonNull(game.getQuestionInterfaceController().getSelectedToggleText()));
-            });
-
-            out.println(this.playerName);
+//            out.println(this.playerName);
+            out.writeObject(new Request(RequestStatus.SET_NAME, this.playerName));
 
             Object fromServer;
             while ((fromServer = in.readObject()) != null) {
@@ -54,10 +52,11 @@ public class Client implements Runnable {
                             game.getQuestionInterfaceController().setToggleButtonsText(((Initializer) temp).getFirstQuestion().getOptions());
                         }
                     });
-                } else if (fromServer instanceof String) {
-                    String temp = (String) fromServer;
+                } else if (fromServer instanceof Response) {
+                    Response temp = (Response) fromServer;
                     Platform.runLater(() -> {
-                        game.getQuestionInterfaceController().setQuestionText(temp);
+                        game.getQuestionInterfaceController().setToggleButtonColor(temp.isRightAnswer(), temp.getAnswerButtonIndex());
+
                     });
                 }
             }
@@ -66,6 +65,14 @@ public class Client implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void setClientOutStream(ObjectOutputStream out) {
+        this.out = out;
+    }
+
+    public ObjectOutputStream getClientOutStream() {
+        return this.out;
     }
 
 }

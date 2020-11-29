@@ -4,6 +4,7 @@ package Quiz.ServerSide;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Databas {
@@ -52,5 +53,16 @@ public class Databas {
         Question out = databas.get(index);
         this.questionNo++;
         return out;
+    }
+
+    public List<String> getCategoryList() {
+        List<String>categoryList=new ArrayList<>();
+        for (int i = 0; i < databas.size(); i++) {
+            String category = databas.get(i).getCategory();
+            if (!categoryList.contains(category)) {
+                categoryList.add(category);
+            }
+        }
+        return categoryList;
     }
 }

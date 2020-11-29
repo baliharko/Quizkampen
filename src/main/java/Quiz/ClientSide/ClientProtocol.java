@@ -94,12 +94,17 @@ public class ClientProtocol {
 //                out = new Initializer("", "", currentQuestion);
                 if (out.equals("Correct") && plAns.equalsIgnoreCase(player1Name)) {
                     System.out.println("Poäng ++ " + plAns);
-                    player1Score ++;
+                    player1Score++;
                     System.out.println(player1Score);
-                }
-                else if (out.equals("Correct") && plAns.equalsIgnoreCase(player2Name)) {
+                } else if (out.equals("Correct") && plAns.equalsIgnoreCase(player2Name)) {
                     System.out.println("Poäng ++ " + plAns);
-                    player2Score ++;
+                    player2Score++;
+                    System.out.println(player2Score);
+                } else if (out.equals("False") && plAns.equalsIgnoreCase(player1Name)) {
+                    System.out.println("Fel svar " + plAns);
+                    System.out.println(player1Score);
+                } else if (out.equals("False") && plAns.equalsIgnoreCase(player2Name)) {
+                    System.out.println("Fel svar " + plAns);
                     System.out.println(player2Score);
                 }
 

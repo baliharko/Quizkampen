@@ -26,4 +26,8 @@ public class Question implements Serializable {
     public String[] getOptions() {
         return this.options;
     }
+
+    public String getCategory() {
+        return category;
+    }
 }

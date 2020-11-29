@@ -124,7 +124,7 @@ public class GameSetup implements Runnable {
                 }
             });
         });
-
+ //       this.gameInterface.resultFromRoundController.p1Name.setText();
         for (Button b : selectCategoryInterfaceController.categoryButtons) {
             b.setOnAction(event -> {
                 System.out.println(b.getText()); // Skickas till databasen och får tillbaka frågor i vald kategori.

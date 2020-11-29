@@ -17,7 +17,14 @@ import java.awt.*;
  */
 public class ResultFromRoundInterfaceController {
 
-    public Button p1NameScoreBoard;
-    public Button p2NameScoreBoard;
     public Text currentScore;
+    public Text p1Name;
+    public Text p2Name;
+    public Button p1_r1q1;
+    public Button p1_r1q2;
+    public Button p1_r1q3;
+    public Button continueButton;
+    public Button p2_r1q1;
+    public Button p2_r1q2;
+    public Button p2_r1q3;
 }

@@ -26,21 +26,29 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                           <children>
-                              <Button fx:id="p1NameScoreBoard" layoutX="71.0" layoutY="36.0" mnemonicParsing="false" prefHeight="126.0" prefWidth="191.0" text="Player 1" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
-                           <children>
-                              <Button fx:id="p2NameScoreBoard" layoutX="41.0" layoutY="56.0" mnemonicParsing="false" prefHeight="150.0" prefWidth="200.0" text="Player 2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                           </children>
-                        </AnchorPane>
                         <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1">
                            <children>
-                              <Text fx:id="currentScore" strokeType="OUTSIDE" strokeWidth="0.0" text="0-0">
+                              <Text fx:id="currentScore" fill="#f0f0f0" strokeType="OUTSIDE" strokeWidth="0.0" text="0-0">
                                  <font>
                                     <Font size="48.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </StackPane>
+                        <StackPane prefHeight="150.0" prefWidth="200.0">
+                           <children>
+                              <Text fx:id="p1Name" fill="#7dff00" strokeType="OUTSIDE" strokeWidth="0.0" text="Player 1">
+                                 <font>
+                                    <Font size="22.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </StackPane>
+                        <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2">
+                           <children>
+                              <Text fx:id="p2Name" fill="#5aff00" strokeType="OUTSIDE" strokeWidth="0.0" text="Player 2">
+                                 <font>
+                                    <Font size="22.0" />
                                  </font>
                               </Text>
                            </children>
@@ -64,13 +72,8 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <StackPane fx:id="p1Round1Score" prefHeight="150.0" prefWidth="200.0">
+                  <StackPane prefHeight="150.0" prefWidth="200.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0">
-                           <font>
-                              <Font size="22.0" />
-                           </font>
-                        </Text>
                         <GridPane>
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -83,17 +86,17 @@
                            <children>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                  <children>
-                                    <Button fx:id="p1_r1q1" layoutX="4.0" layoutY="22.0" mnemonicParsing="false" prefHeight="98.0" prefWidth="115.0" text="Button" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Button fx:id="p1_r1q1" layoutX="9.0" layoutY="29.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="48.0" text="Button" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="29.0" />
                                  </children>
                               </AnchorPane>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                                  <children>
-                                    <Button fx:id="p1_r1q2" layoutX="24.0" layoutY="7.0" mnemonicParsing="false" prefHeight="98.0" prefWidth="135.0" text="Button" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Button fx:id="p1_r1q2" layoutX="9.0" layoutY="29.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="48.0" text="Button" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="29.0" />
                                  </children>
                               </AnchorPane>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                                  <children>
-                                    <Button fx:id="p1_r1q3" layoutX="-6.0" layoutY="14.0" mnemonicParsing="false" prefHeight="98.0" prefWidth="105.0" text="Button" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Button fx:id="p1_r1q3" layoutX="9.0" layoutY="29.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="49.0" text="Button" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="29.0" />
                                  </children>
                               </AnchorPane>
                            </children>
@@ -102,12 +105,12 @@
                   </StackPane>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <children>
-                        <Button fx:id="resultButton" layoutX="57.0" layoutY="35.0" mnemonicParsing="false" prefHeight="97.0" prefWidth="200.0" text="Button" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <Button fx:id="continueButton" layoutX="57.0" layoutY="35.0" mnemonicParsing="false" prefHeight="97.0" prefWidth="200.0" text="Fortsätt" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
                   <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Rond 1">
+                        <Text fx:id="round1" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Rond 1">
                            <font>
                               <Font size="22.0" />
                            </font>
@@ -128,17 +131,17 @@
                            <children>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                  <children>
-                                    <Button fx:id="p2_r1q1" layoutX="-7.0" layoutY="22.0" mnemonicParsing="false" prefHeight="98.0" prefWidth="104.0" text="Button" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Button fx:id="p2_r1q1" layoutX="8.0" layoutY="30.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="50.0" text="Button" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="30.0" />
                                  </children>
                               </AnchorPane>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                                  <children>
-                                    <Button fx:id="p2_r1q2" layoutX="-15.0" layoutY="14.0" mnemonicParsing="false" prefHeight="98.0" prefWidth="96.0" text="Button" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Button fx:id="p2_r1q2" layoutX="10.0" layoutY="29.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="48.0" text="Button" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="29.0" />
                                  </children>
                               </AnchorPane>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                                  <children>
-                                    <Button fx:id="p2_r1q3" layoutX="-15.0" layoutY="36.0" mnemonicParsing="false" prefHeight="98.0" prefWidth="96.0" text="Button" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Button fx:id="p2_r1q3" layoutX="10.0" layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="47.0" text="Button" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="32.0" />
                                  </children>
                               </AnchorPane>
                            </children>
@@ -156,7 +159,7 @@
                   </StackPane>
                   <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Rond 2">
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Rond 2">
                            <font>
                               <Font size="22.0" />
                            </font>
@@ -183,7 +186,7 @@
                   </StackPane>
                   <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Rond 3">
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Rond 3">
                            <font>
                               <Font size="22.0" />
                            </font>

@@ -29,6 +29,7 @@ public class ClientProtocol {
     int player1Score = 0;
     int player2Score = 0;
     Object out = null;
+    private int counter = 4;
 
     public enum State {
         WAITING, PLAYER_1_CONNECTED, BOTH_CONNECTED, ANSWER_RECEIVED, QUESTION_SENT,
@@ -83,15 +84,12 @@ public class ClientProtocol {
             case BOTH_CONNECTED -> {
 
                 System.out.println("protocol - BOTH_CONNECTED");
-                //out = this.currentQuestion.isRightAnswer(in) ? "Correct" : "False";
 
                 String inAns = in.split(",")[1];
                 String plAns = in.split(",")[0];
 
                 out = this.currentQuestion.isRightAnswer(inAns) ? "Correct" : "False";
 
-//                this.currentQuestion = currentQuestion.isRightAnswer(in) ? databas.getQuestion(++questionNo) : currentQuestion;
-//                out = new Initializer("", "", currentQuestion);
                 if (out.equals("Correct") && plAns.equalsIgnoreCase(player1Name)) {
                     System.out.println("Poäng ++ " + plAns);
                     player1Score++;
@@ -107,24 +105,21 @@ public class ClientProtocol {
                     System.out.println("Fel svar " + plAns);
                     System.out.println(player2Score);
                 }
-
-//this.currentQuestion = currentQuestion.isRightAnswer(in) ? databas.getQuestion(++questionNo) : currentQuestion;
-//out = new Initializer("", "", currentQuestion);
-
-                // Spara poäng
-
-
-                // Vilken rond
-
-                // Ändrar inte state p.g.a test för tilfället
+                getRoundNumber();
             }
         }
         return out;
     }
 
-    public static int getPoint() {
-
-        return 0;
+    public  int getRoundNumber() {
+        counter--;
+        System.out.println("Round: "+currentRound);
+        if (counter == 0) {
+            currentRound++;
+            this.counter=4;
+            //System.out.println("Round: "+currentRound);
+        }
+        return currentRound;
     }
 
     public synchronized void setPlayer(String playerName) {

@@ -54,7 +54,7 @@ public class GameInterface extends Application {
         this.resultFromRoundLoader = new FXMLLoader((Objects.requireNonNull(getClass().getClassLoader().getResource("resultFromRound.fxml"))));
         this.resultRound = resultFromRoundLoader.load();
         this.resultFromRoundController = resultFromRoundLoader.getController();
-        this.resultRoundScene = new Scene(resultRound, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
+        this.resultRoundScene = new Scene(resultRound, Constants.WINDOW_WIDTH, Constants.WINDOW_WIDTH);
 
         // Fönstret där man väljer kategori
         this.selectCategoryLoader = new FXMLLoader(Objects.requireNonNull(getClass().getClassLoader().getResource("selectCategory.fxml")));
@@ -73,7 +73,7 @@ public class GameInterface extends Application {
         this.enterNameLoader = new FXMLLoader(Objects.requireNonNull(getClass().getClassLoader().getResource("enterName.fxml")));
         this.enterName = enterNameLoader.load();
         this.enterNameController = enterNameLoader.getController();
-        this.enterNameScene = new Scene(enterName, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
+        this.enterNameScene = new Scene(enterName, Constants.WINDOW_WIDTH, Constants.WINDOW_WIDTH / 2);
 
         // Wait-fönster
         this.waitLoader = new FXMLLoader(Objects.requireNonNull(getClass().getClassLoader().getResource("wait.fxml")));

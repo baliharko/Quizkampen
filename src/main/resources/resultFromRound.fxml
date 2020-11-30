@@ -105,7 +105,7 @@
                   </StackPane>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <children>
-                        <Button fx:id="continueButton" layoutX="57.0" layoutY="35.0" mnemonicParsing="false" prefHeight="97.0" prefWidth="200.0" text="Fortsätt" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <Button fx:id="continueButton" layoutX="57.0" layoutY="35.0" mnemonicParsing="false" prefHeight="97.0" prefWidth="200.0" text="Fortsätt" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
                   <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1">

@@ -9,11 +9,6 @@ import java.util.Objects;
 
 public class GameSetup implements Runnable {
 
-//    private Properties gameProperties = new Properties();
-//    private int categories;
-//    private int questions;
-//    private int rounds;
-
     private String playerName;
     private GameInterface gameInterface;
 
@@ -30,7 +25,6 @@ public class GameSetup implements Runnable {
     public GameSetup(GameInterface gameInterface) {
 
         this.thread = new Thread(this);
-//        this.loadPropertiesFromFile();
         this.gameInterface = gameInterface;
         this.enterNameInterfaceController = this.gameInterface.enterNameController;
         this.questionInterfaceController = this.gameInterface.questionController;
@@ -40,53 +34,6 @@ public class GameSetup implements Runnable {
         this.resultFromRoundInterfaceController.setProperties(Constants.CATEGORIES, Constants.QUESTIONS, Constants.ROUNDS);
         this.thread.start();
     }
-
-    private void loadPropertiesFromFile() {
-
-//        if (!new File("src/main/java/Quiz/ClientSide/GameSetup.properties").exists()) {
-//            try {
-//                Files.createFile(Path.of("src/main/java/Quiz/ClientSide/GameSetup.properties"));
-//
-//                try (FileWriter fw = new FileWriter("src/main/java/Quiz/ClientSide/GameSetup.properties")) {
-//                    fw.append("Categories=4\n");
-//                    fw.append("Questions=2\n");
-//                    fw.append("Rounds=2");
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//
-//                gameProperties.load(new FileInputStream("src/main/java/Quiz/ClientSide/GameSetup.properties"));
-//                gameProperties.setProperty("Categories", "4");
-//                gameProperties.setProperty("Questions", "2");
-//                gameProperties.setProperty("Rounds", "2");
-//                System.out.println("File created.");
-//            } catch (IOException e) {
-//                System.out.println("Failed to create file.");
-//                e.printStackTrace();
-//            }
-//        }
-//
-//        try {
-//            gameProperties.load(new FileInputStream("src/main/java/Quiz/ClientSide/GameSetup.properties"));
-//        } catch (IOException e) {
-//            System.out.println("File could not be found");
-//        }
-//        this.categories = Integer.parseInt(gameProperties.getProperty("Categories", "4"));
-//        this.questions = Integer.parseInt(gameProperties.getProperty("Questions", "2"));
-//        rounds = Integer.parseInt(gameProperties.getProperty("Rounds", "2"));
-    }
-
-//    public int getCategories() {
-//        return categories;
-//    }
-//
-//    public int getQuestions() {
-//        return questions;
-//    }
-//
-//    public int getRounds() {
-//        return rounds;
-//    }
 
     public EnterNameInterfaceController getEnterNameInterfaceController() {
         return enterNameInterfaceController;

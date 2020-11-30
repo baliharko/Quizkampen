@@ -12,8 +12,6 @@ import java.util.Objects;
 
 public class GameInterface extends Application {
 
-    Client client;
-    String playerName;
     Stage primaryStage;
 
     //Fönster med resultat för avslutad rond
@@ -54,7 +52,9 @@ public class GameInterface extends Application {
         this.resultFromRoundLoader = new FXMLLoader((Objects.requireNonNull(getClass().getClassLoader().getResource("resultFromRound.fxml"))));
         this.resultRound = resultFromRoundLoader.load();
         this.resultFromRoundController = resultFromRoundLoader.getController();
-        this.resultRoundScene = new Scene(resultRound, Constants.WINDOW_WIDTH, Constants.WINDOW_WIDTH);
+        this.resultRoundScene = new Scene(resultRound, (Constants.WINDOW_WIDTH / 2)
+                + (Constants.QUESTIONS * Constants.WINDOW_WIDTH / 6)
+                , (Constants.WINDOW_WIDTH / 2) + (Constants.ROUNDS * (Constants.WINDOW_WIDTH / 8)));
 
         // Fönstret där man väljer kategori
         this.selectCategoryLoader = new FXMLLoader(Objects.requireNonNull(getClass().getClassLoader().getResource("selectCategory.fxml")));

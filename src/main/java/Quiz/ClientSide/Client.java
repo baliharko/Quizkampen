@@ -15,6 +15,7 @@ public class Client implements Runnable {
     private Thread thread;
     public GameSetup game;
     public String playerName;
+    public String opponentName;
     private ObjectOutputStream out;
 
     public Client(GameSetup game, String playerName) {
@@ -45,11 +46,15 @@ public class Client implements Runnable {
                     Object temp = fromServer;
                     Platform.runLater(() -> {
                         if (((Initializer) temp).areBothConnected()) {
-                            System.out.println("Received initializer opponent = " + ((Initializer) temp).getOpponent());
-                            game.getQuestionInterfaceController().setConnectionStatus(((Initializer) temp).getOpponent() + " joined the game!");
+                            this.opponentName = ((Initializer)temp).getOpponent();
+                            System.out.println("Received initializer opponent = " + this.opponentName);
+                            game.getQuestionInterfaceController().setConnectionStatus(this.opponentName + " joined the game!");
                             game.getQuestionInterfaceController().connectionStatus.setStyle("-fx-fill: green");
                             game.getQuestionInterfaceController().setQuestionText(((Initializer) temp).getFirstQuestion().getQuestion());
                             game.getQuestionInterfaceController().setToggleButtonsText(((Initializer) temp).getFirstQuestion().getOptions());
+
+                            game.getResultFromRoundController().p1Name.setText(this.playerName);
+                            game.getResultFromRoundController().p2Name.setText(this.opponentName);
                         }
                     });
                 } else if (fromServer instanceof Response) {

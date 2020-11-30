@@ -35,25 +35,6 @@ public class GameSetup implements Runnable {
         this.thread.start();
     }
 
-    public EnterNameInterfaceController getEnterNameInterfaceController() {
-        return enterNameInterfaceController;
-    }
-
-    public QuestionInterfaceController getQuestionInterfaceController() {
-        return questionInterfaceController;
-    }
-
-    public SelectCategoryInterfaceController getSelectCategoryInterfaceController() {
-        return selectCategoryInterfaceController;
-    }
-    public ResultFromRoundInterfaceController getResultFromRoundController(){
-        return resultFromRoundInterfaceController;
-    }
-
-    public WaitController getWaitController() {
-        return waitController;
-    }
-
     @Override
     public void run() {
 
@@ -69,7 +50,7 @@ public class GameSetup implements Runnable {
                     this.client = new Client(this, this.playerName);
  //                   this.gameInterface.primaryStage.setScene(this.gameInterface.questionScene);
 //                    this.gameInterface.resultFromRoundController.fillGrid();
-                    this.gameInterface.primaryStage.setScene(this.gameInterface.resultRoundScene);
+                    this.gameInterface.primaryStage.setScene(this.gameInterface.questionScene);
                 }
             });
         });
@@ -106,6 +87,26 @@ public class GameSetup implements Runnable {
                 System.out.println(b.getText()); // Skickas till databasen och får tillbaka frågor i vald kategori.
             });
         }
+    }
+
+    public EnterNameInterfaceController getEnterNameInterfaceController() {
+        return enterNameInterfaceController;
+    }
+
+    public QuestionInterfaceController getQuestionInterfaceController() {
+        return questionInterfaceController;
+    }
+
+    public SelectCategoryInterfaceController getSelectCategoryInterfaceController() {
+        return selectCategoryInterfaceController;
+    }
+
+    public ResultFromRoundInterfaceController getResultFromRoundController(){
+        return resultFromRoundInterfaceController;
+    }
+
+    public WaitController getWaitController() {
+        return waitController;
     }
 }
 

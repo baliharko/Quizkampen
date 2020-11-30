@@ -53,8 +53,8 @@ public class GameInterface extends Application {
         this.resultRound = resultFromRoundLoader.load();
         this.resultFromRoundController = resultFromRoundLoader.getController();
         this.resultRoundScene = new Scene(resultRound, (Constants.WINDOW_WIDTH / 2)
-                + (Constants.QUESTIONS * Constants.WINDOW_WIDTH / 6)
-                , (Constants.WINDOW_WIDTH / 2) + (Constants.ROUNDS * (Constants.WINDOW_WIDTH / 8)));
+                + (Constants.QUESTIONS * Constants.WINDOW_WIDTH / 6),
+                (Constants.WINDOW_WIDTH / 2) + (Constants.ROUNDS * (Constants.WINDOW_WIDTH / 8)));
 
         // Fönstret där man väljer kategori
         this.selectCategoryLoader = new FXMLLoader(Objects.requireNonNull(getClass().getClassLoader().getResource("selectCategory.fxml")));

@@ -34,13 +34,12 @@ public class ClientHandler implements Runnable {
             while ((fromClient = in.readObject()) != null) {
 
                 if (fromClient instanceof Request) {
-                    if (((Request)fromClient).getStatus() == RequestStatus.SET_NAME) {
-                        this.playerName = ((Request)fromClient).getPlayerName();
+                    if (((Request) fromClient).getStatus() == RequestStatus.SET_NAME) {
+                        this.playerName = ((Request) fromClient).getPlayerName();
                         this.protocol.setPlayer(this.playerName);
                         this.protocol.setPlayerOut(out);
                         out.writeObject(this.protocol.ProcessInput("init"));
-                    }
-                    else {
+                    } else {
                         System.out.println("received answer " + fromClient);
                         out.writeObject(this.protocol.ProcessInput(fromClient));
                     }
@@ -48,6 +47,9 @@ public class ClientHandler implements Runnable {
             }
 
             this.playerSocket.close();
+        } catch (EOFException e) {
+            System.out.println("End of file reached.");
+            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }

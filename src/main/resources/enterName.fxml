@@ -36,10 +36,13 @@
                      <children>
                         <StackPane prefHeight="150.0" prefWidth="200.0">
                            <children>
-                              <Text fx:id="welcomeText" strokeType="OUTSIDE" strokeWidth="0.0" text="Välkommen!">
+                              <Text fx:id="welcomeText" strokeType="OUTSIDE" strokeWidth="0.0" text="Välkommen!" textAlignment="CENTER">
                                  <font>
                                     <Font size="30.0" />
                                  </font>
+                                 <StackPane.margin>
+                                    <Insets bottom="50.0" />
+                                 </StackPane.margin>
                               </Text>
                            </children>
                         </StackPane>
@@ -52,6 +55,9 @@
                                  <StackPane.margin>
                                     <Insets left="50.0" right="50.0" />
                                  </StackPane.margin>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
                               </TextField>
                            </children>
                         </StackPane>

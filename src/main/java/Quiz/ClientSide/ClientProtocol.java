@@ -70,13 +70,6 @@ public class ClientProtocol {
                         sendObject(new Initializer(), 2);
                         sendObject(new Initializer(this.player1Name, this.player2Name, this.currentQuestion), 1);
                         sendObject(new Initializer(this.player2Name, this.player1Name, this.currentQuestion), 2);
-//                        synchronized (this) {
-//                            this.player1out.writeObject(new Initializer(this.player1Name, this.player2Name, this.currentQuestion));
-//                        }
-//
-//                        synchronized (this) {
-//                            this.player2out.writeObject(new Initializer(this.player2Name, this.player1Name, this.currentQuestion));
-//                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

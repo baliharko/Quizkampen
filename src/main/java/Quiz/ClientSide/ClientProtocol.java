@@ -24,7 +24,7 @@ public class ClientProtocol {
     private boolean bothConnected;
     private ObjectOutputStream player1out;
     private ObjectOutputStream player2out;
-    private int questionNo;
+    private int questionNo=1;
     private Question currentQuestion;
     int currentRound = 1;
     int player1Score = 0;
@@ -71,13 +71,7 @@ public class ClientProtocol {
                         sendObject(new Initializer(), 2);
                         sendObject(new Initializer(this.player1Name, this.player2Name, this.currentQuestion), 1);
                         sendObject(new Initializer(this.player2Name, this.player1Name, this.currentQuestion), 2);
-//                        synchronized (this) {
-//                            this.player1out.writeObject(new Initializer(this.player1Name, this.player2Name, this.currentQuestion));
-//                        }
-//
-//                        synchronized (this) {
-//                            this.player2out.writeObject(new Initializer(this.player2Name, this.player1Name, this.currentQuestion));
-//                        }
+                        questionNo++;
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -88,12 +82,21 @@ public class ClientProtocol {
             }
             case BOTH_CONNECTED -> {
                 if (in instanceof Request) {
-
+                    //questionNo++;
                     if (((Request) in).getStatus() == RequestStatus.ANSWER) {
+
                         // Skickar true eller false för rätt eller fel svar
                         sendObject(new Response(
                                         Response.ResponseStatus.CHECKED_ANSWER, this.currentQuestion.isRightAnswer(((Request) in).getAnswerText())),
                                 playerId); // Skickar tillbaka index på knappen
+                        if (this.currentQuestion.isRightAnswer(((Request) in).getAnswerText())&&playerId==1) {
+                            player1Score++;
+                            System.out.println("Player 1 score: "+player1Score);
+                        }else if (this.currentQuestion.isRightAnswer(((Request) in).getAnswerText())&&playerId==2) {
+                            player2Score++;
+                            System.out.println("Player 2 score: "+player2Score);
+                        }
+                        getRoundNumber();
                     }
 
                     if (((Request) in).getStatus() == RequestStatus.NEXT_QUESTION) {
@@ -103,27 +106,6 @@ public class ClientProtocol {
                     }
                 }
 
-//                String inAns = in.split(",")[1];
-//                String plAns = in.split(",")[0];
-
-//                out = this.currentQuestion.isRightAnswer(inAns) ? "Correct" : "False";
-//
-//                if (out.equals("Correct") && plAns.equalsIgnoreCase(player1Name)) {
-//                    System.out.println("Poäng ++ " + plAns);
-//                    player1Score++;
-//                    System.out.println(player1Score);
-//                } else if (out.equals("Correct") && plAns.equalsIgnoreCase(player2Name)) {
-//                    System.out.println("Poäng ++ " + plAns);
-//                    player2Score++;
-//                    System.out.println(player2Score);
-//                } else if (out.equals("False") && plAns.equalsIgnoreCase(player1Name)) {
-//                    System.out.println("Fel svar " + plAns);
-//                    System.out.println(player1Score);
-//                } else if (out.equals("False") && plAns.equalsIgnoreCase(player2Name)) {
-//                    System.out.println("Fel svar " + plAns);
-//                    System.out.println(player2Score);
-//                }
-                getRoundNumber();
             }
         }
     }

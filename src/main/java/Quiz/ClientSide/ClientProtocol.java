@@ -4,6 +4,7 @@ import Quiz.ServerSide.Database;
 import Quiz.ServerSide.Initializer;
 import Quiz.ServerSide.Question;
 import Quiz.ServerSide.Response;
+
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
@@ -31,7 +32,7 @@ public class ClientProtocol {
     private int counter = 4;
 
     public enum State {
-        WAITING, PLAYER_1_CONNECTED, BOTH_CONNECTED, ANSWER_RECEIVED, QUESTION_SENT,
+        WAITING, PLAYER_1_CONNECTED, BOTH_CONNECTED
     }
 
     private State currentState;
@@ -42,35 +43,41 @@ public class ClientProtocol {
         this.questionNo = 0;
     }
 
-    //Tillfällig fråga avsedd för test
-    //Question testQuestion = new Question("Nu kom en fråga från servern!", "Rätt svar", new String[] { "Åsna", "Rätt svar", "Orm", "Cykel" });
-
-    public synchronized Object ProcessInput(Object in) {
-        Object out = null;
-
+    public synchronized void ProcessInput(Object in, int playerId) {
         if (this.areBothConnected())
             this.currentState = State.BOTH_CONNECTED;
 
         switch (this.currentState) {
             case WAITING -> {
-                if (in instanceof String && ((String)in).equalsIgnoreCase("init")) {
-                    out = new Initializer();
-                    currentState = State.PLAYER_1_CONNECTED;
+                if (in instanceof String && ((String) in).equalsIgnoreCase("init")) {
+                    try {
+                        if (playerId == 2) {
+                            Thread.currentThread().wait();
+                        } else {
+                            sendObject(new Initializer(), 1);
+                            currentState = State.PLAYER_1_CONNECTED;
+                            notifyAll();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             case PLAYER_1_CONNECTED -> {
-                if (in instanceof String && ((String)in).equalsIgnoreCase("init")) {
-
+                if (in instanceof String && ((String) in).equalsIgnoreCase("init") && playerId == 2) {
                     this.currentQuestion = database.getQuestion(this.questionNo);
                     try {
-                        out = new Initializer(); // skicka init till player2
-                        synchronized (this) {
-                            this.player1out.writeObject(new Initializer(this.player1Name, this.player2Name, this.currentQuestion));
-                        }
-
-                        synchronized (this) {
-                            this.player2out.writeObject(new Initializer(this.player2Name, this.player1Name, this.currentQuestion));
-                        }
+                        player2out.writeObject(new Initializer()); // skicka init till player2
+                        sendObject(new Initializer(), 2);
+                        sendObject(new Initializer(this.player1Name, this.player2Name, this.currentQuestion), 1);
+                        sendObject(new Initializer(this.player2Name, this.player1Name, this.currentQuestion), 2);
+//                        synchronized (this) {
+//                            this.player1out.writeObject(new Initializer(this.player1Name, this.player2Name, this.currentQuestion));
+//                        }
+//
+//                        synchronized (this) {
+//                            this.player2out.writeObject(new Initializer(this.player2Name, this.player1Name, this.currentQuestion));
+//                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -82,13 +89,17 @@ public class ClientProtocol {
             case BOTH_CONNECTED -> {
                 if (in instanceof Request) {
 
-                    if (((Request)in).getStatus() == RequestStatus.ANSWER) {
+                    if (((Request) in).getStatus() == RequestStatus.ANSWER) {
                         // Skickar true eller false för rätt eller fel svar
-                        out = new Response(Response.ResponseStatus.CHECKED_ANSWER, this.currentQuestion.isRightAnswer(((Request) in).getAnswerText())); // Skickar tillbaka index på knappen
+                        sendObject(new Response(
+                                        Response.ResponseStatus.CHECKED_ANSWER, this.currentQuestion.isRightAnswer(((Request) in).getAnswerText())),
+                                playerId); // Skickar tillbaka index på knappen
                     }
 
-                    if (((Request)in).getStatus() == RequestStatus.NEXT_QUESTION) {
-                        out = new Response(Response.ResponseStatus.NEW_QUESTION, this.database.getQuestion(++questionNo));
+                    if (((Request) in).getStatus() == RequestStatus.NEXT_QUESTION) {
+                        sendObject(new Response(
+                                        Response.ResponseStatus.NEW_QUESTION, this.database.getQuestion(++questionNo)),
+                                playerId);
                     }
                 }
 
@@ -115,25 +126,24 @@ public class ClientProtocol {
                 getRoundNumber();
             }
         }
-        return out;
     }
 
-    public  int getRoundNumber() {
+    public int getRoundNumber() {
         counter--;
-        System.out.println("Round: "+currentRound);
+        System.out.println("Round: " + currentRound);
         if (counter == 0) {
             currentRound++;
-            this.counter=4;
+            this.counter = 4;
             //System.out.println("Round: "+currentRound);
         }
         return currentRound;
     }
 
-    public synchronized void setPlayer(String playerName) {
-        if (this.player1Name == null) {
+    public void setPlayer(String playerName, int playerId) {
+        if (playerId == 1 && this.player1Name == null) {
             System.out.println("set player 1 to " + playerName);
             this.player1Name = playerName;
-        } else if (this.player2Name == null) {
+        } else if (playerId == 2 && this.player2Name == null) {
             System.out.println("set player 2 to " + playerName);
             this.player2Name = playerName;
         } else {
@@ -145,10 +155,23 @@ public class ClientProtocol {
         return bothConnected;
     }
 
-    public synchronized void setPlayerOut(ObjectOutputStream playerOut) {
-        if (player1out != null) {
-            player2out = playerOut;
-        } else
-            player1out = playerOut;
+    public void setPlayerOuts(ObjectOutputStream player1Out, ObjectOutputStream player2out) {
+        this.player1out = player1Out;
+        this.player2out = player2out;
+    }
+
+    private void sendObject(Object object, int playerId) {
+        try {
+            if (playerId == 1)
+                this.player1out.writeObject(object);
+            else if (playerId == 2)
+                this.player2out.writeObject(object);
+            else
+                throw new Exception();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("sent " + object + " to player " + playerId);
     }
 }

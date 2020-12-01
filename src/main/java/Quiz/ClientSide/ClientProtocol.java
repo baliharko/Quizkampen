@@ -152,6 +152,3 @@ public class ClientProtocol {
             player1out = playerOut;
     }
 }
-
-
-

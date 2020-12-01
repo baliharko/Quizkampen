@@ -48,9 +48,8 @@ public class GameSetup implements Runnable {
                 if (!this.playerName.isBlank() && this.playerName != null) {
                     // Ger Client tillgång till kontrollern för GUI
                     this.client = new Client(this, this.playerName);
- //                   this.gameInterface.primaryStage.setScene(this.gameInterface.questionScene);
-//                    this.gameInterface.resultFromRoundController.fillGrid();
-                    this.gameInterface.primaryStage.setScene(this.gameInterface.questionScene);
+                    this.getWaitController().waitPromptText.setText("Väntar på motståndare...");
+                    this.gameInterface.primaryStage.setScene(this.gameInterface.waitScene);
                 }
             });
         });
@@ -105,9 +104,12 @@ public class GameSetup implements Runnable {
     public WaitController getWaitController() {
         return waitController;
     }
+
+    public GameInterface getGameInterface() {
+        return this.gameInterface;
+    }
 }
 
-// TODO - Knapparna måste refreshas när nästa fråga laddas in (ta bort fokus)
 // TODO - Få in kategorierna och x antal frågor per rond
 // TODO - Poäng
 // TODO - efter x antal frågor måste spelare x vänta på spelare y

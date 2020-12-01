@@ -79,7 +79,7 @@ public class GameInterface extends Application {
         this.waitLoader = new FXMLLoader(Objects.requireNonNull(getClass().getClassLoader().getResource("wait.fxml")));
         this.wait = waitLoader.load();
         this.waitController = waitLoader.getController();
-        this.waitScene = new Scene(wait, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
+        this.waitScene = new Scene(wait, Constants.WINDOW_WIDTH, Constants.WINDOW_WIDTH / 1.5);
 
         new GameSetup(this);
 
@@ -90,6 +90,7 @@ public class GameInterface extends Application {
         questionScene.getStylesheets().add("styles.css");
         enterNameScene.getStylesheets().add("styles.css");
         resultRoundScene.getStylesheets().add("styles.css");
+        waitScene.getStylesheets().add("styles.css");
 
         primaryStage.setOnCloseRequest(event -> {
             System.out.println("Closing game interface.");

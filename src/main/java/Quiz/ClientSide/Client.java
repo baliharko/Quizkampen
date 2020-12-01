@@ -43,6 +43,7 @@ public class Client implements Runnable {
                     Object temp = fromServer;
                     Platform.runLater(() -> {
                         if (((Initializer) temp).areBothConnected()) {
+                            this.game.getGameInterface().primaryStage.setScene(this.game.getGameInterface().questionScene);
                             this.opponentName = ((Initializer)temp).getOpponent();
                             System.out.println("Received initializer opponent = " + this.opponentName);
                             game.getQuestionInterfaceController().setConnectionStatus(this.opponentName + " joined the game!");

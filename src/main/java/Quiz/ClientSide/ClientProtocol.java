@@ -31,7 +31,7 @@ public class ClientProtocol {
     private int counter = 4;
 
     public enum State {
-        WAITING, PLAYER_1_CONNECTED, BOTH_CONNECTED, ANSWER_RECEIVED, QUESTION_SENT,
+        WAITING, PLAYER_1_CONNECTED, BOTH_CONNECTED
     }
 
     private State currentState;
@@ -41,9 +41,6 @@ public class ClientProtocol {
         this.database = database;
         this.questionNo = 0;
     }
-
-    //Tillfällig fråga avsedd för test
-    //Question testQuestion = new Question("Nu kom en fråga från servern!", "Rätt svar", new String[] { "Åsna", "Rätt svar", "Orm", "Cykel" });
 
     public synchronized Object ProcessInput(Object in) {
         Object out = null;

@@ -52,11 +52,10 @@ public class ClientProtocol {
                 if (in instanceof String && ((String) in).equalsIgnoreCase("init")) {
                     try {
                         if (playerId == 2) {
-                            Thread.currentThread().wait();
+                            System.out.println("Player 2 connected first");
                         } else {
                             sendObject(new Initializer(), 1);
                             currentState = State.PLAYER_1_CONNECTED;
-                            notifyAll();
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

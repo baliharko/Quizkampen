@@ -23,7 +23,6 @@ public class ClientHandler implements Runnable {
         try {
             Object fromClient;
             while ((fromClient = in.readObject()) != null) {
-
                 if (fromClient instanceof Request) {
                     if (((Request) fromClient).getStatus() == RequestStatus.SET_NAME) {
                         this.playerName = ((Request) fromClient).getPlayerName();
@@ -38,7 +37,6 @@ public class ClientHandler implements Runnable {
             this.playerSocket.close();
         } catch (EOFException e) {
             System.out.println("End of file reached.");
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -49,9 +49,10 @@ public class Server {
                 Thread p2 = new Thread(p2Handler);
 
                 p1.start();
+                Thread.sleep(100);
                 p2.start();
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

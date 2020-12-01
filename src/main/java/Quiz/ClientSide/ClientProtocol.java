@@ -7,6 +7,7 @@ import Quiz.ServerSide.Response;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.List;
 
 /**
  * Created by Robin Martinsson
@@ -25,11 +26,19 @@ public class ClientProtocol {
     private ObjectOutputStream player1out;
     private ObjectOutputStream player2out;
     private int questionNo;
-    private Question currentQuestion;
-    int currentRound = 1;
+    private Question p1CurrentQuestion;
+    private Question p2CurrentQuestion;
+//    int currentRound = 1;
     int player1Score = 0;
     int player2Score = 0;
     private int counter = 4;
+
+    private boolean[][] p1Answers;
+    private boolean[][] p2Answers;
+    private int p1CurrentQuestionCounter = 0;
+    private int p2CurrentQuestionCounter = 0;
+
+    private List<Question> currentGenre;
 
     public enum State {
         WAITING, PLAYER_1_CONNECTED, BOTH_CONNECTED
@@ -64,12 +73,16 @@ public class ClientProtocol {
             }
             case PLAYER_1_CONNECTED -> {
                 if (in instanceof String && ((String) in).equalsIgnoreCase("init") && playerId == 2) {
-                    this.currentQuestion = database.getQuestion(this.questionNo);
+
+                    this.currentGenre = database.getQuestionByCategory("Music");
+
+                    this.p1CurrentQuestion = this.currentGenre.get(this.p1CurrentQuestionCounter);
+                    this.p2CurrentQuestion = this.currentGenre.get(this.p2CurrentQuestionCounter);
                     try {
                         player2out.writeObject(new Initializer()); // skicka init till player2
                         sendObject(new Initializer(), 2);
-                        sendObject(new Initializer(this.player1Name, this.player2Name, this.currentQuestion), 1);
-                        sendObject(new Initializer(this.player2Name, this.player1Name, this.currentQuestion), 2);
+                        sendObject(new Initializer(this.player1Name, this.player2Name, this.p1CurrentQuestion), 1);
+                        sendObject(new Initializer(this.player2Name, this.player1Name, this.p2CurrentQuestion), 2);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -82,16 +95,38 @@ public class ClientProtocol {
                 if (in instanceof Request) {
 
                     if (((Request) in).getStatus() == RequestStatus.ANSWER) {
-                        // Skickar true eller false för rätt eller fel svar
-                        sendObject(new Response(
-                                        Response.ResponseStatus.CHECKED_ANSWER, this.currentQuestion.isRightAnswer(((Request) in).getAnswerText())),
-                                playerId); // Skickar tillbaka index på knappen
+                        if (playerId == 1) {
+                            sendObject(new Response(
+                                            Response.ResponseStatus.CHECKED_ANSWER, this.p1CurrentQuestion.isRightAnswer(((Request) in).getAnswerText())),
+                                    playerId);
+                        }
+
+                        if (playerId == 2) {
+                            sendObject(new Response(
+                                            Response.ResponseStatus.CHECKED_ANSWER, this.p2CurrentQuestion.isRightAnswer(((Request) in).getAnswerText())),
+                                    playerId);
+                        }
                     }
 
                     if (((Request) in).getStatus() == RequestStatus.NEXT_QUESTION) {
-                        sendObject(new Response(
-                                        Response.ResponseStatus.NEW_QUESTION, this.database.getQuestion(++questionNo)),
-                                playerId);
+                        if (playerId == 1) {
+                            this.p1CurrentQuestionCounter++;
+                            this.p1CurrentQuestion = this.currentGenre.get((this.p1CurrentQuestionCounter));
+
+                            sendObject(new Response(
+                                            Response.ResponseStatus.NEW_QUESTION, this.p1CurrentQuestion),
+                                    playerId);
+
+                        }
+
+                        if (playerId == 2) {
+                            this.p2CurrentQuestionCounter++;
+                            this.p2CurrentQuestion = this.currentGenre.get((this.p2CurrentQuestionCounter));
+
+                            sendObject(new Response(
+                                            Response.ResponseStatus.NEW_QUESTION, this.p2CurrentQuestion),
+                                    playerId);
+                        }
                     }
                 }
 
@@ -115,21 +150,21 @@ public class ClientProtocol {
 //                    System.out.println("Fel svar " + plAns);
 //                    System.out.println(player2Score);
 //                }
-                getRoundNumber();
+//                getRoundNumber();
             }
         }
     }
 
-    public int getRoundNumber() {
-        counter--;
-        System.out.println("Round: " + currentRound);
-        if (counter == 0) {
-            currentRound++;
-            this.counter = 4;
-            //System.out.println("Round: "+currentRound);
-        }
-        return currentRound;
-    }
+//    public int getRoundNumber() {
+//        counter--;
+//        System.out.println("Round: " + currentRound);
+//        if (counter == 0) {
+//            currentRound++;
+//            this.counter = 4;
+//            //System.out.println("Round: "+currentRound);
+//        }
+//        return currentRound;
+//    }
 
     public void setPlayer(String playerName, int playerId) {
         if (playerId == 1 && this.player1Name == null) {

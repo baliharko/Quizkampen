@@ -1,6 +1,8 @@
 package Quiz.ServerSide;
 
 
+import Quiz.ClientSide.Constants;
+
 import java.io.*;
 import java.security.PublicKey;
 import java.util.*;
@@ -64,15 +66,11 @@ public class Database {
         return categoryList;
     }
 
-    public List<String> getQustionByCategory(String inputCategory) {
-        List<String> questionsByCategory = new ArrayList<>();
-        String cat;
-        String ques;
+    public List<Question> getQuestionByCategory(String inputCategory) {
+        List<Question> questionsByCategory = new ArrayList<>();
         for (int i = 0; i < databas.size(); i++) {
-            cat = databas.get(i).getCategory();
-            if (cat.equals(inputCategory)) {
-                ques = databas.get(i).getQuestion();
-                questionsByCategory.add(ques);
+            if (databas.get(i).getCategory().equals(inputCategory)) {
+                questionsByCategory.add(databas.get(i));
             }
         }
         Collections.shuffle(questionsByCategory);

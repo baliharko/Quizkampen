@@ -1,5 +1,7 @@
 .root {
     -fx-background-color: #20b2aa;
+    button-hover-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #ffffff, #00675e);
+    button-selected-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #ffffff, #f1e57e);
 }
 
 .toggle-button {
@@ -37,11 +39,11 @@
 }
 
 .toggle-button:hover {
-    -fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #ffffff, #00675e);
+    -fx-background-color: button-hover-color;
 }
 
 .toggle-button:selected {
-    -fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #ffffff, #f1e57e);
+    -fx-background-color: button-selected-color;
 }
 
 .anchorpane {

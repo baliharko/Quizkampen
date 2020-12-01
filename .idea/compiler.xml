@@ -23,4 +23,9 @@
       <module name="QuizKampenGrupp11" target="14" />
     </bytecodeTargetLevel>
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="QuizKampenGrupp11" options="--add-exports javafx.graphics/com.sun.javafx.css=Quiz" />
+    </option>
+  </component>
 </project>

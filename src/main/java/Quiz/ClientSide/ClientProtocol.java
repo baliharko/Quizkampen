@@ -84,8 +84,7 @@ public class ClientProtocol {
 
                     if (((Request)in).getStatus() == RequestStatus.ANSWER) {
                         // Skickar true eller false för rätt eller fel svar
-                        out = new Response(Response.ResponseStatus.CHECKED_ANSWER, this.currentQuestion.isRightAnswer(((Request) in).getAnswerText()),
-                                ((Request) in).getAnswerButtonIndex()); // Skickar tillbaka index på knappen
+                        out = new Response(Response.ResponseStatus.CHECKED_ANSWER, this.currentQuestion.isRightAnswer(((Request) in).getAnswerText())); // Skickar tillbaka index på knappen
                     }
 
                     if (((Request)in).getStatus() == RequestStatus.NEXT_QUESTION) {

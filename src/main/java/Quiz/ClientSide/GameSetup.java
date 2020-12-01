@@ -50,7 +50,7 @@ public class GameSetup implements Runnable {
                     this.client = new Client(this, this.playerName);
  //                   this.gameInterface.primaryStage.setScene(this.gameInterface.questionScene);
 //                    this.gameInterface.resultFromRoundController.fillGrid();
-                    this.gameInterface.primaryStage.setScene(this.gameInterface.resultRoundScene);
+                    this.gameInterface.primaryStage.setScene(this.gameInterface.questionScene);
                 }
             });
         });
@@ -61,9 +61,6 @@ public class GameSetup implements Runnable {
                 Request newRequest = new Request(RequestStatus.ANSWER);
                 // Ger texten på knappen till Request - objektet
                 newRequest.setAnswerText(Objects.requireNonNull(getQuestionInterfaceController().getSelectedToggleText()));
-                // Ger den valda knappens index till Request - objektet
-                newRequest.setAnswerButtonIndex(getQuestionInterfaceController().group.getToggles().indexOf(
-                        getQuestionInterfaceController().group.getSelectedToggle()));
 
                 try {
                     // Skicka request till ClientHandler för processering av ClientProtocol

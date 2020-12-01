@@ -61,50 +61,25 @@ public class QuestionInterfaceController {
             this.questionText.setText(questionText);
     }
 
-    public void setToggleButtonColor(boolean isRightAnswer, int buttonIndex) {
-        String style = isRightAnswer ? "-fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #b5f5be, #1ee700);"
-                : "-fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #f8cdcd, #f60c0c);";
-
-        switch (buttonIndex) {
-            case 0 -> toggle1.setStyle(style);
-            case 1 -> toggle2.setStyle(style);
-            case 2 -> toggle3.setStyle(style);
-            case 3 -> toggle4.setStyle(style);
-        }
+    public void setToggleButtonColor(boolean isRightAnswer) {
+        String style = isRightAnswer ? Constants.COLOR_TRUE
+                : Constants.COLOR_FALSE;
 
         for (ToggleButton tb : toggleButtonList) {
             tb.setMouseTransparent(true);
         }
+
+        ((ToggleButton)group.getSelectedToggle()).setStyle("button-selected-color: " + style);
     }
 
     public void refreshButtons() {
 
-        // TODO - funkar inte rätt. Välje alla knappar istället för endast en.
-//        for (ToggleButton tb : toggleButtonList) {
-//            tb.setMouseTransparent(false);
-//            tb.setSelected(false);
-//            tb.setStyle("-fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, whitesmoke, lightseagreen);");
-//
-//            tb.setOnMouseEntered(event -> {
-//                tb.setStyle("-fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #ffffff, #00675e);");
-//            });
-//
-//            tb.setOnMouseExited(event -> {
-//                if (!tb.isSelected())
-//                    tb.setStyle("-fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, whitesmoke, lightseagreen);");
-//            });
-//
-//            tb.setOnAction(event -> {
-//                tb.setStyle("-fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #ffffff, #f1e57e);");
-//            });
-//        }
+        ((ToggleButton)group.getSelectedToggle()).setStyle(String.format("button-selected-color: %s", Constants.COLOR_SELECTED));
 
         for (ToggleButton tb : toggleButtonList) {
             tb.setMouseTransparent(false);
+            tb.setSelected(false);
         }
-
-        group.getSelectedToggle().setSelected(false);
-
     }
 
     public void setToggleButtonsText(String[] answers) {

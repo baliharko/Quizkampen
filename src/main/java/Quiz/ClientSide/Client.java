@@ -59,7 +59,7 @@ public class Client implements Runnable {
 
                     if (temp.getResponseStatus() == Response.ResponseStatus.CHECKED_ANSWER) {
                         Platform.runLater(() -> {
-                            game.getQuestionInterfaceController().setToggleButtonColor(temp.isRightAnswer(), temp.getAnswerButtonIndex());
+                            game.getQuestionInterfaceController().setToggleButtonColor(temp.isRightAnswer());
                             game.getQuestionInterfaceController().setAcceptButtonText("Nästa fråga");
                         });
                     }

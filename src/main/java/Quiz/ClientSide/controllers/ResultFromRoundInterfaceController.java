@@ -20,7 +20,6 @@ import java.util.concurrent.Flow;
  */
 public class ResultFromRoundInterfaceController {
 
-    public VBox centerBox;
     private int categories;
     private int questions;
     private int rounds;
@@ -38,17 +37,25 @@ public class ResultFromRoundInterfaceController {
     public Button p2_r1q2;
     public Button p2_r1q3;
     public AnchorPane resultsCenterPane;
+    public VBox centerBox;
     private GridPane centerGrid;
 
 
     public void initialize() {
+        fillGrid();
+    }
 
+    public void fillGrid() {
         centerBox.setSpacing(20);
 
+        // TEST
+        String style = true ? Constants.COLOR_TRUE
+                : Constants.COLOR_FALSE;
+
         for (int i = 0; i < Constants.ROUNDS; i++) {
-            FlowPane midBox = new FlowPane();
-            midBox.setHgap((Constants.WINDOW_WIDTH / (Constants.QUESTIONS * 2) + 1) / 8);
-            midBox.setAlignment(Pos.CENTER);
+            FlowPane flowPane = new FlowPane();
+            flowPane.setHgap((Constants.WINDOW_WIDTH / (Constants.QUESTIONS * 2) + 1) / 8);
+            flowPane.setAlignment(Pos.CENTER);
             Text text = new Text("Rond " + i);
             text.setStyle("-fx-font-size: 20px;"
                     + "-fx-font-family: Courier;"
@@ -62,13 +69,19 @@ public class ResultFromRoundInterfaceController {
                     sPane.setMinWidth(Constants.WINDOW_WIDTH / 3);
                     sPane.setPrefWidth(Constants.WINDOW_WIDTH / 3);
                     sPane.getChildren().add(text);
-                    midBox.getChildren().add(sPane);
+                    flowPane.getChildren().add(sPane);
                 }
-                else
-                    midBox.getChildren().add(new Button());
+                else {
+
+                    // TEST
+                    Button button = new Button();
+                    button.setFocusTraversable(false);
+                    button.setStyle(style);
+                    flowPane.getChildren().add(button);
+                }
             }
 
-            centerBox.getChildren().add(midBox);
+            centerBox.getChildren().add(flowPane);
         }
     }
 

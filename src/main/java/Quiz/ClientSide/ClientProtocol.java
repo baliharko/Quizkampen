@@ -4,7 +4,6 @@ import Quiz.ServerSide.Databas;
 import Quiz.ServerSide.Initializer;
 import Quiz.ServerSide.Question;
 import Quiz.ServerSide.Response;
-
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
@@ -27,8 +26,9 @@ public class ClientProtocol {
     private int questionNo;
     private Question currentQuestion;
     int currentRound = 1;
-    int player1Score = 12;
-    int player2Score = 16;
+    int player1Score = 0;
+    int player2Score = 0;
+    private int counter = 4;
 
     public enum State {
         WAITING, PLAYER_1_CONNECTED, BOTH_CONNECTED, ANSWER_RECEIVED, QUESTION_SENT,
@@ -42,8 +42,8 @@ public class ClientProtocol {
         this.questionNo = 0;
     }
 
-    // Tillfällig fråga avsedd för test
-//    Question testQuestion = new Question("Nu kom en fråga från servern!", "Rätt svar", new String[] { "Åsna", "Rätt svar", "Orm", "Cykel" });
+    //Tillfällig fråga avsedd för test
+    //Question testQuestion = new Question("Nu kom en fråga från servern!", "Rätt svar", new String[] { "Åsna", "Rätt svar", "Orm", "Cykel" });
 
     public synchronized Object ProcessInput(Object in) {
         Object out = null;
@@ -86,17 +86,41 @@ public class ClientProtocol {
                             ((Request)in).getAnswerButtonIndex()); // Skickar tillbaka index på knappen
                 }
 
-//                this.currentQuestion = currentQuestion.isRightAnswer(in) ? databas.getQuestion(++questionNo) : currentQuestion;
-//                out = new Initializer("", "", currentQuestion);
+//                String inAns = in.split(",")[1];
+//                String plAns = in.split(",")[0];
 
-                // Spara poäng
-
-                // Vilken rond
-
-                // Ändrar inte state p.g.a test för tilfället
+//                out = this.currentQuestion.isRightAnswer(inAns) ? "Correct" : "False";
+//
+//                if (out.equals("Correct") && plAns.equalsIgnoreCase(player1Name)) {
+//                    System.out.println("Poäng ++ " + plAns);
+//                    player1Score++;
+//                    System.out.println(player1Score);
+//                } else if (out.equals("Correct") && plAns.equalsIgnoreCase(player2Name)) {
+//                    System.out.println("Poäng ++ " + plAns);
+//                    player2Score++;
+//                    System.out.println(player2Score);
+//                } else if (out.equals("False") && plAns.equalsIgnoreCase(player1Name)) {
+//                    System.out.println("Fel svar " + plAns);
+//                    System.out.println(player1Score);
+//                } else if (out.equals("False") && plAns.equalsIgnoreCase(player2Name)) {
+//                    System.out.println("Fel svar " + plAns);
+//                    System.out.println(player2Score);
+//                }
+                getRoundNumber();
             }
         }
         return out;
+    }
+
+    public  int getRoundNumber() {
+        counter--;
+        System.out.println("Round: "+currentRound);
+        if (counter == 0) {
+            currentRound++;
+            this.counter=4;
+            //System.out.println("Round: "+currentRound);
+        }
+        return currentRound;
     }
 
     public synchronized void setPlayer(String playerName) {

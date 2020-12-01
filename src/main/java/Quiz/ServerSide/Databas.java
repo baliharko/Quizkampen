@@ -2,9 +2,8 @@ package Quiz.ServerSide;
 
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.security.PublicKey;
+import java.util.*;
 
 public class Databas {
 
@@ -52,5 +51,44 @@ public class Databas {
         Question out = databas.get(index);
         this.questionNo++;
         return out;
+    }
+
+    public List<String> getCategoryList() {
+        List<String> categoryList = new ArrayList<>();
+        for (int i = 0; i < databas.size(); i++) {
+            String category = databas.get(i).getCategory();
+            if (!categoryList.contains(category)) {
+                categoryList.add(category);
+            }
+        }
+        return categoryList;
+    }
+
+    public List<String> getQustionByCategory(String inputCategory) {
+        List<String> questionsByCategory = new ArrayList<>();
+        String cat;
+        String ques;
+        for (int i = 0; i < databas.size(); i++) {
+            cat = databas.get(i).getCategory();
+            if (cat.equals(inputCategory)) {
+                ques = databas.get(i).getQuestion();
+                questionsByCategory.add(ques);
+            }
+        }
+        Collections.shuffle(questionsByCategory);
+        return questionsByCategory;
+    }
+
+    //Test
+    public static void main(String[] args) {
+        Databas ds = new Databas();
+        ds.addQuestionsTodatabas(readQuestionfromFile());
+        List<String> catagories = ds.getCategoryList();
+        System.out.println(catagories);
+
+        ListIterator<String> listIterator = ds.getQustionByCategory(catagories.get(0)).listIterator();
+        while (listIterator.hasNext()) {
+            System.out.println(listIterator.next());
+        }
     }
 }

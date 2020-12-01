@@ -46,7 +46,6 @@ public class ClientHandler implements Runnable {
                     }
                 }
             }
-
             this.playerSocket.close();
         } catch (Exception e) {
             e.printStackTrace();

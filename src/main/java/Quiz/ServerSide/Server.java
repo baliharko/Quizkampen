@@ -10,15 +10,9 @@ import java.net.Socket;
 
 public class Server {
 
+    protected static Databas databas = new Databas();
+
     public static void main(String[] args) {
-
-        Databas databas = new Databas();
-
-//        try {
-//            new ServerSocket(Constants.SERVER_PORT).close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
 
         System.out.println("Server started");
 

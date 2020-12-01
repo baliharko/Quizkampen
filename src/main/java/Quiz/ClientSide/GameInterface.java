@@ -52,7 +52,7 @@ public class GameInterface extends Application {
         this.resultFromRoundLoader = new FXMLLoader((Objects.requireNonNull(getClass().getClassLoader().getResource("resultFromRound.fxml"))));
         this.resultRound = resultFromRoundLoader.load();
         this.resultFromRoundController = resultFromRoundLoader.getController();
-        this.resultRoundScene = new Scene(resultRound, (Constants.WINDOW_WIDTH / 2)
+        this.resultRoundScene = new Scene(resultRound, (Constants.WINDOW_WIDTH / 1.5)
                 + (Constants.QUESTIONS * Constants.WINDOW_WIDTH / 6)
                 , (Constants.WINDOW_WIDTH / 2) + (Constants.ROUNDS * (Constants.WINDOW_WIDTH / 8)));
 

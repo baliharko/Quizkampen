@@ -21,15 +21,6 @@ public class ClientHandler implements Runnable {
     @Override
     public void run() {
         try {
-//            while (this.playerName == null) {
-//                this.playerName = (String)in.readObject();
-//                this.protocol.setPlayer(this.playerName);
-//            }
-
-//            this.protocol.setPlayerOut(out);
-
-//            out.writeObject(this.protocol.ProcessInput("init"));
-
             Object fromClient;
             while ((fromClient = in.readObject()) != null) {
 

@@ -80,24 +80,31 @@ public class QuestionInterfaceController {
     public void refreshButtons() {
 
         // TODO - funkar inte rätt. Välje alla knappar istället för endast en.
+//        for (ToggleButton tb : toggleButtonList) {
+//            tb.setMouseTransparent(false);
+//            tb.setSelected(false);
+//            tb.setStyle("-fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, whitesmoke, lightseagreen);");
+//
+//            tb.setOnMouseEntered(event -> {
+//                tb.setStyle("-fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #ffffff, #00675e);");
+//            });
+//
+//            tb.setOnMouseExited(event -> {
+//                if (!tb.isSelected())
+//                    tb.setStyle("-fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, whitesmoke, lightseagreen);");
+//            });
+//
+//            tb.setOnAction(event -> {
+//                tb.setStyle("-fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #ffffff, #f1e57e);");
+//            });
+//        }
+
         for (ToggleButton tb : toggleButtonList) {
             tb.setMouseTransparent(false);
-            tb.setSelected(false);
-            tb.setStyle("-fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, whitesmoke, lightseagreen);");
-
-            tb.setOnMouseEntered(event -> {
-                tb.setStyle("-fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #ffffff, #00675e);");
-            });
-
-            tb.setOnMouseExited(event -> {
-                if (!tb.isSelected())
-                    tb.setStyle("-fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, whitesmoke, lightseagreen);");
-            });
-
-            tb.setOnAction(event -> {
-                tb.setStyle("-fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #ffffff, #f1e57e);");
-            });
         }
+
+        group.getSelectedToggle().setSelected(false);
+
     }
 
     public void setToggleButtonsText(String[] answers) {

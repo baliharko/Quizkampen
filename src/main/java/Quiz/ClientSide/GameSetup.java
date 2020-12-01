@@ -50,7 +50,7 @@ public class GameSetup implements Runnable {
                     this.client = new Client(this, this.playerName);
  //                   this.gameInterface.primaryStage.setScene(this.gameInterface.questionScene);
 //                    this.gameInterface.resultFromRoundController.fillGrid();
-                    this.gameInterface.primaryStage.setScene(this.gameInterface.questionScene);
+                    this.gameInterface.primaryStage.setScene(this.gameInterface.resultRoundScene);
                 }
             });
         });

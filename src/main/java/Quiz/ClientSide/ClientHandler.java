@@ -5,17 +5,17 @@ import java.net.Socket;
 
 public class ClientHandler implements Runnable {
 
+    private int playerId;
     String playerName;
     private final Socket playerSocket;
     ClientProtocol protocol;
-    ObjectOutputStream out;
     ObjectInputStream in;
 
-    public ClientHandler(Socket player, ClientProtocol protocol, ObjectOutputStream out, ObjectInputStream in) {
+    public ClientHandler(Socket player, ClientProtocol protocol, ObjectInputStream in, int playerId) {
         this.playerSocket = player;
         this.protocol = protocol;
-        this.out = out;
         this.in = in;
+        this.playerId = playerId;
     }
 
     @Override
@@ -27,12 +27,11 @@ public class ClientHandler implements Runnable {
                 if (fromClient instanceof Request) {
                     if (((Request) fromClient).getStatus() == RequestStatus.SET_NAME) {
                         this.playerName = ((Request) fromClient).getPlayerName();
-                        this.protocol.setPlayer(this.playerName);
-                        this.protocol.setPlayerOut(out);
-                        out.writeObject(this.protocol.ProcessInput("init"));
+                        this.protocol.setPlayer(this.playerName, this.playerId);
+                        this.protocol.ProcessInput("init", this.playerId);
                     } else {
                         System.out.println("received answer " + fromClient);
-                        out.writeObject(this.protocol.ProcessInput(fromClient));
+                        this.protocol.ProcessInput(fromClient, this.playerId);
                     }
                 }
             }

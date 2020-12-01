@@ -95,7 +95,7 @@
 #waitPromptText {
     -fx-font-family: Courier;
     -fx-fill: whitesmoke;
-    -fx-font-size: 60;
+    -fx-font-size: 30;
 }
 
 #waitBackground {

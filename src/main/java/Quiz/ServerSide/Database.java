@@ -5,7 +5,7 @@ import java.io.*;
 import java.security.PublicKey;
 import java.util.*;
 
-public class Databas {
+public class Database {
 
     private ArrayList<Question> databas;
     private int questionNo;
@@ -38,7 +38,7 @@ public class Databas {
 
     }
 
-    public Databas() {
+    public Database() {
         this.questionNo = 0;
         try {
             addQuestionsTodatabas(readQuestionfromFile());
@@ -80,15 +80,15 @@ public class Databas {
     }
 
     //Test
-    public static void main(String[] args) {
-        Databas ds = new Databas();
-        ds.addQuestionsTodatabas(readQuestionfromFile());
-        List<String> catagories = ds.getCategoryList();
-        System.out.println(catagories);
-
-        ListIterator<String> listIterator = ds.getQustionByCategory(catagories.get(0)).listIterator();
-        while (listIterator.hasNext()) {
-            System.out.println(listIterator.next());
-        }
-    }
+//    public static void main(String[] args) {
+//        Database ds = new Database();
+//        ds.addQuestionsTodatabas(readQuestionfromFile());
+//        List<String> catagories = ds.getCategoryList();
+//        System.out.println(catagories);
+//
+//        ListIterator<String> listIterator = ds.getQustionByCategory(catagories.get(0)).listIterator();
+//        while (listIterator.hasNext()) {
+//            System.out.println(listIterator.next());
+//        }
+//    }
 }

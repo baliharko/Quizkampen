@@ -1,6 +1,6 @@
 package Quiz.ClientSide;
 
-import Quiz.ServerSide.Databas;
+import Quiz.ServerSide.Database;
 import Quiz.ServerSide.Initializer;
 import Quiz.ServerSide.Question;
 import Quiz.ServerSide.Response;
@@ -17,7 +17,7 @@ import java.io.ObjectOutputStream;
 
 public class ClientProtocol {
 
-    Databas databas;
+    Database database;
     private String player1Name;
     private String player2Name;
     private boolean bothConnected;
@@ -36,9 +36,9 @@ public class ClientProtocol {
 
     private State currentState;
 
-    public ClientProtocol(Databas databas) {
+    public ClientProtocol(Database database) {
         this.currentState = State.WAITING;
-        this.databas = databas;
+        this.database = database;
         this.questionNo = 0;
     }
 
@@ -61,7 +61,7 @@ public class ClientProtocol {
             case PLAYER_1_CONNECTED -> {
                 if (in instanceof String && ((String)in).equalsIgnoreCase("init")) {
 
-                    this.currentQuestion = databas.getQuestion(this.questionNo);
+                    this.currentQuestion = database.getQuestion(this.questionNo);
                     try {
                         out = new Initializer(); // skicka init till player2
                         synchronized (this) {
@@ -81,9 +81,15 @@ public class ClientProtocol {
             }
             case BOTH_CONNECTED -> {
                 if (in instanceof Request) {
-                    // Skickar true eller false för rätt eller fel svar
-                    out = new Response(this.currentQuestion.isRightAnswer(((Request) in).getAnswerText()),
-                            ((Request)in).getAnswerButtonIndex()); // Skickar tillbaka index på knappen
+
+                    if (((Request)in).getStatus() == RequestStatus.ANSWER) {
+                        // Skickar true eller false för rätt eller fel svar
+                        out = new Response(Response.ResponseStatus.CHECKED_ANSWER, this.currentQuestion.isRightAnswer(((Request) in).getAnswerText())); // Skickar tillbaka index på knappen
+                    }
+
+                    if (((Request)in).getStatus() == RequestStatus.NEXT_QUESTION) {
+                        out = new Response(Response.ResponseStatus.NEW_QUESTION, this.database.getQuestion(++questionNo));
+                    }
                 }
 
 //                String inAns = in.split(",")[1];

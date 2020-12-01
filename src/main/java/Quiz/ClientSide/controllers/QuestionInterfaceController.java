@@ -1,14 +1,20 @@
 package Quiz.ClientSide.controllers;
 
 import Quiz.ClientSide.Constants;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -45,11 +51,6 @@ public class QuestionInterfaceController {
             tb.setToggleGroup(group);
         }
 
-//
-//        toggle1.setToggleGroup(group);
-//        toggle2.setToggleGroup(group);
-//        toggle3.setToggleGroup(group);
-//        toggle4.setToggleGroup(group);
     }
 
     public void setConnectionStatus(String s) {
@@ -60,19 +61,24 @@ public class QuestionInterfaceController {
             this.questionText.setText(questionText);
     }
 
-    public void setToggleButtonColor(boolean isRightAnswer, int buttonIndex) {
-        String style = isRightAnswer ? "-fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #b5f5be, #1ee700);"
-                : "-fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #f8cdcd, #f60c0c);";
-
-        switch (buttonIndex) {
-            case 0 -> toggle1.setStyle(style);
-            case 1 -> toggle2.setStyle(style);
-            case 2 -> toggle3.setStyle(style);
-            case 3 -> toggle4.setStyle(style);
-        }
+    public void setToggleButtonColor(boolean isRightAnswer) {
+        String style = isRightAnswer ? Constants.COLOR_TRUE
+                : Constants.COLOR_FALSE;
 
         for (ToggleButton tb : toggleButtonList) {
             tb.setMouseTransparent(true);
+        }
+
+        ((ToggleButton)group.getSelectedToggle()).setStyle("button-selected-color: " + style);
+    }
+
+    public void refreshButtons() {
+
+        ((ToggleButton)group.getSelectedToggle()).setStyle(String.format("button-selected-color: %s", Constants.COLOR_SELECTED));
+
+        for (ToggleButton tb : toggleButtonList) {
+            tb.setMouseTransparent(false);
+            tb.setSelected(false);
         }
     }
 
@@ -86,6 +92,14 @@ public class QuestionInterfaceController {
     @FXML
     public String getSelectedToggleText() {
         return Objects.requireNonNull(((ToggleButton) this.group.getSelectedToggle()).getText());
+    }
+
+    public void setAcceptButtonText(String acceptButtonText) {
+        this.acceptButton.setText(acceptButtonText);
+    }
+
+    public String getAcceptButtonText() {
+        return this.acceptButton.getText();
     }
 }
 

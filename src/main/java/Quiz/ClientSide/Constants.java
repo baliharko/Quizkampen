@@ -26,8 +26,9 @@ public abstract class Constants {
     public static final int CATEGORIES = setCategories();
     public static final int QUESTIONS = setQuestions();
 
-    public static final String COLOR_TRUE = "-fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #b5f5be, #1ee700);";
-    public static final String COLOR_FALSE = "-fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #f8cdcd, #f60c0c);";
+    public static final String COLOR_TRUE = "radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #b5f5be, #1ee700);";
+    public static final String COLOR_FALSE = "radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #f8cdcd, #f60c0c);";
+    public static final String COLOR_SELECTED = "radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #ffffff, #f1e57e);";
 
     private static Properties setGameProperties() {
 

@@ -10,7 +10,7 @@ import java.net.Socket;
 
 public class Server {
 
-    protected static Databas databas = new Databas();
+    protected static Database database = new Database();
 
     public static void main(String[] args) {
 
@@ -29,7 +29,7 @@ public class Server {
 
             while (true) {
 
-                ClientProtocol protocol = new ClientProtocol(databas);
+                ClientProtocol protocol = new ClientProtocol(database);
                 Socket player1 = serverSocket.accept();
                 System.out.println("SERVER - player1 connected");
                 Socket player2 = serverSocket.accept();

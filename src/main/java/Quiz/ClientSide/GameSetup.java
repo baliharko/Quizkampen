@@ -25,7 +25,6 @@ public class GameSetup implements Runnable {
     public GameSetup(GameInterface gameInterface) {
 
         this.thread = new Thread(this);
-//        this.loadPropertiesFromFile();
         this.gameInterface = gameInterface;
         this.enterNameInterfaceController = this.gameInterface.enterNameController;
         this.questionInterfaceController = this.gameInterface.questionController;
@@ -34,25 +33,6 @@ public class GameSetup implements Runnable {
         this.resultFromRoundInterfaceController = this.gameInterface.resultFromRoundController;
         this.resultFromRoundInterfaceController.setProperties(Constants.CATEGORIES, Constants.QUESTIONS, Constants.ROUNDS);
         this.thread.start();
-    }
-
-    public EnterNameInterfaceController getEnterNameInterfaceController() {
-        return enterNameInterfaceController;
-    }
-
-    public QuestionInterfaceController getQuestionInterfaceController() {
-        return questionInterfaceController;
-    }
-
-    public SelectCategoryInterfaceController getSelectCategoryInterfaceController() {
-        return selectCategoryInterfaceController;
-    }
-    public ResultFromRoundInterfaceController getResultFromRoundController(){
-        return resultFromRoundInterfaceController;
-    }
-
-    public WaitController getWaitController() {
-        return waitController;
     }
 
     @Override
@@ -77,22 +57,26 @@ public class GameSetup implements Runnable {
 
         // Skickar texten på markerad knapp i frågerutan till ClientHandler och hanteras av ClientProtocol
         this.getQuestionInterfaceController().acceptButton.setOnAction(event -> {
+            if (this.getQuestionInterfaceController().getAcceptButtonText().equalsIgnoreCase("Svara")) {
+                Request newRequest = new Request(RequestStatus.ANSWER);
+                // Ger texten på knappen till Request - objektet
+                newRequest.setAnswerText(Objects.requireNonNull(getQuestionInterfaceController().getSelectedToggleText()));
 
-            // Skapa ny Request
-            Request newRequest = new Request(RequestStatus.ANSWER);
-            // Ger texten på knappen till Request - objektet
-            newRequest.setAnswerText(Objects.requireNonNull(getQuestionInterfaceController().getSelectedToggleText()));
-            // Ger den valda knappens index till Request - objektet
-            newRequest.setAnswerButtonIndex(getQuestionInterfaceController().group.getToggles().indexOf(
-                    getQuestionInterfaceController().group.getSelectedToggle()));
-
-            try {
-                // Skicka request till ClientHandler för processering av ClientProtocol
-                this.client.getClientOutStream().writeObject(newRequest);
-            } catch (IOException e) {
-                e.printStackTrace();
+                try {
+                    // Skicka request till ClientHandler för processering av ClientProtocol
+                    this.client.getClientOutStream().writeObject(newRequest);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("sent " + Objects.requireNonNull(getQuestionInterfaceController().getSelectedToggleText()));
             }
-            System.out.println("sent " + Objects.requireNonNull(getQuestionInterfaceController().getSelectedToggleText()));
+            else if (this.getQuestionInterfaceController().getAcceptButtonText().equalsIgnoreCase("Nästa fråga")) {
+                try {
+                    this.client.getClientOutStream().writeObject(new Request(RequestStatus.NEXT_QUESTION));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         });
 
         for (Button b : selectCategoryInterfaceController.categoryButtons) {
@@ -101,4 +85,29 @@ public class GameSetup implements Runnable {
             });
         }
     }
+
+    public EnterNameInterfaceController getEnterNameInterfaceController() {
+        return enterNameInterfaceController;
+    }
+
+    public QuestionInterfaceController getQuestionInterfaceController() {
+        return questionInterfaceController;
+    }
+
+    public SelectCategoryInterfaceController getSelectCategoryInterfaceController() {
+        return selectCategoryInterfaceController;
+    }
+
+    public ResultFromRoundInterfaceController getResultFromRoundController(){
+        return resultFromRoundInterfaceController;
+    }
+
+    public WaitController getWaitController() {
+        return waitController;
+    }
 }
+
+// TODO - Knapparna måste refreshas när nästa fråga laddas in (ta bort fokus)
+// TODO - Få in kategorierna och x antal frågor per rond
+// TODO - Poäng
+// TODO - efter x antal frågor måste spelare x vänta på spelare y

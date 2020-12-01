@@ -1,14 +1,11 @@
 package Quiz.ClientSide;
 
-import Quiz.ClientSide.controllers.QuestionInterfaceController;
-import Quiz.ClientSide.controllers.SelectCategoryInterfaceController;
 import Quiz.ServerSide.Initializer;
 import Quiz.ServerSide.Response;
 import javafx.application.Platform;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Objects;
 
 public class Client implements Runnable {
 
@@ -59,10 +56,21 @@ public class Client implements Runnable {
                     });
                 } else if (fromServer instanceof Response) {
                     Response temp = (Response) fromServer;
-                    Platform.runLater(() -> {
-                        game.getQuestionInterfaceController().setToggleButtonColor(temp.isRightAnswer(), temp.getAnswerButtonIndex());
 
-                    });
+                    if (temp.getResponseStatus() == Response.ResponseStatus.CHECKED_ANSWER) {
+                        Platform.runLater(() -> {
+                            game.getQuestionInterfaceController().setToggleButtonColor(temp.isRightAnswer());
+                            game.getQuestionInterfaceController().setAcceptButtonText("Nästa fråga");
+                        });
+                    }
+                    else if (temp.getResponseStatus() == Response.ResponseStatus.NEW_QUESTION) {
+                        Platform.runLater(() -> {
+                            game.getQuestionInterfaceController().setAcceptButtonText("Svara");
+                            game.getQuestionInterfaceController().setQuestionText(temp.getQuestion().getQuestion());
+                            game.getQuestionInterfaceController().refreshButtons();
+                            game.getQuestionInterfaceController().setToggleButtonsText(temp.getQuestion().getOptions());
+                        });
+                    }
                 }
             }
         } catch (EOFException e) {

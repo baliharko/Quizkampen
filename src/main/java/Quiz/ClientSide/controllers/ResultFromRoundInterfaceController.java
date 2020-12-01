@@ -49,8 +49,8 @@ public class ResultFromRoundInterfaceController {
         centerBox.setSpacing(20);
 
         // TEST
-        String style = true ? "-fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #b5f5be, #1ee700);"
-                : "-fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #f8cdcd, #f60c0c);";
+        String style = true ? Constants.COLOR_TRUE
+                : Constants.COLOR_FALSE;
 
         for (int i = 0; i < Constants.ROUNDS; i++) {
             FlowPane flowPane = new FlowPane();
@@ -74,9 +74,10 @@ public class ResultFromRoundInterfaceController {
                 else {
 
                     // TEST
-                    Button knapp = new Button();
-                    knapp.setStyle(style);
-                    flowPane.getChildren().add(knapp);
+                    Button button = new Button();
+                    button.setFocusTraversable(false);
+                    button.setStyle(style);
+                    flowPane.getChildren().add(button);
                 }
             }
 

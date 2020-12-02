@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Response implements Serializable {
 
     public enum ResponseStatus {
-        CHECKED_ANSWER, NEW_QUESTION, WAIT, NEXT_ROUND, RESULTS, SELECT_CATEGORY, NEW_ROUND_START
+        CHECKED_ANSWER, NEW_QUESTION, WAIT, RESULTS, SELECT_CATEGORY, NEW_ROUND_START
     }
 
     private boolean isRightAnswer;

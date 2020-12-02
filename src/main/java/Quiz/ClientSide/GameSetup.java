@@ -126,5 +126,3 @@ public class GameSetup implements Runnable {
         return this.gameInterface;
     }
 }
-
-// TODO - Få in kategorierna och x antal frågor per rond

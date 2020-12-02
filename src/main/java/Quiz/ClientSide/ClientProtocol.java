@@ -172,7 +172,6 @@ public class ClientProtocol {
 
                     if (((Request) in).getStatus() == RequestStatus.CATEGORY_SELECTED) {
 
-                        System.out.println("((Request)in).getPlayerName() = " + ((Request)in).getPlayerName());
                         this.currentGenre = this.database.getQuestionByCategory(((Request) in).getPlayerName());
                         this.p1CurrentQuestion = this.currentGenre.get(0);
                         this.p2CurrentQuestion = this.currentGenre.get(0);
@@ -181,17 +180,28 @@ public class ClientProtocol {
                     }
 
                     if (((Request) in).getStatus() == RequestStatus.NEXT_ROUND) {
-                        if (this.currentRound % 2 == 0) {
-                            if (playerId == 1)
-                                sendObject(new Response(Response.ResponseStatus.SELECT_CATEGORY), playerId);
-                            else
-                                sendObject(new Response(Response.ResponseStatus.WAIT), playerId);
-                        } else {
-                            if (playerId == 1)
-                                sendObject(new Response(Response.ResponseStatus.SELECT_CATEGORY), playerId);
-                            else
-                                sendObject(new Response(Response.ResponseStatus.WAIT), playerId);
+
+                        if (playerId == 1) {
+                            sendObject(this.currentRound % 2 == 0 ?
+                                    new Response(Response.ResponseStatus.SELECT_CATEGORY) : new Response(Response.ResponseStatus.WAIT), playerId);
                         }
+
+                        if (playerId == 2) {
+                            sendObject(this.currentRound % 2 != 0 ?
+                                    new Response(Response.ResponseStatus.SELECT_CATEGORY) : new Response(Response.ResponseStatus.WAIT), playerId);
+                        }
+
+//                        if (this.currentRound % 2 == 0) {
+//                            if (playerId == 1)
+//                                sendObject(new Response(Response.ResponseStatus.SELECT_CATEGORY), 1);
+//                            else
+//                                sendObject(new Response(Response.ResponseStatus.WAIT), 2);
+//                        } else {
+//                            if (playerId == 1)
+//                                sendObject(new Response(Response.ResponseStatus.SELECT_CATEGORY), 1);
+//                            else
+//                                sendObject(new Response(Response.ResponseStatus.WAIT), 2);
+//                        }
                     }
                 }
 
@@ -204,10 +214,6 @@ public class ClientProtocol {
                     sendObject(new Response(Response.ResponseStatus.RESULTS, this.currentRound, p1Answers[this.currentRound], p2Answers[this.currentRound], player1Score, player2Score), 1);
                     sendObject(new Response(Response.ResponseStatus.RESULTS, this.currentRound, p2Answers[this.currentRound], p1Answers[this.currentRound], player2Score, player1Score), 2);
                     this.currentRound++;
-
-                    // TODO - vid knapptryck (fortsätt) efter resultatWindow
-                    // Om ronden är jämn väljer player 1 kategori annars player 2
-//                    sendObject(new Response(Response.ResponseStatus.NEXT_ROUND), (this.currentRound % 2 == 0 ? 1 : 2));
                 }
             }
         }
@@ -223,10 +229,6 @@ public class ClientProtocol {
         } else {
             System.out.println("both names already set.");
         }
-    }
-
-    public boolean areBothConnected() {
-        return bothConnected;
     }
 
     public void setPlayerOuts(ObjectOutputStream player1Out, ObjectOutputStream player2out) {

@@ -113,5 +113,3 @@ public class GameSetup implements Runnable {
 }
 
 // TODO - Få in kategorierna och x antal frågor per rond
-// TODO - Poäng
-// TODO - efter x antal frågor måste spelare x vänta på spelare y

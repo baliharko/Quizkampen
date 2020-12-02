@@ -80,6 +80,7 @@ public class Client implements Runnable {
                     } else if (temp.getResponseStatus() == Response.ResponseStatus.RESULTS) {
                         Platform.runLater(() -> {
                             game.getResultFromRoundController().updateResults(temp.getPlayerRoundResults(), temp.getOpponentRoundResults(), temp.getRound());
+                            game.getResultFromRoundController().currentScore.setText(temp.getPlayerScore() + " - " + temp.getOpponentScore());
                             game.getGameInterface().primaryStage.setScene(game.getGameInterface().resultRoundScene);
                         });
                     } else if (temp.getResponseStatus() == Response.ResponseStatus.NEXT_ROUND) {

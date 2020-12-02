@@ -182,11 +182,11 @@ public class ClientProtocol {
                     this.p1CurrentQuestionCounter = 0;
                     this.p2CurrentQuestionCounter = 0;
 
-                    sendObject(new Response(Response.ResponseStatus.RESULTS, this.currentRound, p1Answers[this.currentRound], p2Answers[this.currentRound]), 1);
-                    sendObject(new Response(Response.ResponseStatus.RESULTS, this.currentRound, p2Answers[this.currentRound], p1Answers[this.currentRound]), 2);
+                    sendObject(new Response(Response.ResponseStatus.RESULTS, this.currentRound, p1Answers[this.currentRound], p2Answers[this.currentRound], player1Score, player2Score), 1);
+                    sendObject(new Response(Response.ResponseStatus.RESULTS, this.currentRound, p2Answers[this.currentRound], p1Answers[this.currentRound], player2Score, player1Score), 2);
                     this.currentRound++;
 
-                    // TODO - vid knapptryck (fortsätt(acceptButton)) efter resultatWindow
+                    // TODO - vid knapptryck (fortsätt) efter resultatWindow
                     // Om ronden är jämn väljer player 1 kategori annars player 2
 //                    sendObject(new Response(Response.ResponseStatus.NEXT_ROUND), (this.currentRound % 2 == 0 ? 1 : 2));
                 }

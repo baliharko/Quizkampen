@@ -14,6 +14,8 @@ public class Response implements Serializable {
     private int round;
     private boolean[] playerRoundResults;
     private boolean[] opponentRoundResults;
+    private int playerScore;
+    private int opponentScore;
 
     public Response(ResponseStatus status, boolean isRightAnswer) {
         this.status = status;
@@ -25,11 +27,13 @@ public class Response implements Serializable {
         this.question = newQuestion;
     }
 
-    public Response(ResponseStatus status,int round, boolean[] playerRoundResults, boolean[] opponentRoundResults) {
+    public Response(ResponseStatus status,int round, boolean[] playerRoundResults, boolean[] opponentRoundResults, int playerScore, int opponentScore) {
         this.status = status;
         this.round = round;
         this.playerRoundResults = playerRoundResults;
         this.opponentRoundResults = opponentRoundResults;
+        this.playerScore = playerScore;
+        this.opponentScore = opponentScore;
     }
 
     public Response(ResponseStatus status) {
@@ -58,5 +62,13 @@ public class Response implements Serializable {
 
     public boolean[] getOpponentRoundResults() {
         return opponentRoundResults;
+    }
+
+    public int getPlayerScore() {
+        return playerScore;
+    }
+
+    public int getOpponentScore() {
+        return opponentScore;
     }
 }

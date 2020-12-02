@@ -10,3 +10,5 @@
 /httpRequests/
 # Out folder
 /out
+# PC / Mac Libraries
+/libraries

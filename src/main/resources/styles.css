@@ -1,0 +1,104 @@
+.root {
+    -fx-background-color: #20b2aa;
+    button-hover-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #ffffff, #00675e);
+    button-selected-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #ffffff, #f1e57e);
+}
+
+.toggle-button {
+    -fx-font-family: Courier;
+    -fx-background-radius: 20;
+    -fx-border-width: 5;
+    -fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, whitesmoke, lightseagreen);
+    -fx-border-style: solid;
+    -fx-border-radius: 16;
+    -fx-border-color: #73e2dc;
+    -fx-text-fill: gray;
+    -fx-font-weight: bold;
+    -fx-font-size: 16;
+}
+
+.button {
+    -fx-font-family: Courier;
+    -fx-background-radius: 20;
+    -fx-border-width: 5;
+    -fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, whitesmoke, lightseagreen);
+    -fx-border-style: solid;
+    -fx-border-radius: 16;
+    -fx-border-color: #73e2dc;
+    -fx-text-fill: gray;
+    -fx-font-weight: bold;
+    -fx-font-size: 16;
+}
+
+.button:hover {
+    -fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #ffffff, #00675e);
+}
+
+.button:pressed {
+    -fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #ffffff, #57ee3f);
+}
+
+.toggle-button:hover {
+    -fx-background-color: button-hover-color;
+}
+
+.toggle-button:selected {
+    -fx-background-color: button-selected-color;
+}
+
+.anchorpane {
+    -fx-padding: 10;
+}
+
+#questionArea {
+    -fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 60%, #61c3c0, lightseagreen);
+    -fx-background-radius: 20;
+}
+
+#questionText {
+    -fx-font-family: Courier;
+    -fx-fill: whitesmoke;
+    -fx-font-size: 20;
+}
+
+#buttonGrid {
+    -fx-padding: 5;
+    -fx-vgap: 5;
+    -fx-hgap: 5;
+}
+
+.gridPane {
+    -fx-padding: 5;
+    -fx-vgap: 5;
+    -fx-hgap: 5;
+}
+
+#categoryHeader {
+    -fx-font-family: Courier;
+    -fx-fill: whitesmoke;
+    -fx-font-size: 30;
+}
+
+#connectionStatus {
+    -fx-fill: #db5d5d;
+    -fx-font-weight: bold;
+}
+
+#welcomeText {
+    -fx-font-family: Courier;
+    -fx-fill: whitesmoke;
+}
+
+#mainPane {
+    -fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 60%, lightseagreen, #61c3c0);
+}
+
+#waitPromptText {
+    -fx-font-family: Courier;
+    -fx-fill: whitesmoke;
+    -fx-font-size: 20;
+}
+
+#waitBackground {
+    -fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 60%, #61c3c0, lightseagreen);
+}

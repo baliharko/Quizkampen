@@ -98,7 +98,7 @@ public class ClientProtocol {
 
                 if (this.currentRound == 0) {
                     sendObject(new Response(Response.ResponseStatus.SELECT_CATEGORY), 1);
-                    sendObject(new Response(Response.ResponseStatus.WAIT), 2);
+                    sendObject(new Response(Response.ResponseStatus.WAIT, this.player1Name + " väljer kategori..."), 2);
                     currentState = State.SELECT_CATEGORY_FIRST;
                 }
             }
@@ -150,7 +150,7 @@ public class ClientProtocol {
                                 this.p1CurrentQuestion = this.currentGenre.get(this.p1CurrentQuestionCounter);
                                 sendObject(new Response(Response.ResponseStatus.NEW_QUESTION, this.p1CurrentQuestion), playerId);
                             } else {
-                                sendObject(new Response(Response.ResponseStatus.WAIT), playerId);
+                                sendObject(new Response(Response.ResponseStatus.WAIT, "Vänta medan " + this.player2Name + " svarar klart på frågorna..."), playerId);
                                 updatePlayerScore(1);
                                 this.p1RoundFinished = true;
                             }
@@ -162,7 +162,7 @@ public class ClientProtocol {
                                 this.p2CurrentQuestion = this.currentGenre.get(this.p2CurrentQuestionCounter);
                                 sendObject(new Response(Response.ResponseStatus.NEW_QUESTION, this.p2CurrentQuestion), playerId);
                             } else {
-                                sendObject(new Response(Response.ResponseStatus.WAIT), playerId);
+                                sendObject(new Response(Response.ResponseStatus.WAIT, "Vänta medan " + this.player1Name + " svarar klart på frågorna..."), playerId);
                                 updatePlayerScore(2);
                                 System.out.println("player 2 score = " + player2Score);
                                 this.p2RoundFinished = true;
@@ -183,25 +183,13 @@ public class ClientProtocol {
 
                         if (playerId == 1) {
                             sendObject(this.currentRound % 2 == 0 ?
-                                    new Response(Response.ResponseStatus.SELECT_CATEGORY) : new Response(Response.ResponseStatus.WAIT), playerId);
+                                    new Response(Response.ResponseStatus.SELECT_CATEGORY) : new Response(Response.ResponseStatus.WAIT, this.player2Name + " väljer kategori..."), playerId);
                         }
 
                         if (playerId == 2) {
                             sendObject(this.currentRound % 2 != 0 ?
-                                    new Response(Response.ResponseStatus.SELECT_CATEGORY) : new Response(Response.ResponseStatus.WAIT), playerId);
+                                    new Response(Response.ResponseStatus.SELECT_CATEGORY) : new Response(Response.ResponseStatus.WAIT, this.player1Name + " väljer kategori..."), playerId);
                         }
-
-//                        if (this.currentRound % 2 == 0) {
-//                            if (playerId == 1)
-//                                sendObject(new Response(Response.ResponseStatus.SELECT_CATEGORY), 1);
-//                            else
-//                                sendObject(new Response(Response.ResponseStatus.WAIT), 2);
-//                        } else {
-//                            if (playerId == 1)
-//                                sendObject(new Response(Response.ResponseStatus.SELECT_CATEGORY), 1);
-//                            else
-//                                sendObject(new Response(Response.ResponseStatus.WAIT), 2);
-//                        }
                     }
                 }
 

@@ -78,7 +78,10 @@ public class Client implements Runnable {
                     // Vänta
                     else if (temp.getResponseStatus() == Response.ResponseStatus.WAIT) {
                         Platform.runLater(() -> {
-                            game.getWaitController().waitPromptText.setText("Vänta medan spelare 2 svarar klart på frågorna...");
+                            if (temp.getMessage() != null)
+                                game.getWaitController().waitPromptText.setText(temp.getMessage());
+
+//                            game.getWaitController().waitPromptText.setText("Vänta medan spelare 2 svarar klart på frågorna...");
                             game.getGameInterface().primaryStage.setScene(this.game.getGameInterface().waitScene);
                         });
 

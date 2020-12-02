@@ -3,6 +3,7 @@ package Quiz.ServerSide;
 import Quiz.ClientSide.ClientHandler;
 import Quiz.ClientSide.ClientProtocol;
 import Quiz.ClientSide.Constants;
+import javafx.application.Platform;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -10,7 +11,7 @@ import java.net.Socket;
 
 public class Server {
 
-    protected static Database database = new Database();
+    protected static final Database DATABASE = new Database();
 
     public static void main(String[] args) {
 
@@ -29,7 +30,7 @@ public class Server {
 
             while (true) {
 
-                ClientProtocol protocol = new ClientProtocol(database);
+                ClientProtocol protocol = new ClientProtocol(DATABASE);
                 Socket player1 = serverSocket.accept();
                 System.out.println("SERVER - player1 connected");
                 Socket player2 = serverSocket.accept();

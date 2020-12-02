@@ -6,11 +6,13 @@ import javafx.scene.control.Button;
 
 import java.io.*;
 import java.util.Objects;
+import java.util.Properties;
 
 public class GameSetup implements Runnable {
 
     private String playerName;
     private GameInterface gameInterface;
+    private Properties gameProperties;
 
     private Thread thread;
     private Client client;
@@ -111,5 +113,3 @@ public class GameSetup implements Runnable {
 }
 
 // TODO - Få in kategorierna och x antal frågor per rond
-// TODO - Poäng
-// TODO - efter x antal frågor måste spelare x vänta på spelare y

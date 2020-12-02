@@ -5,12 +5,17 @@ import java.io.Serializable;
 public class Response implements Serializable {
 
     public enum ResponseStatus {
-        CHECKED_ANSWER, NEW_QUESTION
+        CHECKED_ANSWER, NEW_QUESTION, WAIT, NEXT_ROUND, RESULTS
     }
 
     private boolean isRightAnswer;
     private ResponseStatus status;
     private Question question;
+    private int round;
+    private boolean[] playerRoundResults;
+    private boolean[] opponentRoundResults;
+    private int playerScore;
+    private int opponentScore;
 
     public Response(ResponseStatus status, boolean isRightAnswer) {
         this.status = status;
@@ -22,8 +27,17 @@ public class Response implements Serializable {
         this.question = newQuestion;
     }
 
-    public Response(ResponseStatus state) {
-        this.status = state;
+    public Response(ResponseStatus status,int round, boolean[] playerRoundResults, boolean[] opponentRoundResults, int playerScore, int opponentScore) {
+        this.status = status;
+        this.round = round;
+        this.playerRoundResults = playerRoundResults;
+        this.opponentRoundResults = opponentRoundResults;
+        this.playerScore = playerScore;
+        this.opponentScore = opponentScore;
+    }
+
+    public Response(ResponseStatus status) {
+        this.status = status;
     }
 
     public boolean isRightAnswer() {
@@ -36,5 +50,25 @@ public class Response implements Serializable {
 
     public Question getQuestion() {
         return this.question;
+    }
+
+    public int getRound() {
+        return round;
+    }
+
+    public boolean[] getPlayerRoundResults() {
+        return playerRoundResults;
+    }
+
+    public boolean[] getOpponentRoundResults() {
+        return opponentRoundResults;
+    }
+
+    public int getPlayerScore() {
+        return playerScore;
+    }
+
+    public int getOpponentScore() {
+        return opponentScore;
     }
 }

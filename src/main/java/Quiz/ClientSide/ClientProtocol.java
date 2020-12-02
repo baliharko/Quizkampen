@@ -144,13 +144,9 @@ public class ClientProtocol {
                             this.p1CurrentQuestionCounter++;
                             if (this.p1CurrentQuestionCounter < this.questionsAmount) {
                                 this.p1CurrentQuestion = this.currentGenre.get(this.p1CurrentQuestionCounter);
-
-                                sendObject(new Response(
-                                                Response.ResponseStatus.NEW_QUESTION, this.p1CurrentQuestion),
-                                        playerId);
+                                sendObject(new Response(Response.ResponseStatus.NEW_QUESTION, this.p1CurrentQuestion), playerId);
                             } else {
                                 sendObject(new Response(Response.ResponseStatus.WAIT), playerId);
-
                                 updatePlayerScore(1);
                                 this.p1RoundFinished = true;
                             }
@@ -160,13 +156,9 @@ public class ClientProtocol {
                             this.p2CurrentQuestionCounter++;
                             if (this.p2CurrentQuestionCounter < this.questionsAmount) {
                                 this.p2CurrentQuestion = this.currentGenre.get(this.p2CurrentQuestionCounter);
-
-                                sendObject(new Response(
-                                                Response.ResponseStatus.NEW_QUESTION, this.p2CurrentQuestion),
-                                        playerId);
+                                sendObject(new Response(Response.ResponseStatus.NEW_QUESTION, this.p2CurrentQuestion), playerId);
                             } else {
                                 sendObject(new Response(Response.ResponseStatus.WAIT), playerId);
-
                                 updatePlayerScore(2);
                                 System.out.println("player 2 score = " + player2Score);
                                 this.p2RoundFinished = true;
@@ -176,7 +168,6 @@ public class ClientProtocol {
                 }
 
                 if (p1RoundFinished && p2RoundFinished) {
-
                     this.p1RoundFinished = false;
                     this.p2RoundFinished = false;
                     this.p1CurrentQuestionCounter = 0;

@@ -8,5 +8,5 @@ Landmärken,I vilket land finns Statue of Liberty?,UK,USA,UAE,USSR,USA
 Landmärken,I vilket land ligger Taj Mahal?,Indien,Pakistan,Thailand,Bangladesh,Indien
 Musik,Vilken sångare var bland annat känd som 'The King of Pop' och 'The Gloved One'?,Michael Jackson,Prince Rogers Nelson,David Bowie,Madonna,Michael Jackson
 Musik,Vilket år besökte Beatles USA första gången?,1964,1973,1970,1963,1964
-Musik,Vad heter Adeles första album?,Hometown Glory,Skyfall,When We Were Young,Hello,Hometown Glory
+Musik,Vad heter Adeles första album?,19,Skyfall,When We Were Young,Hello,19
 Musik,Vilket alternativt rockband hade en hit med låten "Losing My Religion" 1991?,DEM,REM,TEM,SEM,REM

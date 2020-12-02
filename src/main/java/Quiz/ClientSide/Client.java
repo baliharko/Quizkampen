@@ -47,8 +47,6 @@ public class Client implements Runnable {
                             System.out.println("Received initializer opponent = " + this.opponentName);
                             game.getQuestionInterfaceController().setConnectionStatus("Du spelar mot: " + this.opponentName);
                             game.getQuestionInterfaceController().connectionStatus.setStyle("-fx-fill: green");
-//                            game.getQuestionInterfaceController().setQuestionText(((Initializer) temp).getFirstQuestion().getQuestion());
-//                            game.getQuestionInterfaceController().setToggleButtonsText(((Initializer) temp).getFirstQuestion().getOptions());
 
                             game.getResultFromRoundController().p1Name.setText(this.playerName);
                             game.getResultFromRoundController().p2Name.setText(this.opponentName);

@@ -36,7 +36,6 @@ public class ClientProtocol {
     private Question p2CurrentQuestion;
     int player1Score = 0;
     int player2Score = 0;
-//    private int counter = 4;
 
     private boolean[][] p1Answers;
     private boolean[][] p2Answers;
@@ -181,14 +180,42 @@ public class ClientProtocol {
 
                     if (((Request) in).getStatus() == RequestStatus.NEXT_ROUND) {
 
-                        if (playerId == 1) {
-                            sendObject(this.currentRound % 2 == 0 ?
-                                    new Response(Response.ResponseStatus.SELECT_CATEGORY) : new Response(Response.ResponseStatus.WAIT, this.player2Name + " väljer kategori..."), playerId);
-                        }
+                        if (this.currentRound < this.roundsAmount) {
+                            if (playerId == 1) {
+                                sendObject(this.currentRound % 2 == 0 ?
+                                        new Response(Response.ResponseStatus.SELECT_CATEGORY) : new Response(Response.ResponseStatus.WAIT, this.player2Name + " väljer kategori..."), playerId);
+                            }
 
-                        if (playerId == 2) {
-                            sendObject(this.currentRound % 2 != 0 ?
-                                    new Response(Response.ResponseStatus.SELECT_CATEGORY) : new Response(Response.ResponseStatus.WAIT, this.player1Name + " väljer kategori..."), playerId);
+                            if (playerId == 2) {
+                                sendObject(this.currentRound % 2 != 0 ?
+                                        new Response(Response.ResponseStatus.SELECT_CATEGORY) : new Response(Response.ResponseStatus.WAIT, this.player1Name + " väljer kategori..."), playerId);
+                            }
+                        }
+                        else {
+
+                            String winnerMsg = "Grattis " + this.getWinner() + "! Du vann!";
+                            String loserMsg = this.getWinner() + " vann denna gång. Bättre lycka nästa gång!";
+                            String evenMsg = "";
+
+                            if (getWinner().equalsIgnoreCase("even"))
+                                evenMsg = "Det blev oavgjort!";
+
+                            if (!evenMsg.isBlank())
+                                sendObject(new Response(Response.ResponseStatus.WAIT, evenMsg), playerId);
+                            else {
+                                if (playerId == 1) {
+                                    if (getWinner().equalsIgnoreCase(this.player1Name))
+                                        sendObject(new Response(Response.ResponseStatus.WAIT, winnerMsg), playerId);
+                                    else
+                                        sendObject(new Response(Response.ResponseStatus.WAIT, loserMsg), playerId);
+                                }
+                                else {
+                                    if (getWinner().equalsIgnoreCase(this.player2Name))
+                                        sendObject(new Response(Response.ResponseStatus.WAIT, winnerMsg), playerId);
+                                    else
+                                        sendObject(new Response(Response.ResponseStatus.WAIT, loserMsg), playerId);
+                                }
+                            }
                         }
                     }
                 }
@@ -285,5 +312,14 @@ public class ClientProtocol {
                     this.player2Score++;
             }
         }
+    }
+
+    public String getWinner() {
+        if (player1Score > player2Score)
+            return player1Name;
+        else if (player2Score > player1Score)
+            return player2Name;
+
+        return "even";
     }
 }

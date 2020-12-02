@@ -1,8 +1,5 @@
 package Quiz.ServerSide;
 
-
-import Quiz.ClientSide.Constants;
-
 import java.io.*;
 import java.util.*;
 
@@ -75,17 +72,4 @@ public class Database {
         Collections.shuffle(questionsByCategory);
         return questionsByCategory;
     }
-
-    //Test
-//    public static void main(String[] args) {
-//        Database ds = new Database();
-//        ds.addQuestionsTodatabas(readQuestionfromFile());
-//        List<String> catagories = ds.getCategoryList();
-//        System.out.println(catagories);
-//
-//        ListIterator<String> listIterator = ds.getQustionByCategory(catagories.get(0)).listIterator();
-//        while (listIterator.hasNext()) {
-//            System.out.println(listIterator.next());
-//        }
-//    }
 }

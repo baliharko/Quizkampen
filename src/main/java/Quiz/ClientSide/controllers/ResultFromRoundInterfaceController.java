@@ -29,16 +29,8 @@ public class ResultFromRoundInterfaceController {
     public Text p2Name;
     public Button continueButton;
 
-    // = player, round, question
-    public Button p1_r1q1;
-    public Button p1_r1q2;
-    public Button p1_r1q3;
-    public Button p2_r1q1;
-    public Button p2_r1q2;
-    public Button p2_r1q3;
     public AnchorPane resultsCenterPane;
     public VBox centerBox;
-    private GridPane centerGrid;
 
 
     public void initialize() {
@@ -52,7 +44,7 @@ public class ResultFromRoundInterfaceController {
             FlowPane flowPane = new FlowPane();
             flowPane.setHgap((Constants.WINDOW_WIDTH / (Constants.QUESTIONS * 2) + 1) / 8);
             flowPane.setAlignment(Pos.CENTER);
-            Text text = new Text("Rond " + i);
+            Text text = new Text("Rond " + (i + 1));
             text.setStyle("-fx-font-size: 20px;"
                     + "-fx-font-family: Courier;"
                     + "-fx-fill: white");
@@ -81,7 +73,7 @@ public class ResultFromRoundInterfaceController {
         FlowPane updatedPane = new FlowPane();
         updatedPane.setHgap((Constants.WINDOW_WIDTH / (Constants.QUESTIONS * 2) + 1) / 8);
         updatedPane.setAlignment(Pos.CENTER);
-        Text text = new Text("Rond " + roundNumber);
+        Text text = new Text("Rond " + (roundNumber + 1));
         text.setStyle("-fx-font-size: 20px;"
                 + "-fx-font-family: Courier;"
                 + "-fx-fill: white");
@@ -115,14 +107,6 @@ public class ResultFromRoundInterfaceController {
             }
         }
         this.centerBox.getChildren().add(roundNumber, updatedPane);
-    }
-
-    public void setP1Name(Text p1Name) {
-        this.p1Name = p1Name;
-    }
-
-    public void setP2Name(Text p2Name) {
-        this.p2Name = p2Name;
     }
 
     public void setProperties(int categories, int questions, int rounds) {

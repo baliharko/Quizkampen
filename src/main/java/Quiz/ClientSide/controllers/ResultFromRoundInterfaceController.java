@@ -48,10 +48,6 @@ public class ResultFromRoundInterfaceController {
     public void fillGrid() {
         centerBox.setSpacing(20);
 
-        // TEST
-        String style = true ? Constants.COLOR_TRUE
-                : Constants.COLOR_FALSE;
-
         for (int i = 0; i < Constants.ROUNDS; i++) {
             FlowPane flowPane = new FlowPane();
             flowPane.setHgap((Constants.WINDOW_WIDTH / (Constants.QUESTIONS * 2) + 1) / 8);
@@ -70,19 +66,55 @@ public class ResultFromRoundInterfaceController {
                     sPane.setPrefWidth(Constants.WINDOW_WIDTH / 3);
                     sPane.getChildren().add(text);
                     flowPane.getChildren().add(sPane);
-                }
-                else {
-
-                    // TEST
+                } else {
                     Button button = new Button();
                     button.setFocusTraversable(false);
-                    button.setStyle(style);
                     flowPane.getChildren().add(button);
                 }
             }
-
             centerBox.getChildren().add(flowPane);
         }
+    }
+
+    public void updateResults(boolean[] playerResults, boolean[] opponentResults, int roundNumber) {
+        this.centerBox.getChildren().remove(roundNumber);
+        FlowPane updatedPane = new FlowPane();
+        updatedPane.setHgap((Constants.WINDOW_WIDTH / (Constants.QUESTIONS * 2) + 1) / 8);
+        updatedPane.setAlignment(Pos.CENTER);
+        Text text = new Text("Rond " + roundNumber);
+        text.setStyle("-fx-font-size: 20px;"
+                + "-fx-font-family: Courier;"
+                + "-fx-fill: white");
+
+        for (int i = 0, j = 0; i < (2 * Constants.QUESTIONS + 1); i++) {
+            if (i == Constants.QUESTIONS) {
+                StackPane sPane = new StackPane();
+                sPane.setAlignment(Pos.CENTER);
+                sPane.setMaxWidth(Constants.WINDOW_WIDTH / 3);
+                sPane.setMinWidth(Constants.WINDOW_WIDTH / 3);
+                sPane.setPrefWidth(Constants.WINDOW_WIDTH / 3);
+                sPane.getChildren().add(text);
+                updatedPane.getChildren().add(sPane);
+            } else if (i < Constants.QUESTIONS) {
+                Button button = new Button();
+                button.setFocusTraversable(false);
+                String style = playerResults[i] ? String.format("-fx-background-color: %s", Constants.COLOR_TRUE)
+                        : String.format("-fx-background-color: %s", Constants.COLOR_FALSE);
+
+                button.setStyle(style);
+                updatedPane.getChildren().add(button);
+            } else {
+                Button button = new Button();
+                button.setFocusTraversable(false);
+                String style = opponentResults[j] ? String.format("-fx-background-color: %s", Constants.COLOR_TRUE)
+                        : String.format("-fx-background-color: %s", Constants.COLOR_FALSE);
+
+                button.setStyle(style);
+                updatedPane.getChildren().add(button);
+                j++;
+            }
+        }
+        this.centerBox.getChildren().add(roundNumber, updatedPane);
     }
 
     public void setP1Name(Text p1Name) {

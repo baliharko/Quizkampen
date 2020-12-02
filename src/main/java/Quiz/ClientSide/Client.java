@@ -77,6 +77,11 @@ public class Client implements Runnable {
                             game.getWaitController().waitPromptText.setText("Vänta medan spelare 2 svarar klart på frågorna...");
                             game.getGameInterface().primaryStage.setScene(this.game.getGameInterface().waitScene);
                         });
+                    } else if (temp.getResponseStatus() == Response.ResponseStatus.RESULTS) {
+                        Platform.runLater(() -> {
+                            game.getResultFromRoundController().updateResults(temp.getPlayerRoundResults(), temp.getOpponentRoundResults(), temp.getRound());
+                            game.getGameInterface().primaryStage.setScene(game.getGameInterface().resultRoundScene);
+                        });
                     } else if (temp.getResponseStatus() == Response.ResponseStatus.NEXT_ROUND) {
                         Platform.runLater(() -> {
                             game.getGameInterface().primaryStage.setScene(game.getGameInterface().categoryScene);

@@ -5,14 +5,15 @@ import java.io.Serializable;
 public class Response implements Serializable {
 
     public enum ResponseStatus {
-        CHECKED_ANSWER, NEW_QUESTION, WAIT, NEXT_ROUND
+        CHECKED_ANSWER, NEW_QUESTION, WAIT, NEXT_ROUND, RESULTS
     }
 
     private boolean isRightAnswer;
     private ResponseStatus status;
     private Question question;
     private int round;
-    private boolean[] roundResults;
+    private boolean[] playerRoundResults;
+    private boolean[] opponentRoundResults;
 
     public Response(ResponseStatus status, boolean isRightAnswer) {
         this.status = status;
@@ -24,10 +25,11 @@ public class Response implements Serializable {
         this.question = newQuestion;
     }
 
-    public Response(ResponseStatus status,int round, boolean[] roundResults) {
+    public Response(ResponseStatus status,int round, boolean[] playerRoundResults, boolean[] opponentRoundResults) {
         this.status = status;
         this.round = round;
-        this.roundResults = roundResults;
+        this.playerRoundResults = playerRoundResults;
+        this.opponentRoundResults = opponentRoundResults;
     }
 
     public Response(ResponseStatus status) {
@@ -44,5 +46,17 @@ public class Response implements Serializable {
 
     public Question getQuestion() {
         return this.question;
+    }
+
+    public int getRound() {
+        return round;
+    }
+
+    public boolean[] getPlayerRoundResults() {
+        return playerRoundResults;
+    }
+
+    public boolean[] getOpponentRoundResults() {
+        return opponentRoundResults;
     }
 }

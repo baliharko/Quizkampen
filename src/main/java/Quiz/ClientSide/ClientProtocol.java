@@ -99,8 +99,8 @@ public class ClientProtocol {
 
                     this.currentGenre = database.getQuestionByCategory("Music");
 
-                    this.p1CurrentQuestion = this.currentGenre.get(this.p1CurrentQuestionCounter++);
-                    this.p2CurrentQuestion = this.currentGenre.get(this.p2CurrentQuestionCounter++);
+                    this.p1CurrentQuestion = this.currentGenre.get(this.p1CurrentQuestionCounter);
+                    this.p2CurrentQuestion = this.currentGenre.get(this.p2CurrentQuestionCounter);
                     try {
                         player2out.writeObject(new Initializer()); // skicka init till player2
                         sendObject(new Initializer(), 2);
@@ -115,52 +115,60 @@ public class ClientProtocol {
                 }
             }
             case BOTH_CONNECTED -> {
+
                 if (in instanceof Request) {
                     if (((Request) in).getStatus() == RequestStatus.ANSWER) {
                         if (playerId == 1) {
+                            boolean answer = this.p1CurrentQuestion.isRightAnswer(((Request) in).getAnswerText());
+
                             sendObject(new Response(
-                                            Response.ResponseStatus.CHECKED_ANSWER, this.p1CurrentQuestion.isRightAnswer(((Request) in).getAnswerText())),
+                                            Response.ResponseStatus.CHECKED_ANSWER, answer),
                                     playerId);
+
+                            this.p1Answers[this.currentRound][this.p1CurrentQuestionCounter] = answer;
                         }
 
                         if (playerId == 2) {
+                            boolean answer = this.p2CurrentQuestion.isRightAnswer(((Request) in).getAnswerText());
+
                             sendObject(new Response(
-                                            Response.ResponseStatus.CHECKED_ANSWER, this.p2CurrentQuestion.isRightAnswer(((Request) in).getAnswerText())),
+                                            Response.ResponseStatus.CHECKED_ANSWER, answer),
                                     playerId);
+
+                            this.p2Answers[this.currentRound][this.p2CurrentQuestionCounter] = answer;
                         }
                     }
 
                     if (((Request) in).getStatus() == RequestStatus.NEXT_QUESTION) {
                         if (playerId == 1) {
+                            this.p1CurrentQuestionCounter++;
                             if (this.p1CurrentQuestionCounter < this.questionsAmount) {
-                                this.p1CurrentQuestionCounter++;
-                                this.p1CurrentQuestion = this.currentGenre.get((this.p1CurrentQuestionCounter));
+                                this.p1CurrentQuestion = this.currentGenre.get(this.p1CurrentQuestionCounter);
 
                                 sendObject(new Response(
                                                 Response.ResponseStatus.NEW_QUESTION, this.p1CurrentQuestion),
                                         playerId);
                             } else {
-                                sendObject(new Response(Response.ResponseStatus.WAIT, this.currentRound,
-                                        p1Answers[this.currentRound]), playerId);
+                                sendObject(new Response(Response.ResponseStatus.WAIT), playerId);
 
-                                updatePlayerScore(playerId);
+                                updatePlayerScore(1);
                                 this.p1RoundFinished = true;
                             }
                         }
 
                         if (playerId == 2) {
+                            this.p2CurrentQuestionCounter++;
                             if (this.p2CurrentQuestionCounter < this.questionsAmount) {
-                                this.p2CurrentQuestionCounter++;
-                                this.p2CurrentQuestion = this.currentGenre.get((this.p2CurrentQuestionCounter));
+                                this.p2CurrentQuestion = this.currentGenre.get(this.p2CurrentQuestionCounter);
 
                                 sendObject(new Response(
                                                 Response.ResponseStatus.NEW_QUESTION, this.p2CurrentQuestion),
                                         playerId);
                             } else {
-                                sendObject(new Response(Response.ResponseStatus.WAIT, this.currentRound,
-                                        p2Answers[this.currentRound]), playerId);
+                                sendObject(new Response(Response.ResponseStatus.WAIT), playerId);
 
-                                updatePlayerScore(playerId);
+                                updatePlayerScore(2);
+                                System.out.println("player 2 score = " + player2Score);
                                 this.p2RoundFinished = true;
                             }
                         }
@@ -168,51 +176,23 @@ public class ClientProtocol {
                 }
 
                 if (p1RoundFinished && p2RoundFinished) {
-                    this.currentRound++;
+
                     this.p1RoundFinished = false;
                     this.p2RoundFinished = false;
                     this.p1CurrentQuestionCounter = 0;
                     this.p2CurrentQuestionCounter = 0;
 
+                    sendObject(new Response(Response.ResponseStatus.RESULTS, this.currentRound, p1Answers[this.currentRound], p2Answers[this.currentRound]), 1);
+                    sendObject(new Response(Response.ResponseStatus.RESULTS, this.currentRound, p2Answers[this.currentRound], p1Answers[this.currentRound]), 2);
+                    this.currentRound++;
+
+                    // TODO - vid knapptryck (fortsätt(acceptButton)) efter resultatWindow
                     // Om ronden är jämn väljer player 1 kategori annars player 2
-                    sendObject(new Response(Response.ResponseStatus.NEXT_ROUND), (this.currentRound % 2 == 0 ? 1 : 2));
+//                    sendObject(new Response(Response.ResponseStatus.NEXT_ROUND), (this.currentRound % 2 == 0 ? 1 : 2));
                 }
-
-//                String inAns = in.split(",")[1];
-//                String plAns = in.split(",")[0];
-
-//                out = this.currentQuestion.isRightAnswer(inAns) ? "Correct" : "False";
-//
-//                if (out.equals("Correct") && plAns.equalsIgnoreCase(player1Name)) {
-//                    System.out.println("Poäng ++ " + plAns);
-//                    player1Score++;
-//                    System.out.println(player1Score);
-//                } else if (out.equals("Correct") && plAns.equalsIgnoreCase(player2Name)) {
-//                    System.out.println("Poäng ++ " + plAns);
-//                    player2Score++;
-//                    System.out.println(player2Score);
-//                } else if (out.equals("False") && plAns.equalsIgnoreCase(player1Name)) {
-//                    System.out.println("Fel svar " + plAns);
-//                    System.out.println(player1Score);
-//                } else if (out.equals("False") && plAns.equalsIgnoreCase(player2Name)) {
-//                    System.out.println("Fel svar " + plAns);
-//                    System.out.println(player2Score);
-//                }
-//                getRoundNumber();
             }
         }
     }
-
-//    public int getRoundNumber() {
-//        counter--;
-//        System.out.println("Round: " + currentRound);
-//        if (counter == 0) {
-//            currentRound++;
-//            this.counter = 4;
-//            //System.out.println("Round: "+currentRound);
-//        }
-//        return currentRound;
-//    }
 
     public void setPlayer(String playerName, int playerId) {
         if (playerId == 1 && this.player1Name == null) {

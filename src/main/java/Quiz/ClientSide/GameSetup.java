@@ -1,6 +1,7 @@
 package Quiz.ClientSide;
 
 import Quiz.ClientSide.controllers.*;
+import Quiz.ServerSide.Response;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 
@@ -70,8 +71,8 @@ public class GameSetup implements Runnable {
                     e.printStackTrace();
                 }
                 System.out.println("sent " + Objects.requireNonNull(getQuestionInterfaceController().getSelectedToggleText()));
-            }
-            else if (this.getQuestionInterfaceController().getAcceptButtonText().equalsIgnoreCase("Nästa fråga")) {
+
+            } else if (this.getQuestionInterfaceController().getAcceptButtonText().equalsIgnoreCase("Nästa fråga")) {
                 try {
                     this.client.getClientOutStream().writeObject(new Request(RequestStatus.NEXT_QUESTION));
                 } catch (IOException e) {
@@ -83,8 +84,22 @@ public class GameSetup implements Runnable {
         for (Button b : selectCategoryInterfaceController.categoryButtons) {
             b.setOnAction(event -> {
                 System.out.println(b.getText()); // Skickas till databasen och får tillbaka frågor i vald kategori.
+                try {
+                    this.client.getClientOutStream().writeObject(new Request(RequestStatus.CATEGORY_SELECTED, b.getText()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             });
         }
+
+        this.getResultFromRoundController().continueButton.setOnAction(event -> {
+            try {
+                this.client.getClientOutStream().writeObject(new Request(RequestStatus.NEXT_ROUND));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public EnterNameInterfaceController getEnterNameInterfaceController() {
@@ -99,7 +114,7 @@ public class GameSetup implements Runnable {
         return selectCategoryInterfaceController;
     }
 
-    public ResultFromRoundInterfaceController getResultFromRoundController(){
+    public ResultFromRoundInterfaceController getResultFromRoundController() {
         return resultFromRoundInterfaceController;
     }
 

@@ -72,6 +72,7 @@ public class QuestionInterfaceController {
     public void refreshButtons() {
 
         ((ToggleButton)group.getSelectedToggle()).setStyle(String.format("button-selected-color: %s", Constants.COLOR_SELECTED));
+        group.getSelectedToggle().setSelected(false);
 
         for (ToggleButton tb : toggleButtonList) {
             tb.setMouseTransparent(false);

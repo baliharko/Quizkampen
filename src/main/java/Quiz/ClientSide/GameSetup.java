@@ -6,11 +6,13 @@ import javafx.scene.control.Button;
 
 import java.io.*;
 import java.util.Objects;
+import java.util.Properties;
 
 public class GameSetup implements Runnable {
 
     private String playerName;
     private GameInterface gameInterface;
+    private Properties gameProperties;
 
     private Thread thread;
     private Client client;

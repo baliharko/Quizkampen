@@ -11,27 +11,27 @@ import java.nio.file.Path;
 import java.util.Properties;
 
 public abstract class Constants {
+
     public static final double SCREEN_WIDTH = Screen.getPrimary().getBounds().getWidth();
     public static final double SCREEN_HEIGHT = Screen.getPrimary().getBounds().getHeight();
     public static final double WINDOW_WIDTH = SCREEN_WIDTH / 3.3;
     public static final double WINDOW_HEIGHT = SCREEN_HEIGHT / 1.7;
+
+    public static final Properties GAMEPROPERTIES = Constants.getGameProperties();
+    public static final int ROUNDS = Constants.getRounds();
+    public static final int CATEGORIES = Constants.getCategories();
+    public static final int QUESTIONS = Constants.getQuestions();
 
     public static final String SERVER_IP = "127.0.0.1";
     public static final int SERVER_PORT = 50001;
 
     public static final String TITLE = "QUIZ-FAJTEN GRUPP 11";
 
-    public static final Properties GAMEPROPERTIES = setGameProperties();
-    public static final int ROUNDS = setRounds();
-    public static final int CATEGORIES = setCategories();
-    public static final int QUESTIONS = setQuestions();
-
     public static final String COLOR_TRUE = "radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #b5f5be, #1ee700);";
     public static final String COLOR_FALSE = "radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #f8cdcd, #f60c0c);";
     public static final String COLOR_SELECTED = "radial-gradient(focus-distance 0%, center 50% 50%, radius 200%, #ffffff, #f1e57e);";
 
-    private static Properties setGameProperties() {
-
+    public static Properties getGameProperties() {
         Properties properties = new Properties();
 
         if (!new File("src/main/java/Quiz/ClientSide/GameSetup.properties").exists()) {
@@ -65,15 +65,15 @@ public abstract class Constants {
         return properties;
     }
 
-    private static int setRounds() {
+    private static int getRounds() {
         return Integer.parseInt(GAMEPROPERTIES.getProperty("Rounds", "2"));
     }
 
-    private static int setQuestions() {
+    private static int getQuestions() {
         return Integer.parseInt(GAMEPROPERTIES.getProperty("Questions", "3"));
     }
 
-    private static int setCategories() {
+    private static int getCategories() {
         return Integer.parseInt(GAMEPROPERTIES.getProperty("Categories", "4"));
     }
 }

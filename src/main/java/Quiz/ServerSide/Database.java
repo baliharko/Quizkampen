@@ -4,7 +4,6 @@ package Quiz.ServerSide;
 import Quiz.ClientSide.Constants;
 
 import java.io.*;
-import java.security.PublicKey;
 import java.util.*;
 
 public class Database {

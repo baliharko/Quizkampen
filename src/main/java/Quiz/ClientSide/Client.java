@@ -72,6 +72,16 @@ public class Client implements Runnable {
                             game.getQuestionInterfaceController().setToggleButtonsText(temp.getQuestion().getOptions());
                         });
                     }
+                    else if (temp.getResponseStatus() == Response.ResponseStatus.WAIT) {
+                        Platform.runLater(() -> {
+                            game.getWaitController().waitPromptText.setText("Vänta medan spelare 2 svarar klart på frågorna...");
+                            game.getGameInterface().primaryStage.setScene(this.game.getGameInterface().waitScene);
+                        });
+                    } else if (temp.getResponseStatus() == Response.ResponseStatus.NEXT_ROUND) {
+                        Platform.runLater(() -> {
+                            game.getGameInterface().primaryStage.setScene(game.getGameInterface().categoryScene);
+                        });
+                    }
                 }
             }
         } catch (EOFException e) {

@@ -80,6 +80,7 @@ public class GameInterface extends Application {
         this.wait = waitLoader.load();
         this.waitController = waitLoader.getController();
         this.waitScene = new Scene(wait, Constants.WINDOW_WIDTH, Constants.WINDOW_WIDTH / 1.5);
+        this.waitController.waitPromptText.setWrappingWidth(Constants.WINDOW_WIDTH - 20);
 
         new GameSetup(this);
 

@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -35,19 +36,22 @@ public class ClientProtocol {
     private boolean bothConnected;
     private ObjectOutputStream player1out;
     private ObjectOutputStream player2out;
-    private int questionNo;
     private Question p1CurrentQuestion;
     private Question p2CurrentQuestion;
-    //    int currentRound = 1;
     int player1Score = 0;
     int player2Score = 0;
-    private int counter = 4;
+//    private int counter = 4;
 
     private boolean[][] p1Answers;
     private boolean[][] p2Answers;
+
     private int p1CurrentQuestionCounter;
     private int p2CurrentQuestionCounter;
     private List<Question> currentGenre;
+    private int currentRound;
+
+    private boolean p1RoundFinished;
+    private boolean p2RoundFinished;
 
     public enum State {
         WAITING, PLAYER_1_CONNECTED, BOTH_CONNECTED
@@ -62,16 +66,12 @@ public class ClientProtocol {
         this.questionsAmount = Integer.parseInt(this.gameProperties.getProperty("Questions", "2"));
         this.roundsAmount = Integer.parseInt(this.gameProperties.getProperty("Rounds", "2"));
         this.categoriesAmount = Integer.parseInt(this.gameProperties.getProperty("Categories", "4"));
-
-        System.out.println("this.questionsAmount = " + this.questionsAmount);
-        System.out.println("this.roundsAmount = " + this.roundsAmount);
-        System.out.println("this.categoriesAmount = " + this.categoriesAmount);
-
         this.currentState = State.WAITING;
         this.database = database;
-        this.questionNo = 0;
         this.p1CurrentQuestionCounter = 0;
         this.p2CurrentQuestionCounter = 0;
+        this.p1Answers = new boolean[this.roundsAmount][this.questionsAmount];
+        this.p2Answers = new boolean[this.roundsAmount][this.questionsAmount];
     }
 
     public synchronized void ProcessInput(Object in, int playerId) {
@@ -116,7 +116,6 @@ public class ClientProtocol {
             }
             case BOTH_CONNECTED -> {
                 if (in instanceof Request) {
-
                     if (((Request) in).getStatus() == RequestStatus.ANSWER) {
                         if (playerId == 1) {
                             sendObject(new Response(
@@ -132,25 +131,51 @@ public class ClientProtocol {
                     }
 
                     if (((Request) in).getStatus() == RequestStatus.NEXT_QUESTION) {
-                        if (playerId == 1 && this.p1CurrentQuestionCounter < this.questionsAmount) {
-                            this.p1CurrentQuestionCounter++;
-                            this.p1CurrentQuestion = this.currentGenre.get((this.p1CurrentQuestionCounter));
+                        if (playerId == 1) {
+                            if (this.p1CurrentQuestionCounter < this.questionsAmount) {
+                                this.p1CurrentQuestionCounter++;
+                                this.p1CurrentQuestion = this.currentGenre.get((this.p1CurrentQuestionCounter));
 
-                            sendObject(new Response(
-                                            Response.ResponseStatus.NEW_QUESTION, this.p1CurrentQuestion),
-                                    playerId);
+                                sendObject(new Response(
+                                                Response.ResponseStatus.NEW_QUESTION, this.p1CurrentQuestion),
+                                        playerId);
+                            } else {
+                                sendObject(new Response(Response.ResponseStatus.WAIT, this.currentRound,
+                                        p1Answers[this.currentRound]), playerId);
+
+                                updatePlayerScore(playerId);
+                                this.p1RoundFinished = true;
+                            }
                         }
 
-                        if (playerId == 2 && this.p2CurrentQuestionCounter < this.questionsAmount) {
+                        if (playerId == 2) {
+                            if (this.p2CurrentQuestionCounter < this.questionsAmount) {
+                                this.p2CurrentQuestionCounter++;
+                                this.p2CurrentQuestion = this.currentGenre.get((this.p2CurrentQuestionCounter));
 
-                            this.p2CurrentQuestionCounter++;
-                            this.p2CurrentQuestion = this.currentGenre.get((this.p2CurrentQuestionCounter));
+                                sendObject(new Response(
+                                                Response.ResponseStatus.NEW_QUESTION, this.p2CurrentQuestion),
+                                        playerId);
+                            } else {
+                                sendObject(new Response(Response.ResponseStatus.WAIT, this.currentRound,
+                                        p2Answers[this.currentRound]), playerId);
 
-                            sendObject(new Response(
-                                            Response.ResponseStatus.NEW_QUESTION, this.p2CurrentQuestion),
-                                    playerId);
+                                updatePlayerScore(playerId);
+                                this.p2RoundFinished = true;
+                            }
                         }
                     }
+                }
+
+                if (p1RoundFinished && p2RoundFinished) {
+                    this.currentRound++;
+                    this.p1RoundFinished = false;
+                    this.p2RoundFinished = false;
+                    this.p1CurrentQuestionCounter = 0;
+                    this.p2CurrentQuestionCounter = 0;
+
+                    // Om ronden är jämn väljer player 1 kategori annars player 2
+                    sendObject(new Response(Response.ResponseStatus.NEXT_ROUND), (this.currentRound % 2 == 0 ? 1 : 2));
                 }
 
 //                String inAns = in.split(",")[1];
@@ -254,6 +279,22 @@ public class ClientProtocol {
             this.gameProperties.load(new FileInputStream("src/main/java/Quiz/ClientSide/GameSetup.properties"));
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void updatePlayerScore(int playerId) {
+        if (playerId == 1) {
+            for (boolean ans : p1Answers[currentRound]) {
+                if (ans)
+                    this.player1Score++;
+            }
+        }
+
+        if (playerId == 2) {
+            for (boolean ans : p2Answers[currentRound]) {
+                if (ans)
+                    this.player2Score++;
+            }
         }
     }
 }

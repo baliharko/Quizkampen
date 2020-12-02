@@ -14,7 +14,7 @@
     -fx-border-color: #73e2dc;
     -fx-text-fill: gray;
     -fx-font-weight: bold;
-    -fx-font-size: 25;
+    -fx-font-size: 16;
 }
 
 .button {
@@ -27,7 +27,7 @@
     -fx-border-color: #73e2dc;
     -fx-text-fill: gray;
     -fx-font-weight: bold;
-    -fx-font-size: 20;
+    -fx-font-size: 16;
 }
 
 .button:hover {
@@ -58,6 +58,7 @@
 #questionText {
     -fx-font-family: Courier;
     -fx-fill: whitesmoke;
+    -fx-font-size: 20;
 }
 
 #buttonGrid {
@@ -75,7 +76,7 @@
 #categoryHeader {
     -fx-font-family: Courier;
     -fx-fill: whitesmoke;
-    -fx-font-size: 50;
+    -fx-font-size: 30;
 }
 
 #connectionStatus {
@@ -95,7 +96,7 @@
 #waitPromptText {
     -fx-font-family: Courier;
     -fx-fill: whitesmoke;
-    -fx-font-size: 30;
+    -fx-font-size: 20;
 }
 
 #waitBackground {

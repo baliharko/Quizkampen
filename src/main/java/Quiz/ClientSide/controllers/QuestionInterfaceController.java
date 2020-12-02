@@ -1,14 +1,10 @@
 package Quiz.ClientSide.controllers;
 
 import Quiz.ClientSide.Constants;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
@@ -72,6 +68,7 @@ public class QuestionInterfaceController {
     public void refreshButtons() {
 
         ((ToggleButton)group.getSelectedToggle()).setStyle(String.format("button-selected-color: %s", Constants.COLOR_SELECTED));
+        group.getSelectedToggle().setSelected(false);
 
         for (ToggleButton tb : toggleButtonList) {
             tb.setMouseTransparent(false);

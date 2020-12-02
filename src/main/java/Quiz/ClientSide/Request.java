@@ -3,7 +3,7 @@ package Quiz.ClientSide;
 import java.io.Serializable;
 
 enum RequestStatus {
-    SET_NAME, NEXT_QUESTION, ANSWER
+    INIT, SET_NAME, ANSWER, NEXT_QUESTION, CATEGORY_SELECTED, NEXT_ROUND
 }
 
 public class Request implements Serializable {

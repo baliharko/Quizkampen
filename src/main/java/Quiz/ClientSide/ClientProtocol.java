@@ -4,16 +4,12 @@ import Quiz.ServerSide.Database;
 import Quiz.ServerSide.Initializer;
 import Quiz.ServerSide.Question;
 import Quiz.ServerSide.Response;
-import javafx.application.Platform;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
-import static Quiz.ClientSide.Constants.GAMEPROPERTIES;
 
 /**
  * Created by Robin Martinsson
@@ -40,7 +36,6 @@ public class ClientProtocol {
     private Question p2CurrentQuestion;
     int player1Score = 0;
     int player2Score = 0;
-//    private int counter = 4;
 
     private boolean[][] p1Answers;
     private boolean[][] p2Answers;
@@ -54,7 +49,7 @@ public class ClientProtocol {
     private boolean p2RoundFinished;
 
     public enum State {
-        WAITING, PLAYER_1_CONNECTED, BOTH_CONNECTED
+        WAITING, PLAYER_1_CONNECTED, GAME_RUNNING, SELECT_CATEGORY_FIRST
     }
 
     private State currentState;
@@ -74,19 +69,14 @@ public class ClientProtocol {
         this.p2Answers = new boolean[this.roundsAmount][this.questionsAmount];
     }
 
-    public synchronized void ProcessInput(Object in, int playerId) {
-
-        if (this.areBothConnected())
-            this.currentState = State.BOTH_CONNECTED;
-
+    public synchronized void processInput(Object in, int playerId) {
         switch (this.currentState) {
             case WAITING -> {
-                if (in instanceof String && ((String) in).equalsIgnoreCase("init")) {
+                if (in instanceof Request && ((Request) in).getStatus() == RequestStatus.INIT) {
                     try {
                         if (playerId == 2) {
                             System.out.println("Player 2 connected first");
                         } else {
-                            sendObject(new Initializer(), 1);
                             currentState = State.PLAYER_1_CONNECTED;
                         }
                     } catch (Exception e) {
@@ -95,27 +85,40 @@ public class ClientProtocol {
                 }
             }
             case PLAYER_1_CONNECTED -> {
-                if (in instanceof String && ((String) in).equalsIgnoreCase("init") && playerId == 2) {
-
-                    this.currentGenre = database.getQuestionByCategory("Music");
-
-                    this.p1CurrentQuestion = this.currentGenre.get(this.p1CurrentQuestionCounter);
-                    this.p2CurrentQuestion = this.currentGenre.get(this.p2CurrentQuestionCounter);
+                if (in instanceof Request && ((Request) in).getStatus() == RequestStatus.INIT && playerId == 2) {
                     try {
-                        player2out.writeObject(new Initializer()); // skicka init till player2
-                        sendObject(new Initializer(), 2);
-                        sendObject(new Initializer(this.player1Name, this.player2Name, this.p1CurrentQuestion), 1);
-                        sendObject(new Initializer(this.player2Name, this.player1Name, this.p2CurrentQuestion), 2);
-                    } catch (IOException e) {
+                        sendObject(new Initializer(this.player1Name, this.player2Name), 1);
+                        sendObject(new Initializer(this.player2Name, this.player1Name), 2);
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    this.bothConnected = true;
-                    currentState = State.BOTH_CONNECTED;
                     System.out.println("protocol - BOTH_CONNECTED");
                 }
-            }
-            case BOTH_CONNECTED -> {
 
+                if (this.currentRound == 0) {
+                    sendObject(new Response(Response.ResponseStatus.SELECT_CATEGORY), 1);
+                    sendObject(new Response(Response.ResponseStatus.WAIT, this.player1Name + " väljer kategori..."), 2);
+                    currentState = State.SELECT_CATEGORY_FIRST;
+                }
+            }
+            case SELECT_CATEGORY_FIRST -> {
+                if (in instanceof Request && ((Request) in).getStatus() == RequestStatus.CATEGORY_SELECTED) {
+                    if (this.currentRound == 0 && playerId == 1) {
+                        // Använder playername pga Konstruktor i Request-klassen, är egentligen category i detta fall.
+                        this.currentGenre = database.getQuestionByCategory(((Request) in).getPlayerName());
+                        this.p1CurrentQuestion = this.currentGenre.get(0);
+                        this.p2CurrentQuestion = this.currentGenre.get(0);
+
+                        sendObject(new Response(Response.ResponseStatus.NEW_ROUND_START, this.p1CurrentQuestion), 1);
+                        sendObject(new Response(Response.ResponseStatus.NEW_ROUND_START, this.p2CurrentQuestion), 2);
+                        this.currentState = State.GAME_RUNNING;
+                    } else {
+                        sendObject(new Response(Response.ResponseStatus.WAIT), playerId);
+                    }
+
+                }
+            }
+            case GAME_RUNNING -> {
                 if (in instanceof Request) {
                     if (((Request) in).getStatus() == RequestStatus.ANSWER) {
                         if (playerId == 1) {
@@ -146,7 +149,7 @@ public class ClientProtocol {
                                 this.p1CurrentQuestion = this.currentGenre.get(this.p1CurrentQuestionCounter);
                                 sendObject(new Response(Response.ResponseStatus.NEW_QUESTION, this.p1CurrentQuestion), playerId);
                             } else {
-                                sendObject(new Response(Response.ResponseStatus.WAIT), playerId);
+                                sendObject(new Response(Response.ResponseStatus.WAIT, "Vänta medan " + this.player2Name + " svarar klart på frågorna..."), playerId);
                                 updatePlayerScore(1);
                                 this.p1RoundFinished = true;
                             }
@@ -158,10 +161,60 @@ public class ClientProtocol {
                                 this.p2CurrentQuestion = this.currentGenre.get(this.p2CurrentQuestionCounter);
                                 sendObject(new Response(Response.ResponseStatus.NEW_QUESTION, this.p2CurrentQuestion), playerId);
                             } else {
-                                sendObject(new Response(Response.ResponseStatus.WAIT), playerId);
+                                sendObject(new Response(Response.ResponseStatus.WAIT, "Vänta medan " + this.player1Name + " svarar klart på frågorna..."), playerId);
                                 updatePlayerScore(2);
                                 System.out.println("player 2 score = " + player2Score);
                                 this.p2RoundFinished = true;
+                            }
+                        }
+                    }
+
+                    if (((Request) in).getStatus() == RequestStatus.CATEGORY_SELECTED) {
+
+                        this.currentGenre = this.database.getQuestionByCategory(((Request) in).getPlayerName());
+                        this.p1CurrentQuestion = this.currentGenre.get(0);
+                        this.p2CurrentQuestion = this.currentGenre.get(0);
+                        sendObject(new Response(Response.ResponseStatus.NEW_ROUND_START, this.p1CurrentQuestion), 1);
+                        sendObject(new Response(Response.ResponseStatus.NEW_ROUND_START, this.p2CurrentQuestion), 2);
+                    }
+
+                    if (((Request) in).getStatus() == RequestStatus.NEXT_ROUND) {
+
+                        if (this.currentRound < this.roundsAmount) {
+                            if (playerId == 1) {
+                                sendObject(this.currentRound % 2 == 0 ?
+                                        new Response(Response.ResponseStatus.SELECT_CATEGORY) : new Response(Response.ResponseStatus.WAIT, this.player2Name + " väljer kategori..."), playerId);
+                            }
+
+                            if (playerId == 2) {
+                                sendObject(this.currentRound % 2 != 0 ?
+                                        new Response(Response.ResponseStatus.SELECT_CATEGORY) : new Response(Response.ResponseStatus.WAIT, this.player1Name + " väljer kategori..."), playerId);
+                            }
+                        }
+                        else {
+
+                            String winnerMsg = "Grattis " + this.getWinner() + "! Du vann!";
+                            String loserMsg = this.getWinner() + " vann denna gång. Bättre lycka nästa gång!";
+                            String evenMsg = "";
+
+                            if (getWinner().equalsIgnoreCase("even"))
+                                evenMsg = "Det blev oavgjort!";
+
+                            if (!evenMsg.isBlank())
+                                sendObject(new Response(Response.ResponseStatus.WAIT, evenMsg), playerId);
+                            else {
+                                if (playerId == 1) {
+                                    if (getWinner().equalsIgnoreCase(this.player1Name))
+                                        sendObject(new Response(Response.ResponseStatus.WAIT, winnerMsg), playerId);
+                                    else
+                                        sendObject(new Response(Response.ResponseStatus.WAIT, loserMsg), playerId);
+                                }
+                                else {
+                                    if (getWinner().equalsIgnoreCase(this.player2Name))
+                                        sendObject(new Response(Response.ResponseStatus.WAIT, winnerMsg), playerId);
+                                    else
+                                        sendObject(new Response(Response.ResponseStatus.WAIT, loserMsg), playerId);
+                                }
                             }
                         }
                     }
@@ -176,10 +229,6 @@ public class ClientProtocol {
                     sendObject(new Response(Response.ResponseStatus.RESULTS, this.currentRound, p1Answers[this.currentRound], p2Answers[this.currentRound], player1Score, player2Score), 1);
                     sendObject(new Response(Response.ResponseStatus.RESULTS, this.currentRound, p2Answers[this.currentRound], p1Answers[this.currentRound], player2Score, player1Score), 2);
                     this.currentRound++;
-
-                    // TODO - vid knapptryck (fortsätt) efter resultatWindow
-                    // Om ronden är jämn väljer player 1 kategori annars player 2
-//                    sendObject(new Response(Response.ResponseStatus.NEXT_ROUND), (this.currentRound % 2 == 0 ? 1 : 2));
                 }
             }
         }
@@ -195,10 +244,6 @@ public class ClientProtocol {
         } else {
             System.out.println("both names already set.");
         }
-    }
-
-    public boolean areBothConnected() {
-        return bothConnected;
     }
 
     public void setPlayerOuts(ObjectOutputStream player1Out, ObjectOutputStream player2out) {
@@ -267,5 +312,14 @@ public class ClientProtocol {
                     this.player2Score++;
             }
         }
+    }
+
+    public String getWinner() {
+        if (player1Score > player2Score)
+            return player1Name;
+        else if (player2Score > player1Score)
+            return player2Name;
+
+        return "even";
     }
 }

@@ -14,11 +14,13 @@ public class Client implements Runnable {
     public String playerName;
     public String opponentName;
     private ObjectOutputStream out;
+    private boolean isStartup;
 
     public Client(GameSetup game, String playerName) {
         this.game = game;
         this.playerName = playerName;
         this.thread = new Thread(this);
+        this.isStartup = true;
         this.thread.start();
         System.out.println("Client started");
     }
@@ -33,23 +35,18 @@ public class Client implements Runnable {
             // Ger tillgång till printwriter utanför run - metoden
             this.setClientOutStream(out);
 
-//            out.println(this.playerName);
             out.writeObject(new Request(RequestStatus.SET_NAME, this.playerName));
 
             Object fromServer;
             while ((fromServer = in.readObject()) != null) {
-                if (fromServer instanceof Initializer) { // Tar emot Initializer-objekt när två spelare kopplats upp, innehåller första frågan.
-                    System.out.println("received initializer from server");
+                if (fromServer instanceof Initializer) { // Tar emot Initializer-objekt när två spelare kopplats upp. Sätter alla namn.
                     Object temp = fromServer;
                     Platform.runLater(() -> {
                         if (((Initializer) temp).areBothConnected()) {
-                            this.game.getGameInterface().primaryStage.setScene(this.game.getGameInterface().questionScene);
                             this.opponentName = ((Initializer)temp).getOpponent();
                             System.out.println("Received initializer opponent = " + this.opponentName);
-                            game.getQuestionInterfaceController().setConnectionStatus(this.opponentName + " joined the game!");
+                            game.getQuestionInterfaceController().setConnectionStatus("Du spelar mot: " + this.opponentName);
                             game.getQuestionInterfaceController().connectionStatus.setStyle("-fx-fill: green");
-                            game.getQuestionInterfaceController().setQuestionText(((Initializer) temp).getFirstQuestion().getQuestion());
-                            game.getQuestionInterfaceController().setToggleButtonsText(((Initializer) temp).getFirstQuestion().getOptions());
 
                             game.getResultFromRoundController().p1Name.setText(this.playerName);
                             game.getResultFromRoundController().p2Name.setText(this.opponentName);
@@ -58,12 +55,15 @@ public class Client implements Runnable {
                 } else if (fromServer instanceof Response) {
                     Response temp = (Response) fromServer;
 
+                    // Om servern har skickat tillbaka true eller false (svar rätt eller fel)
                     if (temp.getResponseStatus() == Response.ResponseStatus.CHECKED_ANSWER) {
                         Platform.runLater(() -> {
                             game.getQuestionInterfaceController().setToggleButtonColor(temp.isRightAnswer());
                             game.getQuestionInterfaceController().setAcceptButtonText("Nästa fråga");
                         });
                     }
+
+                    // Servern skickar en ny fråga
                     else if (temp.getResponseStatus() == Response.ResponseStatus.NEW_QUESTION) {
                         Platform.runLater(() -> {
                             game.getQuestionInterfaceController().setAcceptButtonText("Svara");
@@ -72,18 +72,45 @@ public class Client implements Runnable {
                             game.getQuestionInterfaceController().setToggleButtonsText(temp.getQuestion().getOptions());
                         });
                     }
+
+                    // Vänta
                     else if (temp.getResponseStatus() == Response.ResponseStatus.WAIT) {
                         Platform.runLater(() -> {
-                            game.getWaitController().waitPromptText.setText("Vänta medan spelare 2 svarar klart på frågorna...");
+                            if (temp.getMessage() != null)
+                                game.getWaitController().waitPromptText.setText(temp.getMessage());
+
+//                            game.getWaitController().waitPromptText.setText("Vänta medan spelare 2 svarar klart på frågorna...");
                             game.getGameInterface().primaryStage.setScene(this.game.getGameInterface().waitScene);
                         });
-                    } else if (temp.getResponseStatus() == Response.ResponseStatus.RESULTS) {
+
+
+                    }
+                    // Visa resultatfönstret
+                    else if (temp.getResponseStatus() == Response.ResponseStatus.RESULTS) {
                         Platform.runLater(() -> {
                             game.getResultFromRoundController().updateResults(temp.getPlayerRoundResults(), temp.getOpponentRoundResults(), temp.getRound());
                             game.getResultFromRoundController().currentScore.setText(temp.getPlayerScore() + " - " + temp.getOpponentScore());
                             game.getGameInterface().primaryStage.setScene(game.getGameInterface().resultRoundScene);
                         });
-                    } else if (temp.getResponseStatus() == Response.ResponseStatus.NEXT_ROUND) {
+                    }
+
+                    // Starta nästa runda
+                    else if (temp.getResponseStatus() == Response.ResponseStatus.NEW_ROUND_START) {
+                        Platform.runLater(() -> {
+                            game.getQuestionInterfaceController().setAcceptButtonText("Svara");
+                            game.getQuestionInterfaceController().setQuestionText(temp.getQuestion().getQuestion());
+
+                            if (!isStartup)
+                                game.getQuestionInterfaceController().refreshButtons();
+
+                            game.getQuestionInterfaceController().setToggleButtonsText(temp.getQuestion().getOptions());
+                            game.getGameInterface().primaryStage.setScene(game.getGameInterface().questionScene);
+                            this.isStartup = false;
+                        });
+                    }
+
+                    // Välj kategori
+                    else if (temp.getResponseStatus() == Response.ResponseStatus.SELECT_CATEGORY) {
                         Platform.runLater(() -> {
                             game.getGameInterface().primaryStage.setScene(game.getGameInterface().categoryScene);
                         });

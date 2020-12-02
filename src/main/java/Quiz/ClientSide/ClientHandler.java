@@ -27,10 +27,10 @@ public class ClientHandler implements Runnable {
                     if (((Request) fromClient).getStatus() == RequestStatus.SET_NAME) {
                         this.playerName = ((Request) fromClient).getPlayerName();
                         this.protocol.setPlayer(this.playerName, this.playerId);
-                        this.protocol.ProcessInput("init", this.playerId);
+                        this.protocol.processInput(new Request(RequestStatus.INIT), this.playerId);
                     } else {
                         System.out.println("received answer " + fromClient);
-                        this.protocol.ProcessInput(fromClient, this.playerId);
+                        this.protocol.processInput(fromClient, this.playerId);
                     }
                 }
             }
